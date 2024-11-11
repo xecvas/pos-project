@@ -1,3 +1,4 @@
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -13,19 +14,35 @@ body {
     background-color: #e9e1e1;
 }
 
-body.dark footer {
-    color: white; /* Change text color to white for better contrast */
+body.dark {
+    background-color: #292c35;
 }
 
+/* Footer Styles */
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    color: black; /* Default text color for light mode */
+}
+
+/* Dark mode footer text color */
+body.dark footer {
+    color: white; /* Change text color for dark mode */
+}
+
+/* Container Styles */
 .container {
     display: flex;
     width: 1000px;
     height: 500px;
     border-radius: 12px;
     overflow: hidden;
-    position: relative; /* Tambahkan ini */
+    position: relative;
 }
 
+/* Left Section Styles */
 .left-section {
     background-color: #009688;
     color: white;
@@ -33,10 +50,11 @@ body.dark footer {
     flex: 3;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Mengganti 'top' menjadi 'flex-start' */
+    justify-content: flex-start;
     border-radius: 12px 0 0 12px;
 }
 
+/* Right Section Styles */
 .right-section {
     padding: 40px;
     background-color: white;
@@ -47,15 +65,18 @@ body.dark footer {
     border-radius: 0 12px 12px 0;
 }
 
+/* Form Styles */
 form {
     width: 100%;
 }
 
+/* Logo Styles */
 .logo-image {
     width: 100%;
     height: auto;
 }
 
+/* Accordion Styles */
 .accordion-button:not(.collapsed) {
     background-color: transparent;
     color: inherit;
@@ -69,10 +90,6 @@ form {
 .accordion-body {
     max-height: 300px;
     overflow-y: auto;
-}
-
-body.dark {
-    background-color: #292c35;
 }
 
 /* Checkbox Toggle Styles */
@@ -91,7 +108,7 @@ body.dark {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Mengganti 'top' menjadi 'center' */
+    align-items: center;
 }
 
 .checkbox-label .ball {
@@ -125,10 +142,12 @@ body.dark {
     top: 20px;
 }
 
+/* Input Group Styles */
 .input-group-text {
     cursor: pointer;
 }
 
+/* Link Styles */
 a {
     text-decoration: none;
 }
@@ -137,14 +156,7 @@ a:hover {
     color: rgb(0, 0, 211);
 }
 
-/* Footer Styles */
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 5rem;
-}
-
+/* Spacer Styles */
 .spacer {
-    margin: 15px 0; /* Atur jarak sesuai kebutuhan */
+    margin: 15px 0;
 }

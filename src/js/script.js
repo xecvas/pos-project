@@ -2,19 +2,19 @@ $(document).ready(function () {
   // Show current date on console
   console.log(new Date());
 
-  // Get the checkbox element
+  // Get the checkbox element and password input elements
   const checkbox = document.getElementById("checkbox");
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
 
-  // Function to load and apply the saved toggle setting from localStorage
+  // Load and apply the saved toggle setting from localStorage
   function loadToggleSetting() {
-    const isChecked = JSON.parse(localStorage.getItem("isChecked"));
-    if (isChecked) {
-      checkbox.checked = true;
-      $("body, canvas, .form-text").addClass("dark");
-    }
+    const isChecked = JSON.parse(localStorage.getItem("isChecked")) || false;
+    checkbox.checked = isChecked;
+    $("body, canvas, .form-text").toggleClass("dark", isChecked);
   }
 
-  // Function to save the toggle setting to localStorage
+  // Save the toggle setting to localStorage
   function saveToggleSetting() {
     localStorage.setItem("isChecked", JSON.stringify(checkbox.checked));
   }
@@ -28,16 +28,11 @@ $(document).ready(function () {
     });
   }
 
-  // JavaScript for toggle password visibility
-  const togglePassword = document.querySelector("#togglePassword");
-  const passwordInput = document.querySelector("#password");
-  const eyeIcon = document.querySelector("#eyeIcon");
-
-  togglePassword.addEventListener("click", () => {
-    // Determine the new type and toggle the icon class
-    const isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-    eyeIcon.classList.toggle("fa-eye", isPassword);
-    eyeIcon.classList.toggle("fa-eye-slash", !isPassword);
+  // Toggle password visibility
+  document.getElementById("togglePassword").addEventListener("click", function () {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    eyeIcon.classList.toggle("fa-eye");
+    eyeIcon.classList.toggle("fa-eye-slash");
   });
 });
