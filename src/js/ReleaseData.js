@@ -1,21 +1,22 @@
 // ReleaseData.js
 const ReleaseData = [
   {
+    version: "1.1.0",
     date: "12/10/2024",
     features: [
-      "fix dark/light mode for all page.",
+      "fix dark/light mode for all pages.",
       "Added notification icon in main page.",
       "fix user session when login",
-      "Enhanced UI design.",
+      "New UI design.",
       "Other bug fixes and improvements.",
     ],
   },
   {
+    version: "1.0.0",
     date: "11/10/2024",
     features: [
-      "Added dark/light mode toggle.",
-      "Added show/hide password feature.",
-      "Improved toggle functionality.",
+      "Added toggle feature to show/hide password field.",
+      "Improved toggling functionality.",
       "Enhanced UI design.",
       "Other bug fixes and improvements.",
     ],

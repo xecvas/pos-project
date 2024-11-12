@@ -1,33 +1,3 @@
-// Function to render release content to different parts of the page
-function renderReleaseContent(modal = false) {
-  const release = ReleaseData && ReleaseData[0]; // Check if ReleaseData exists and fetch the first item
-  if (!release) return; // Exit if ReleaseData is unavailable
-
-  const releaseContent = `
-    <p><strong>Release date:</strong> ${release.date}</p>
-    <ul class="custom-bullet-list">
-      ${release.features.map((feature) => `<li>${feature}</li>`).join("")}
-    </ul>
-  `;
-
-  if (modal) {
-    document.getElementById("modalContent").innerHTML = releaseContent;
-  } else {
-    const releaseAccordionBody = document.getElementById("collapseOne");
-    if (releaseAccordionBody) {
-      releaseAccordionBody.innerHTML = releaseContent;
-    }
-  }
-}
-
-// Make showLatestRelease globally accessible
-window.showLatestRelease = function() {
-  renderReleaseContent(true); // Load content for modal
-  const releaseModal = new bootstrap.Modal(document.getElementById('releaseModal'));
-  releaseModal.show();
-};
-
-// DOM Ready Function
 $(document).ready(function () {
   console.log(new Date());
   renderReleaseContent();
@@ -63,9 +33,73 @@ $(document).ready(function () {
       eyeIcon.classList.toggle("fa-eye-slash");
     });
   }
+
+  // Event listener for notification icon
+  $(".notification").on("click", function() {
+    const latestRelease = ReleaseData[0]; // Ambil release terbaru
+
+    if (latestRelease) {
+      // Buat konten untuk modal tanpa accordion
+      const modalContent = `
+        <h5>${latestRelease.version} - ${latestRelease.date}</h5>
+        <ul>
+          ${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}
+        </ul>
+      `;
+
+      // Masukkan konten ke dalam modal
+      $("#modalContent").html(modalContent);
+
+      // Mengubah jarak antara fitur dan tombol dengan JavaScript
+      const modalFooter = $(".modal-footer");
+      modalFooter.css('margin-top', '-30px'); // Mengatur margin atas footer
+
+      // Tampilkan modal
+      $("#releaseModal").modal('show');
+    }
+  });
+
+  // Event listener untuk "See All Releases"
+  // Pastikan "See All Releases" berfungsi sebagai hyperlink
+  $("#seeAllReleases").on("click", function(e) {
+    // Link akan berjalan normal, jadi kita tidak perlu mencegah default behavior
+    // Mengarahkan pengguna ke /release-note
+    window.location.href = "/release-note";  
+  });
 });
 
-// Navigate to release notes page
-function showAllReleases() {
-  window.location.href = "{{ url_for('release_note') }}"; // Use Flask's URL for the route
+// Function to display latest release data (tetap dipertahankan untuk konten utama)
+function renderReleaseContent() {
+  const latestRelease = ReleaseData[0]; // Pastikan release terbaru ada di posisi pertama
+
+  const accordionContainer = $("#accordionExample");
+  accordionContainer.empty();
+
+  if (latestRelease) {
+    const releaseId = `collapseOne`;
+    const headerId = `headingOne`;
+
+    const accordionItem = `
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="${headerId}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#${releaseId}" aria-expanded="false" aria-controls="${releaseId}">
+            <span class="icon-circle">
+              <i class="fa fa-check icon-check"></i>
+            </span>
+            ${latestRelease.version} - ${latestRelease.date}
+          </button>
+        </h2>
+        <div id="${releaseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
+             data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <ul>
+              ${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+    accordionContainer.append(accordionItem);
+  }
 }

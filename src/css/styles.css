@@ -216,10 +216,19 @@ a:hover {
     }
 }
 
-/* Atur indentasi pada "Release date" */
-.release-date {
-    padding-left: 20px; /* Adjust this value as needed */
-    font-weight: bold;
-    margin-bottom: 0; /* Hilangkan jarak di bawah "Release date" */
-}
-
+.icon-circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px; /* Adjust size as needed */
+    height: 24px;
+    background-color: #28a745; /* Green background */
+    border-radius: 50%; /* Makes it circular */
+    margin-right: 8px; /* Adds space between icon and text */
+  }
+  
+  .icon-check {
+    color: #fff; /* White check mark */
+    font-size: 14px; /* Adjust size as needed */
+  }
+  
