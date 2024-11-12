@@ -1,3 +1,6 @@
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 /* Global Styles */
 * {
     margin: 0;
@@ -10,26 +13,37 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #e9e1e1;
 }
 
 body.dark {
     background-color: #292c35;
+    color: white;
 }
 
 /* Footer Styles */
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     height: 2.5rem;
     color: black; /* Default text color for light mode */
+    background-color: #ffffff;
+    text-align: center;
+    padding: 0.5rem 0;
 }
 
-/* Dark mode footer text color */
 body.dark footer {
+    background-color: #292c35;
     color: white; /* Change text color for dark mode */
+}
+
+/* Main content wrapper */
+.main-content {
+    flex: 1;
+    padding-bottom: 3rem; /* Add padding equal to footer height */
 }
 
 /* Container Styles */
@@ -64,6 +78,11 @@ body.dark footer {
     align-items: center;
     border-radius: 0 12px 12px 0;
 }
+
+body.dark .right-section h4 {
+    color: black; /* Warna tetap hitam dalam dark mode */
+}
+
 
 /* Form Styles */
 form {
@@ -160,3 +179,47 @@ a:hover {
 .spacer {
     margin: 15px 0;
 }
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.notification {
+    position: relative;
+    display: inline-block;
+    margin: 0px 15px
+}
+
+.notification i.fa-bell {
+    color: black; /* Set the icon color to black */
+}
+
+.notification .dot {
+    position: absolute;
+    top: 10px;
+    right: -1px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    animation: blink 1s infinite; /* Adds the blinking effect */
+}
+
+/* Blinking animation */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Atur indentasi pada "Release date" */
+.release-date {
+    padding-left: 20px; /* Adjust this value as needed */
+    font-weight: bold;
+    margin-bottom: 0; /* Hilangkan jarak di bawah "Release date" */
+}
+
