@@ -234,37 +234,74 @@ a:hover {
     font-size: 14px; /* Adjust size as needed */
   }
   
+ /* Styling Tombol Burger */
+ .burger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    position: relative; /* Ubah dari fixed ke relative */
+    left: 5px;
+    top: 5px;
+    margin-right: 10px; /* Atur margin sesuai kebutuhan */
+    z-index: 1000;
+}
+
+/* Styling Sidebar */
 .sidebar {
-  background-color: #008080;
-  color: white;
-  height: 100vh;
-  width: 200px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding-top: 20px;
+    width: 60px; /* Sidebar ukuran minimal */
+    height: calc(100vh - 80px); /* Mengurangi tinggi navbar (ubah 56px sesuai tinggi navbar Anda) */
+    position: fixed;
+    top: 65px; /* Ubah ini sesuai tinggi navbar Anda */
+    left: 0;
+    background-color: white;
+    color: black;
+    overflow-x: hidden;
+    transition: width 0.3s;
 }
 
-.sidebar h2 {
-  margin-top: 0;
+.sidebar.expanded {
+    width: 250px; /* Lebar saat di-expand */
 }
 
-.sidebar a {
-  padding: 10px 15px;
-  text-decoration: none;
-  font-size: 16px;
-  color: white;
-  display: block;
-  transition: background-color 0.3s;
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-.sidebar a:hover {
-  background-color: #006970;
+.sidebar ul li {
+    padding: 15px;
+    display: flex;
+    align-items: center; /* Center-aligns icons vertically */
+    justify-content: flex-start;
 }
 
-.content {
-  margin-left: 200px;
-  padding: 20px;
-  height: 100vh;
-  background-color: #f2f2f2;
+/* Icon and label styles */
+.sidebar ul li i {
+    font-size: 24px; /* Icon size remains consistent */
+    transition: margin-right 0.3s; /* Smooth transition for label spacing */
+}
+
+.sidebar.expanded ul li i {
+    margin-right: 10px; /* Space between icon and label when expanded */
+}
+
+.sidebar ul li .label {
+    display: none;
+    transition: opacity 0.3s;
+    opacity: 0; /* Smooth fade-in for the label */
+}
+
+.sidebar.expanded ul li .label {
+    display: inline;
+    opacity: 1;
+}
+
+/* Menggeser konten utama saat sidebar terbuka */
+.main-content {
+    transition: margin-left 0.3s;
+}
+
+.sidebar.expanded + .main-content {
+    margin-left: 250px;
 }

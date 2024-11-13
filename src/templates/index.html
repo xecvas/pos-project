@@ -31,18 +31,17 @@
         <!-- navigation bar -->
         <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
+                <div class="navbar-brand icon-text">
+                    <!-- Tambahkan tombol burger -->
+                    <button id="burger-btn" class="burger-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <img src="{{ url_for('images', filename='banner-page.jpeg') }}" class="icon" alt="Web Icon"
                         style="width: 100px;">
-                    POS Project
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <span class="project-version"></span>
+                </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <!-- Menampilkan email pengguna atau "Account" jika tidak ada sesi -->
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -73,46 +72,54 @@
         </nav>
     </div>
 
-    <div class="sidebar">
-        <h2>SESBCORE</h2>
-        <p>POS Admin</p>
-        <p>Ester Koesbianto (The Bakmi Gili)</p>
-        <a href="#">What's on ESB</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Master</a>
-        <a href="#">Report</a>
-        <a href="#">ESB Product</a>
-        <a href="#">Settings</a>
-      </div>
-      
-    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda magnam blanditiis mollitia rerum
-        reprehenderit nulla voluptatibus quibusdam placeat commodi quam soluta expedita, aliquid asperiores aspernatur
-        cum ducimus sit. Ipsum, saepe.
-        Explicabo repellat dignissimos maxime quasi, iste quo, minima vel harum sequi porro illo temporibus aperiam
-        impedit hic aliquam saepe ipsum officiis nesciunt aut aliquid ut et. Repellat nemo magni consectetur!
-        Soluta atque similique omnis? Perspiciatis quae laborum facilis quam. Aliquid praesentium quod minus omnis quis.
-        Doloribus est velit, eveniet nobis nesciunt rem voluptate corporis reprehenderit perferendis ipsa quidem.
-        Suscipit, natus?
-        Obcaecati voluptatum quasi voluptatem vero quos explicabo velit, unde laudantium qui pariatur repellendus eum
-        sunt. Quod provident adipisci reiciendis ut enim atque dignissimos rem iste libero error. Praesentium, quis
-        dolor?
-        Nostrum consequuntur, reprehenderit odio nisi eos animi, at illo, fuga ab quam itaque omnis eaque laudantium
-        nemo ipsam natus molestias? Delectus eum voluptates quo voluptatibus ipsa inventore quibusdam modi? Voluptate!
-        Animi, reiciendis cumque ex deleniti quaerat tempore deserunt autem porro, aspernatur placeat voluptate numquam
-        ipsum inventore voluptates laudantium. Eum provident maiores placeat tempora vitae rerum quibusdam tempore
-        consequuntur eos minus.
-        Repudiandae aperiam doloribus fuga aspernatur, rerum tenetur. Debitis inventore earum assumenda mollitia itaque
-        alias amet, iste veniam commodi facilis corporis autem, sint tempora quam quia dicta ab, voluptas dolor
-        molestias?
-        Quod molestias molestiae dolor sint minus et aut repellendus minima aliquid suscipit vero ab consequatur
-        laboriosam eius porro consequuntur sit soluta, labore deserunt itaque, dolorum vitae? In eum explicabo
-        similique.
-        Earum, accusantium deleniti. Tempora asperiores, deserunt perferendis quas sunt obcaecati ratione dignissimos
-        similique totam temporibus repellat delectus. Aperiam, necessitatibus. Ut, fugiat sint odio ipsum perferendis
-        optio nostrum? Corrupti, ducimus architecto.
-        Saepe quam doloribus excepturi vitae similique ea a neque quibusdam aut, officiis illum nisi, necessitatibus
-        minus esse? Eveniet at doloribus corrupti odio porro quisquam numquam ipsum eligendi? Alias, ducimus distinctio?
-    </h1>
+    <div id="sidebar" class="sidebar collapsed">
+        <ul class="sidebar-menu">
+            <li><i class="fas fa-home"></i> <span class="label">Home</span></li>
+            <li><i class="fas fa-chart-line"></i> <span class="label">Dashboard</span></li>
+            <li><i class="fas fa-cogs"></i> <span class="label">Settings</span></li>
+        </ul>
+    </div>
+
+
+
+    <div class="container">
+        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda magnam blanditiis mollitia rerum
+            reprehenderit nulla voluptatibus quibusdam placeat commodi quam soluta expedita, aliquid asperiores
+            aspernatur
+            cum ducimus sit. Ipsum, saepe.
+            Explicabo repellat dignissimos maxime quasi, iste quo, minima vel harum sequi porro illo temporibus aperiam
+            impedit hic aliquam saepe ipsum officiis nesciunt aut aliquid ut et. Repellat nemo magni consectetur!
+            Soluta atque similique omnis? Perspiciatis quae laborum facilis quam. Aliquid praesentium quod minus omnis
+            quis.
+            Doloribus est velit, eveniet nobis nesciunt rem voluptate corporis reprehenderit perferendis ipsa quidem.
+            Suscipit, natus?
+            Obcaecati voluptatum quasi voluptatem vero quos explicabo velit, unde laudantium qui pariatur repellendus
+            eum
+            sunt. Quod provident adipisci reiciendis ut enim atque dignissimos rem iste libero error. Praesentium, quis
+            dolor?
+            Nostrum consequuntur, reprehenderit odio nisi eos animi, at illo, fuga ab quam itaque omnis eaque laudantium
+            nemo ipsam natus molestias? Delectus eum voluptates quo voluptatibus ipsa inventore quibusdam modi?
+            Voluptate!
+            Animi, reiciendis cumque ex deleniti quaerat tempore deserunt autem porro, aspernatur placeat voluptate
+            numquam
+            ipsum inventore voluptates laudantium. Eum provident maiores placeat tempora vitae rerum quibusdam tempore
+            consequuntur eos minus.
+            Repudiandae aperiam doloribus fuga aspernatur, rerum tenetur. Debitis inventore earum assumenda mollitia
+            itaque
+            alias amet, iste veniam commodi facilis corporis autem, sint tempora quam quia dicta ab, voluptas dolor
+            molestias?
+            Quod molestias molestiae dolor sint minus et aut repellendus minima aliquid suscipit vero ab consequatur
+            laboriosam eius porro consequuntur sit soluta, labore deserunt itaque, dolorum vitae? In eum explicabo
+            similique.
+            Earum, accusantium deleniti. Tempora asperiores, deserunt perferendis quas sunt obcaecati ratione
+            dignissimos
+            similique totam temporibus repellat delectus. Aperiam, necessitatibus. Ut, fugiat sint odio ipsum
+            perferendis
+            optio nostrum? Corrupti, ducimus architecto.
+            Saepe quam doloribus excepturi vitae similique ea a neque quibusdam aut, officiis illum nisi, necessitatibus
+            minus esse? Eveniet at doloribus corrupti odio porro quisquam numquam ipsum eligendi? Alias, ducimus
+            distinctio?
+        </h1>
     </div>
     <!-- Footer Section -->
     <footer class="text-center">
@@ -133,7 +140,8 @@
                 </div>
                 <div class="modal-footer" style="border-top: none;">
                     <!-- Hyperlink tanpa garis bawah -->
-                    <a href="/release-note" id="seeAllReleases" class="btn btn-link" style="text-decoration: none;"><b>See All Releases</b></a>
+                    <a href="/release-note" id="seeAllReleases" class="btn btn-link"
+                        style="text-decoration: none;"><b>See All Releases</b></a>
                 </div>
             </div>
         </div>

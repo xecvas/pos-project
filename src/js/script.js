@@ -26,16 +26,21 @@ $(document).ready(function () {
   const passwordInput = document.getElementById("password");
   const eyeIcon = document.getElementById("eyeIcon");
   if (passwordInput && eyeIcon) {
-    document.getElementById("togglePassword").addEventListener("click", function () {
-      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-      passwordInput.setAttribute("type", type);
-      eyeIcon.classList.toggle("fa-eye");
-      eyeIcon.classList.toggle("fa-eye-slash");
-    });
+    document
+      .getElementById("togglePassword")
+      .addEventListener("click", function () {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+        eyeIcon.classList.toggle("fa-eye");
+        eyeIcon.classList.toggle("fa-eye-slash");
+      });
   }
 
   // Event listener for notification icon
-  $(".notification").on("click", function() {
+  $(".notification").on("click", function () {
     const latestRelease = ReleaseData[0]; // Ambil release terbaru
 
     if (latestRelease) {
@@ -43,7 +48,9 @@ $(document).ready(function () {
       const modalContent = `
         <h5>${latestRelease.version} - ${latestRelease.date}</h5>
         <ul>
-          ${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}
+          ${latestRelease.features
+            .map((feature) => `<li>${feature}</li>`)
+            .join("")}
         </ul>
       `;
 
@@ -52,19 +59,19 @@ $(document).ready(function () {
 
       // Mengubah jarak antara fitur dan tombol dengan JavaScript
       const modalFooter = $(".modal-footer");
-      modalFooter.css('margin-top', '-30px'); // Mengatur margin atas footer
+      modalFooter.css("margin-top", "-30px"); // Mengatur margin atas footer
 
       // Tampilkan modal
-      $("#releaseModal").modal('show');
+      $("#releaseModal").modal("show");
     }
   });
 
   // Event listener untuk "See All Releases"
   // Pastikan "See All Releases" berfungsi sebagai hyperlink
-  $("#seeAllReleases").on("click", function(e) {
+  $("#seeAllReleases").on("click", function (e) {
     // Link akan berjalan normal, jadi kita tidak perlu mencegah default behavior
     // Mengarahkan pengguna ke /release-note
-    window.location.href = "/release-note";  
+    window.location.href = "/release-note";
   });
 });
 
@@ -94,7 +101,9 @@ function renderReleaseContent() {
              data-bs-parent="#accordionExample">
           <div class="accordion-body">
             <ul>
-              ${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}
+              ${latestRelease.features
+                .map((feature) => `<li>${feature}</li>`)
+                .join("")}
             </ul>
           </div>
         </div>
@@ -103,3 +112,27 @@ function renderReleaseContent() {
     accordionContainer.append(accordionItem);
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const burgerBtn = document.getElementById("burger-btn");
+  const sidebar = document.getElementById("sidebar");
+  const mainContent = document.querySelector(".main-content");
+
+  burgerBtn.addEventListener("click", function () {
+    // Toggle sidebar expanded class
+    sidebar.classList.toggle("expanded");
+
+    // Adjust main content margin
+    mainContent.style.marginLeft = sidebar.classList.contains("expanded")
+      ? "250px"
+      : "60px";
+  });
+
+  // Select the latest version from ReleaseData and set in navbar
+  const projectTitle = document.querySelector(".navbar-brand .project-version");
+  
+  if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
+    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
+    projectTitle.textContent = `v${latestVersion}`;
+  }
+});
