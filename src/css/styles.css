@@ -30,17 +30,13 @@ footer {
     width: 100%;
     height: 2rem;
     color: black; /* Default text color for light mode */
-    background-color: #e9e1e1;
+    background-color: white;
     text-align: center;
     line-height: 2rem; /* Makes the text vertically centered */
     padding: 0;
 }
 
 
-body.dark footer {
-    background-color: #292c35;
-    color: white; /* Change text color for dark mode */
-}
 
 /* Main content wrapper */
 .main-content {
@@ -250,7 +246,7 @@ a:hover {
 /* Styling Sidebar */
 .sidebar {
     width: 60px; /* Sidebar ukuran minimal */
-    height: calc(100vh - 80px); /* Mengurangi tinggi navbar (ubah 56px sesuai tinggi navbar Anda) */
+    height: 100vh; /* Mengatur tinggi sidebar agar setinggi halaman web */
     position: fixed;
     top: 65px; /* Ubah ini sesuai tinggi navbar Anda */
     left: 0;

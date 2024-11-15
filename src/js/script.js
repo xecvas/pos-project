@@ -79,7 +79,7 @@ $(document).ready(function () {
 function renderReleaseContent() {
   const latestRelease = ReleaseData[0]; // Pastikan release terbaru ada di posisi pertama
 
-  const accordionContainer = $("#accordionExample");
+  const accordionContainer = $("#accordion-login-page");
   accordionContainer.empty();
 
   if (latestRelease) {
@@ -98,7 +98,7 @@ function renderReleaseContent() {
           </button>
         </h2>
         <div id="${releaseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
-             data-bs-parent="#accordionExample">
+             data-bs-parent="#accordion-login-page">
           <div class="accordion-body">
             <ul>
               ${latestRelease.features
