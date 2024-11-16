@@ -76,7 +76,7 @@
     </div>
 
     <div id="sidebar" class="sidebar collapsed">
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu ">
             <li><i class="fas fa-home"></i> <span class="label">Home</span></li>
             <li><i class="fas fa-chart-line"></i> <span class="label">Dashboard</span></li>
             <li><i class="fas fa-cogs"></i> <span class="label">Settings</span></li>
@@ -85,12 +85,17 @@
 
     <div class="main-content">
         <h4>Release Notes</h4>
-        <div id="latest-release-info" class="latest-release-info">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search Version" aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+        <div id="latest-release-info" class="latest-release-info spacer">
             <!-- Informasi rilis terakhir akan diisi oleh JavaScript -->
         </div>
         <div class="accordion" id="accordion-release-notes">
         </div>
     <!-- Accordion lainnya dibuat sama untuk data lainnya -->
+    
 
     </div>
 

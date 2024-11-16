@@ -1,7 +1,7 @@
 $(document).ready(function () {
   console.log(new Date());
   $("#myDataTable").DataTable();
-  renderLatestReleaseInfo();
+  //renderLatestReleaseInfo();
   renderLoginPageAccordion();
   renderReleaseNotesAccordion();
 
@@ -89,6 +89,7 @@ function renderLatestReleaseInfo() {
     latestReleaseContainer.html(latestReleaseContent); // Menampilkan data di container
   }
 }
+
 // Render accordion untuk halaman login (hanya rilis terakhir dengan icon check)
 function renderLoginPageAccordion() {
   const latestRelease = ReleaseData[0]; // Rilis terakhir (paling atas di array)

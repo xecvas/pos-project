@@ -10,7 +10,6 @@ body {
     min-height: 100vh;
     background-color: #e9e1e1;
     color: black;
-    font-size: 16px;
 }
 
 body.dark {
@@ -48,7 +47,7 @@ a:hover {
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #4fc1ff;
+    background-color: #b6f6ff;
     color: inherit;
 }
 
@@ -234,13 +233,51 @@ a:hover {
 
 /* === Responsive Typography === */
 h1 {
-    font-size: clamp(24px, 5vw, 32px);
+    font-size: 22px;
 }
 
 h2 {
-    font-size: clamp(20px, 4vw, 28px);
+    font-size: 20px;
 }
 
 h3 {
-    font-size: clamp(18px, 3.5vw, 24px);
+    font-size: 18px;
+}
+
+/* Table Styles */
+body.dark table,
+body.light table {
+    background-color: transparent;
+    /* Transparent background */
+    color: inherit;
+    /* Inherit text color */
+    border-color: inherit;
+    /* Inherit border color */
+}
+
+body.dark table tr:nth-child(odd),
+body.light table tr:nth-child(even) {
+    background-color: lightslategray;
+    /* Odd row background */
+    color: #fff;
+    /* Text color */
+}
+
+body.dark table tr:nth-child(even),
+body.light table tr:nth-child(odd) {
+    background-color: #fff;
+    /* Even row background */
+    color: black;
+    /* Text color */
+}
+
+body.dark table td,
+body.light table th,
+body.light table td {
+    background-color: transparent;
+    /* Transparent cells */
+    color: inherit;
+    /* Inherit text color */
+    border-color: inherit;
+    /* Inherit border color */
 }

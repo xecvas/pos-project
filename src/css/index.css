@@ -2,10 +2,13 @@
 .main-content {
     flex: 1;
     padding: 10px;
+    margin: 0;
     padding-bottom: 5rem;
     background-color: transparent;
     margin-top: 50px;
     margin-bottom: 5px;
     transition: margin-left 0.3s;
+    hyphens: auto;
+    word-wrap: break-word;
+    font-size: 16px;
 }
-
