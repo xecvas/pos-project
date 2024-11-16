@@ -5,7 +5,7 @@ import os
 
 # Define the base directory to ensure Flask can find templates and assets correctly
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_DIR = os.path.join(BASE_DIR, '../docs')
+TEMPLATE_DIR = os.path.join(BASE_DIR, '../../docs')
 CSS_DIR = os.path.join(BASE_DIR, '../css')
 JS_DIR = os.path.join(BASE_DIR, '../js')
 ICONS_DIR = os.path.join(BASE_DIR, '../assets/icons')
