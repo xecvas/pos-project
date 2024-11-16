@@ -10,6 +10,7 @@ body {
     min-height: 100vh;
     background-color: #e9e1e1;
     color: black;
+    font-size: 16px;
 }
 
 body.dark {
@@ -47,7 +48,7 @@ a:hover {
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: transparent;
+    background-color: #4fc1ff;
     color: inherit;
 }
 
@@ -216,10 +217,12 @@ a:hover {
 /* Adjust Content Margin Based on Sidebar */
 .sidebar + .main-content {
     margin-left: 80px;
+    margin-right: 20px;
 }
 
 .sidebar.expanded + .main-content {
     margin-left: 270px; /* Adjusted dynamically for expanded sidebar */
+    margin-right: 20px;
 }
 
 /* Support Section Styles */
@@ -227,4 +230,17 @@ a:hover {
     position: absolute;
     right: 20px;
     top: 20px;
+}
+
+/* === Responsive Typography === */
+h1 {
+    font-size: clamp(24px, 5vw, 32px);
+}
+
+h2 {
+    font-size: clamp(20px, 4vw, 28px);
+}
+
+h3 {
+    font-size: clamp(18px, 3.5vw, 24px);
 }

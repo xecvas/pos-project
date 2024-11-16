@@ -123,7 +123,6 @@ function renderLoginPageAccordion() {
   }
 }
 
-// Render accordion untuk halaman release notes (semua versi)
 function renderReleaseNotesAccordion() {
   const releaseNotesAccordion = $("#accordion-release-notes");
   releaseNotesAccordion.empty(); // Bersihkan kontainer sebelum ditambahkan
@@ -132,16 +131,26 @@ function renderReleaseNotesAccordion() {
     const releaseId = `collapse-note-${index}`;
     const headerId = `heading-note-${index}`;
 
+    // Tentukan apakah ini rilis terakhir
+    const isLastRelease = index === 0; // Asumsikan data terbaru berada di indeks pertama
+
     const accordionItem = `
-      <div class="accordion-item">
+      <div class="accordion-item" style="border-radius: 12px; margin-bottom: 10px;">
         <h2 class="accordion-header" id="${headerId}">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#${releaseId}" aria-expanded="false" aria-controls="${releaseId}">
+          <button class="accordion-button ${isLastRelease ? "" : "collapsed"}" type="button" 
+                  data-bs-toggle="collapse"
+                  data-bs-target="#${releaseId}" 
+                  aria-expanded="${isLastRelease}" 
+                  aria-controls="${releaseId}" 
+                  style="border-radius: 12px;">
             ${release.version} - ${release.date}
           </button>
         </h2>
-        <div id="${releaseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
-             data-bs-parent="#accordion-release-notes">
+        <div id="${releaseId}" 
+             class="accordion-collapse collapse ${isLastRelease ? "show" : ""}" 
+             aria-labelledby="${headerId}"
+             data-bs-parent="#accordion-release-notes" 
+             style="border-radius: 12px;">
           <div class="accordion-body">
             <ul>
               ${release.features
