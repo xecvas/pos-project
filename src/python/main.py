@@ -6,10 +6,10 @@ import os
 # Define the base directory to ensure Flask can find templates and assets correctly
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, '../../docs')
-CSS_DIR = os.path.join(BASE_DIR, '../css')
-JS_DIR = os.path.join(BASE_DIR, '../js')
-ICONS_DIR = os.path.join(BASE_DIR, '../assets/icons')
-IMAGES_DIR = os.path.join(BASE_DIR, '../assets/images')
+CSS_DIR = os.path.join(BASE_DIR, '../../src/css')
+JS_DIR = os.path.join(BASE_DIR, '../../src/js')
+ICONS_DIR = os.path.join(BASE_DIR, '../../src/assets/icons')
+IMAGES_DIR = os.path.join(BASE_DIR, '../../src/assets/images')
 
 # Create the Flask app with custom template folder
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
