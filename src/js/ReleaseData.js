@@ -1,6 +1,16 @@
 // ReleaseData.js
 const ReleaseData = [
   {
+    version: "1.3.0",
+    date: "16/10/2024",
+    features: [
+      "can see all release data in release-note.",
+      "split css for each component.",
+      "fix UI design.",
+      "Other bug fixes and improvements.",
+    ],
+  },
+  {
     version: "1.2.0",
     date: "13/10/2024",
     features: [
@@ -32,5 +42,3 @@ const ReleaseData = [
     ],
   },
 ];
-
-"Updated CSS styles for sidebar and burger button, added JavaScript event listener for burger button, and modified HTML structure for sidebar and navigation bar."

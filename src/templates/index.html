@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="{{ url_for('css', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
 
     <!-- JS dependencies -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,11 +28,11 @@
 </head>
 
 <body>
-    <div class="main-content">
+    <div class="navbar">
         <!-- navigation bar -->
         <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
             <div class="container-fluid">
-                <div class="navbar-brand icon-text">
+                <div class="navbar-left">
                     <!-- Tambahkan tombol burger -->
                     <button id="burger-btn" class="burger-btn">
                         <i class="fas fa-bars"></i>
@@ -82,8 +83,412 @@
         </ul>
     </div>
 
-    <div class="container">
-        <h1>tralala</h1>
+    <div class="main-content">
+
+        <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur ea earum quo labore porro laboriosam,
+            quasi ex necessitatibus? Vel dolorem eius earum quos molestiae eos suscipit nam dignissimos beatae placeat?
+        </h1>
+        <br>
+        <div class="table-container">
+            <table id="myDataTable" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tr>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>28</td>
+                        <td>Pending</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>34</td>
+                        <td>Canceled</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Emily Johnson</td>
+                        <td>45</td>
+                        <td>Delivered</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Michael Brown</td>
+                        <td>22</td>
+                        <td>On Process</td>
+                        <td>Pending</td>
+                    </tr>
+                    <tr>
+                        <td>Linda Davis</td>
+                        <td>31</td>
+                        <td>Delivered</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>James Wilson</td>
+                        <td>29</td>
+                        <td>Pending</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Patricia Garcia</td>
+                        <td>38</td>
+                        <td>Canceled</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Robert Martinez</td>
+                        <td>26</td>
+                        <td>On Process</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Jennifer Rodriguez</td>
+                        <td>41</td>
+                        <td>Delivered</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Charles Lee</td>
+                        <td>30</td>
+                        <td>Pending</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Elizabeth Walker</td>
+                        <td>36</td>
+                        <td>Canceled</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>David Hall</td>
+                        <td>27</td>
+                        <td>On Process</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Jessica Young</td>
+                        <td>33</td>
+                        <td>Delivered</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Thomas Allen</td>
+                        <td>24</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Sarah Hernandez</td>
+                        <td>39</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Daniel King</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Laura Wright</td>
+                        <td>32</td>
+                        <td>Delivered</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Matthew Scott</td>
+                        <td>25</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Angela Green</td>
+                        <td>40</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Joshua Adams</td>
+                        <td>28</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Ashley Baker</td>
+                        <td>35</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Christopher Nelson</td>
+                        <td>23</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Michelle Carter</td>
+                        <td>37</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Brian Mitchell</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Kimberly Perez</td>
+                        <td>31</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Kevin Roberts</td>
+                        <td>26</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Rebecca Turner</td>
+                        <td>42</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Jason Phillips</td>
+                        <td>28</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Laura Campbell</td>
+                        <td>34</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Eric Parker</td>
+                        <td>24</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Sharon Evans</td>
+                        <td>39</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Scott Edwards</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Barbara Collins</td>
+                        <td>36</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Paul Stewart</td>
+                        <td>25</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Donna Sanchez</td>
+                        <td>41</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Mark Morris</td>
+                        <td>30</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Emily Rogers</td>
+                        <td>27</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>John Reed</td>
+                        <td>33</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Mary Cook</td>
+                        <td>38</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>David Morgan</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Jessica Bell</td>
+                        <td>32</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>William Murphy</td>
+                        <td>25</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Linda Rivera</td>
+                        <td>40</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Steven Cooper</td>
+                        <td>28</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Barbara Reed</td>
+                        <td>34</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Joseph Bailey</td>
+                        <td>24</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Karen Bell</td>
+                        <td>39</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Charles Gonzalez</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Lisa Rivera</td>
+                        <td>31</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Matthew Wood</td>
+                        <td>26</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Michelle Bennett</td>
+                        <td>42</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Daniel Hughes</td>
+                        <td>28</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Sarah Ward</td>
+                        <td>35</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Jason Price</td>
+                        <td>23</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Rebecca Bennett</td>
+                        <td>37</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Brian Kim</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Kimberly Lee</td>
+                        <td>31</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Christopher Jones</td>
+                        <td>26</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Angela Thompson</td>
+                        <td>41</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Joshua Robinson</td>
+                        <td>28</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    <tr>
+                        <td>Laura Lewis</td>
+                        <td>34</td>
+                        <td>Delivered</td>
+                        <td>Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Eric Walker</td>
+                        <td>24</td>
+                        <td>Pending</td>
+                        <td>Canceled</td>
+                    </tr>
+                    <tr>
+                        <td>Sharon Hall</td>
+                        <td>39</td>
+                        <td>Canceled</td>
+                        <td>On Process</td>
+                    </tr>
+                    <tr>
+                        <td>Scott Allen</td>
+                        <td>29</td>
+                        <td>On Process</td>
+                        <td>Paymented</td>
+                    </tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- Footer Section -->
     <footer class="text-center">

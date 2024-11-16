@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="{{ url_for('css', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
 
     <!-- JS dependencies -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,11 +28,11 @@
 </head>
 
 <body>
-    <div class="main-content">
+    <div class="navbar">
         <!-- navigation bar -->
         <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
             <div class="container-fluid">
-                <div class="navbar-brand icon-text">
+                <div class="navbar-left">
                     <!-- Tambahkan tombol burger -->
                     <button id="burger-btn" class="burger-btn">
                         <i class="fas fa-bars"></i>
@@ -82,24 +83,15 @@
         </ul>
     </div>
 
-    <div class="container">
-        <div class="accordion" id="accordion-release-1">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        <!-- This will be replaced by JS -->
-                    </button>
-                </h2>
-                <!-- Accordion for displaying release notes -->
-                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <!-- This will be replaced by JS -->
-                    </div>
-                </div>
-            </div>
+    <div class="main-content">
+        <h4>Release Notes</h4>
+        <div id="latest-release-info" class="latest-release-info">
+            <!-- Informasi rilis terakhir akan diisi oleh JavaScript -->
         </div>
+        <div class="accordion" id="accordion-release-notes">
+        </div>
+    <!-- Accordion lainnya dibuat sama untuk data lainnya -->
+
     </div>
 
     <!-- Footer Section -->

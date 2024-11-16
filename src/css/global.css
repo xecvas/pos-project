@@ -1,0 +1,230 @@
+/* === Global Reset and Typography === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #e9e1e1;
+    color: black;
+}
+
+body.dark {
+    background-color: #292c35;
+    color: white;
+}
+
+/* === Footer Styling === */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    background-color: white;
+    color: black;
+    text-align: center;
+    line-height: 2rem;
+}
+
+/* === Link Styling === */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(0, 0, 211);
+}
+
+/* === Button and Focus Styling === */
+.btn-close:focus, 
+.accordion-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: inherit;
+}
+
+/* === Accordion Content Styling === */
+.accordion-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* === Common Utility === */
+.spacer {
+    margin: 15px 0;
+}
+
+/* Toggle Switch Styles */
+.checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-label {
+    background-color: #111;
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkbox-label .ball {
+    background-color: #fff;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .checkbox-label .ball {
+    transform: translateX(24px);
+}
+
+.fa-moon {
+    color: #f1c40f;
+}
+
+.fa-sun {
+    color: #f39c12;
+}
+
+/* === Icon Circle Checkmark === */
+.icon-circle {
+    width: 24px;
+    height: 24px;
+    background-color: #28a745;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.icon-check {
+    font-size: 14px;
+    color: #fff;
+}
+
+/* === Notification Styling === */
+.notification {
+    position: relative;
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.notification i.fa-bell {
+    color: black;
+}
+
+.notification .dot {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: -1px;
+    animation: blink 1s infinite;
+}
+
+/* Blinking animation for notification dot */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* === Sidebar Styling === */
+.burger-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    left: 7px;
+    top: 5px;
+    margin-right: 20px;
+    z-index: 1000;
+}
+
+.sidebar {
+    width: 60px;
+    height: 100vh;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    background-color: white;
+    color: black;
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li i {
+    font-size: 24px;
+    transition: margin-right 0.3s;
+}
+
+.sidebar.expanded ul li i {
+    margin-right: 10px;
+}
+
+.sidebar ul li .label {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar.expanded ul li .label {
+    display: inline;
+    opacity: 1;
+}
+
+/* Adjust Content Margin Based on Sidebar */
+.sidebar + .main-content {
+    margin-left: 80px;
+}
+
+.sidebar.expanded + .main-content {
+    margin-left: 270px; /* Adjusted dynamically for expanded sidebar */
+}
+
+/* Support Section Styles */
+.support {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}

@@ -1,6 +1,9 @@
 $(document).ready(function () {
   console.log(new Date());
-  renderReleaseContent();
+  $("#myDataTable").DataTable();
+  renderLatestReleaseInfo();
+  renderLoginPageAccordion();
+  renderReleaseNotesAccordion();
 
   // Dark mode toggle setting
   const checkbox = document.getElementById("checkbox");
@@ -75,29 +78,36 @@ $(document).ready(function () {
   });
 });
 
-// Function to display latest release data (tetap dipertahankan untuk konten utama)
-function renderReleaseContent() {
-  const latestRelease = ReleaseData[0]; // Pastikan release terbaru ada di posisi pertama
-
-  const accordionContainer = $("#accordion-login-page");
-  accordionContainer.empty();
+function renderLatestReleaseInfo() {
+  const latestRelease = ReleaseData[0]; // Mengambil rilis terbaru (posisi pertama)
+  if (latestRelease) {
+    const latestReleaseContainer = $("#latest-release-info");
+    const latestReleaseContent = `
+      ${latestRelease.date}
+      <p>Last Update: v.<strong>${latestRelease.version}</strong></p>
+    `;
+    latestReleaseContainer.html(latestReleaseContent); // Menampilkan data di container
+  }
+}
+// Render accordion untuk halaman login (hanya rilis terakhir dengan icon check)
+function renderLoginPageAccordion() {
+  const latestRelease = ReleaseData[0]; // Rilis terakhir (paling atas di array)
+  const loginAccordion = $("#accordion-login-page");
+  loginAccordion.empty(); // Bersihkan kontainer sebelum ditambahkan
 
   if (latestRelease) {
-    const releaseId = `collapseOne`;
-    const headerId = `headingOne`;
-
     const accordionItem = `
       <div class="accordion-item">
-        <h2 class="accordion-header" id="${headerId}">
+        <h2 class="accordion-header" id="heading-login">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#${releaseId}" aria-expanded="false" aria-controls="${releaseId}">
+                  data-bs-target="#collapse-login" aria-expanded="false" aria-controls="collapse-login">
             <span class="icon-circle">
               <i class="fa fa-check icon-check"></i>
             </span>
             ${latestRelease.version} - ${latestRelease.date}
           </button>
         </h2>
-        <div id="${releaseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
+        <div id="collapse-login" class="accordion-collapse collapse" aria-labelledby="heading-login"
              data-bs-parent="#accordion-login-page">
           <div class="accordion-body">
             <ul>
@@ -109,8 +119,41 @@ function renderReleaseContent() {
         </div>
       </div>
     `;
-    accordionContainer.append(accordionItem);
+    loginAccordion.append(accordionItem);
   }
+}
+
+// Render accordion untuk halaman release notes (semua versi)
+function renderReleaseNotesAccordion() {
+  const releaseNotesAccordion = $("#accordion-release-notes");
+  releaseNotesAccordion.empty(); // Bersihkan kontainer sebelum ditambahkan
+
+  ReleaseData.forEach((release, index) => {
+    const releaseId = `collapse-note-${index}`;
+    const headerId = `heading-note-${index}`;
+
+    const accordionItem = `
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="${headerId}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#${releaseId}" aria-expanded="false" aria-controls="${releaseId}">
+            ${release.version} - ${release.date}
+          </button>
+        </h2>
+        <div id="${releaseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
+             data-bs-parent="#accordion-release-notes">
+          <div class="accordion-body">
+            <ul>
+              ${release.features
+                .map((feature) => `<li>${feature}</li>`)
+                .join("")}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+    releaseNotesAccordion.append(accordionItem);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -119,18 +162,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const mainContent = document.querySelector(".main-content");
 
   burgerBtn.addEventListener("click", function () {
-    // Toggle sidebar expanded class
+    // Toggle expanded class pada sidebar
     sidebar.classList.toggle("expanded");
-
-    // Adjust main content margin
-    mainContent.style.marginLeft = sidebar.classList.contains("expanded")
-      ? "250px"
-      : "60px";
   });
 
   // Select the latest version from ReleaseData and set in navbar
   const projectTitle = document.querySelector(".navbar-brand .project-version");
-  
+
   if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
     const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
     projectTitle.textContent = `v${latestVersion}`;

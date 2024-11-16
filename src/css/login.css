@@ -1,0 +1,52 @@
+/* Centered Container for Login Form */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.container {
+    display: flex;
+    width: 1000px;
+    height: 530px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Left Section */
+.left-section {
+    background-color: #0d6efd;
+    color: white;
+    padding: 40px;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 12px 0 0 12px;
+}
+
+/* Right Section */
+.right-section {
+    padding: 40px;
+    background-color: white;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 12px 12px 0;
+}
+
+body.dark .right-section h4 {
+    color: black;
+}
+
+form {
+    width: 100%;
+}
+
+.logo-image {
+    width: 100%;
+    height: auto;
+}
