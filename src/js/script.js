@@ -1,6 +1,8 @@
 $(document).ready(function () {
   console.log(new Date());
-  $("#myDataTable").DataTable();
+
+  new DataTable("#MyDatatable");
+
   //renderLatestReleaseInfo();
   renderLoginPageAccordion();
   renderReleaseNotesAccordion();
@@ -138,7 +140,9 @@ function renderReleaseNotesAccordion() {
     const accordionItem = `
       <div class="accordion-item" style="border-radius: 12px; margin-bottom: 10px;">
         <h2 class="accordion-header" id="${headerId}">
-          <button class="accordion-button ${isLastRelease ? "" : "collapsed"}" type="button" 
+          <button class="accordion-button ${
+            isLastRelease ? "" : "collapsed"
+          }" type="button" 
                   data-bs-toggle="collapse"
                   data-bs-target="#${releaseId}" 
                   aria-expanded="${isLastRelease}" 

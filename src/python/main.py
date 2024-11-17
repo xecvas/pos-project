@@ -83,5 +83,9 @@ def index():
 def release_note():
     return render_template('release-note.html')
 
+@app.route('/tester')
+def tester():
+    return render_template('tester.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

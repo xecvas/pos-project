@@ -12,3 +12,14 @@
     word-wrap: break-word;
     font-size: 16px;
 }
+
+/* Memusatkan isi dalam container */
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Untuk benar-benar di tengah secara vertikal */
+    margin: 30px auto; /* Membuatnya di tengah secara horizontal */
+    margin-top: 10px;
+    width: fit-content; /* Atur lebar jika diperlukan */
+}
+

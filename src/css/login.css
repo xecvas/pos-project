@@ -18,7 +18,10 @@ body {
 
 /* Left Section */
 .left-section {
-    background-color: #0d6efd;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
     color: white;
     padding: 40px;
     flex: 3;
