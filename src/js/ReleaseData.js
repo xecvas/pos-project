@@ -1,6 +1,16 @@
 // ReleaseData.js
 const ReleaseData = [
   {
+    version: "1.4.0",
+    date: "17/10/2024",
+    features: [
+      "added card in main page.",
+      "add background image in login page.",
+      "fix posititon of main-content",
+      "Other bug fixes and improvements.",
+    ],
+  },
+  {
     version: "1.3.0",
     date: "16/10/2024",
     features: [
