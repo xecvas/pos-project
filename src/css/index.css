@@ -13,13 +13,12 @@
     font-size: 16px;
 }
 
-/* Memusatkan isi dalam container */
+/* Center Content in Card Container */
 .card-container {
     display: flex;
     justify-content: center;
-    align-items: center; /* Untuk benar-benar di tengah secara vertikal */
-    margin: 30px auto; /* Membuatnya di tengah secara horizontal */
+    align-items: center;
+    margin: 30px auto;
     margin-top: 10px;
-    width: fit-content; /* Atur lebar jika diperlukan */
+    width: fit-content;
 }
-

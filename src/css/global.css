@@ -1,4 +1,4 @@
-/* === Global Reset and Typography === */
+/* Global Reset and Typography */
 * {
     margin: 0;
     padding: 0;
@@ -17,9 +17,9 @@ body.dark {
     color: white;
 }
 
-/* === Footer Styling === */
+/* Footer Styling */
 footer {
-    position:fixed;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -30,7 +30,7 @@ footer {
     line-height: 2rem;
 }
 
-/* === Link Styling === */
+/* Link Styling */
 a {
     text-decoration: none;
 }
@@ -39,7 +39,7 @@ a:hover {
     color: rgb(0, 0, 211);
 }
 
-/* === Button and Focus Styling === */
+/* Button and Focus Styling */
 .btn-close:focus,
 .accordion-button:focus {
     outline: none;
@@ -51,13 +51,13 @@ a:hover {
     color: inherit;
 }
 
-/* === Accordion Content Styling === */
+/* Accordion Content Styling */
 .accordion-body {
     max-height: 300px;
     overflow-y: auto;
 }
 
-/* === Common Utility === */
+/* Utility Classes */
 .spacer {
     margin: 15px 0;
 }
@@ -104,7 +104,7 @@ a:hover {
     color: #f39c12;
 }
 
-/* === Icon Circle Checkmark === */
+/* Icon Circle Checkmark */
 .icon-circle {
     width: 24px;
     height: 24px;
@@ -121,7 +121,7 @@ a:hover {
     color: #fff;
 }
 
-/* === Notification Styling === */
+/* Notification Styling */
 .notification {
     position: relative;
     display: inline-block;
@@ -143,20 +143,16 @@ a:hover {
     animation: blink 1s infinite;
 }
 
-/* Blinking animation for notification dot */
 @keyframes blink {
-
-    0%,
-    100% {
+    0%, 100% {
         opacity: 1;
     }
-
     50% {
         opacity: 0;
     }
 }
 
-/* === Sidebar Styling === */
+/* Sidebar Styling */
 .burger-btn {
     background: none;
     border: none;
@@ -216,7 +212,6 @@ a:hover {
     opacity: 1;
 }
 
-/* Adjust Content Margin Based on Sidebar */
 .sidebar+.main-content {
     margin-left: 80px;
     margin-right: 20px;
@@ -224,7 +219,6 @@ a:hover {
 
 .sidebar.expanded+.main-content {
     margin-left: 270px;
-    /* Adjusted dynamically for expanded sidebar */
     margin-right: 20px;
 }
 
@@ -235,7 +229,7 @@ a:hover {
     top: 20px;
 }
 
-/* === Responsive Typography === */
+/* Responsive Typography */
 h1 {
     font-size: 22px;
 }
@@ -252,38 +246,28 @@ h3 {
 body.dark table,
 body.light table {
     background-color: transparent;
-    /* Transparent background */
     color: inherit;
-    /* Inherit text color */
     border-color: inherit;
-    /* Inherit border color */
 }
 
 body.dark table tr:nth-child(odd),
 body.light table tr:nth-child(even) {
     background-color: lightslategray;
-    /* Odd row background */
     color: #fff;
-    /* Text color */
 }
 
 body.dark table tr:nth-child(even),
 body.light table tr:nth-child(odd) {
     background-color: #fff;
-    /* Even row background */
     color: black;
-    /* Text color */
 }
 
 body.dark table td,
 body.light table th,
 body.light table td {
     background-color: transparent;
-    /* Transparent cells */
     color: inherit;
-    /* Inherit text color */
     border-color: inherit;
-    /* Inherit border color */
 }
 
 .card {
@@ -312,18 +296,16 @@ body.light table td {
     font-size: 12px;
 }
 
-/* Pusatkan pagination dengan `text-align: center` */
+/* Pagination Styling */
 div.dataTables_wrapper div.dataTables_paginate {
     text-align: center;
     margin-top: 10px;
     margin-left: calc(-120px / 2);
     left: 0;
     width: 100%;
-    z-index: 0; /* Turunkan prioritas z-index */
-    /* Kompensasi sidebar 60px, bagi dua */
+    z-index: 0;
 }
 
-/* Gaya tombol pagination */
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
     display: inline-flex;
     justify-content: center;

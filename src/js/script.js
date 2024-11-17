@@ -1,203 +1,162 @@
 $(document).ready(function () {
   console.log(new Date());
 
+  // Initialize DataTable
   $('#MyDatatable').DataTable({
-    "pagingType": "simple_numbers", // Pagination dengan angka dan Previous/Next
-    "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +  // Menampilkan 'entries' di kiri dan kotak pencarian di kanan
-           "<'row'<'col-sm-12't>>" +  // Tabel utama
-           "<'row'<'col-sm-4'i><'col-sm-4 d-flex justify-content-center'p><'col-sm-4'>>", // Info, Pagination di tengah
-    "language": {
-        "paginate": {
-            "previous": "&lt;", // Custom Previous
-            "next": "&gt;" // Custom Next
-        }
-    }
-});
+      pagingType: "simple_numbers",
+      dom: `
+          <'row'<'col-sm-6'l><'col-sm-6'f>>
+          <'row'<'col-sm-12't>>
+          <'row'<'col-sm-4'i><'col-sm-4 d-flex justify-content-center'p><'col-sm-4'>>
+      `,
+      language: {
+          paginate: {
+              previous: "&lt;",
+              next: "&gt;"
+          }
+      }
+  });
 
-
-
-  //renderLatestReleaseInfo();
+  // Accordion Rendering
   renderLoginPageAccordion();
   renderReleaseNotesAccordion();
 
-  // Dark mode toggle setting
+  // Dark Mode Toggle
   const checkbox = document.getElementById("checkbox");
   if (checkbox) {
-    const loadToggleSetting = () => {
-      const isChecked = JSON.parse(localStorage.getItem("isChecked")) || false;
-      checkbox.checked = isChecked;
-      $("body, canvas, .form-text").toggleClass("dark", isChecked);
-    };
+      const toggleDarkMode = (isChecked) => {
+          $("body, canvas, .form-text").toggleClass("dark", isChecked);
+      };
 
-    const saveToggleSetting = () => {
-      localStorage.setItem("isChecked", JSON.stringify(checkbox.checked));
-    };
+      const loadToggleSetting = () => {
+          const isChecked = JSON.parse(localStorage.getItem("isChecked")) || false;
+          checkbox.checked = isChecked;
+          toggleDarkMode(isChecked);
+      };
 
-    loadToggleSetting();
-    checkbox.addEventListener("change", function () {
-      $("body, canvas, .form-text").toggleClass("dark");
-      saveToggleSetting();
-    });
-  }
+      const saveToggleSetting = () => {
+          localStorage.setItem("isChecked", JSON.stringify(checkbox.checked));
+      };
 
-  // Toggle password visibility
-  const passwordInput = document.getElementById("password");
-  const eyeIcon = document.getElementById("eyeIcon");
-  if (passwordInput && eyeIcon) {
-    document
-      .getElementById("togglePassword")
-      .addEventListener("click", function () {
-        const type =
-          passwordInput.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordInput.setAttribute("type", type);
-        eyeIcon.classList.toggle("fa-eye");
-        eyeIcon.classList.toggle("fa-eye-slash");
+      loadToggleSetting();
+      checkbox.addEventListener("change", () => {
+          toggleDarkMode(checkbox.checked);
+          saveToggleSetting();
       });
   }
 
-  // Event listener for notification icon
-  $(".notification").on("click", function () {
-    const latestRelease = ReleaseData[0]; // Ambil release terbaru
+  // Toggle Password Visibility
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
+  const togglePassword = document.getElementById("togglePassword");
+  if (passwordInput && eyeIcon && togglePassword) {
+      togglePassword.addEventListener("click", () => {
+          const isPassword = passwordInput.type === "password";
+          passwordInput.type = isPassword ? "text" : "password";
+          eyeIcon.classList.toggle("fa-eye", !isPassword);
+          eyeIcon.classList.toggle("fa-eye-slash", isPassword);
+      });
+  }
 
-    if (latestRelease) {
-      // Buat konten untuk modal tanpa accordion
-      const modalContent = `
-        <h5>${latestRelease.version} - ${latestRelease.date}</h5>
-        <ul>
-          ${latestRelease.features
-            .map((feature) => `<li>${feature}</li>`)
-            .join("")}
-        </ul>
-      `;
-
-      // Masukkan konten ke dalam modal
-      $("#modalContent").html(modalContent);
-
-      // Mengubah jarak antara fitur dan tombol dengan JavaScript
-      const modalFooter = $(".modal-footer");
-      modalFooter.css("margin-top", "-30px"); // Mengatur margin atas footer
-
-      // Tampilkan modal
-      $("#releaseModal").modal("show");
-    }
+  // Notification Icon Click Event
+  $(".notification").on("click", () => {
+      const latestRelease = ReleaseData?.[0];
+      if (latestRelease) {
+          const modalContent = `
+              <h5>${latestRelease.version} - ${latestRelease.date}</h5>
+              <ul>${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}</ul>
+          `;
+          $("#modalContent").html(modalContent);
+          $(".modal-footer").css("margin-top", "-30px");
+          $("#releaseModal").modal("show");
+      }
   });
 
-  // Event listener untuk "See All Releases"
-  // Pastikan "See All Releases" berfungsi sebagai hyperlink
-  $("#seeAllReleases").on("click", function (e) {
-    // Link akan berjalan normal, jadi kita tidak perlu mencegah default behavior
-    // Mengarahkan pengguna ke /release-note
-    window.location.href = "/release-note";
+  // "See All Releases" Link
+  $("#seeAllReleases").on("click", () => {
+      window.location.href = "/release-note";
   });
 });
 
 function renderLatestReleaseInfo() {
-  const latestRelease = ReleaseData[0]; // Mengambil rilis terbaru (posisi pertama)
+  const latestRelease = ReleaseData?.[0];
   if (latestRelease) {
-    const latestReleaseContainer = $("#latest-release-info");
-    const latestReleaseContent = `
-      ${latestRelease.date}
-      <p>Last Update: v.<strong>${latestRelease.version}</strong></p>
-    `;
-    latestReleaseContainer.html(latestReleaseContent); // Menampilkan data di container
+      const content = `
+          ${latestRelease.date}
+          <p>Last Update: v.<strong>${latestRelease.version}</strong></p>
+      `;
+      $("#latest-release-info").html(content);
   }
 }
 
-// Render accordion untuk halaman login (hanya rilis terakhir dengan icon check)
 function renderLoginPageAccordion() {
-  const latestRelease = ReleaseData[0]; // Rilis terakhir (paling atas di array)
-  const loginAccordion = $("#accordion-login-page");
-  loginAccordion.empty(); // Bersihkan kontainer sebelum ditambahkan
-
+  const latestRelease = ReleaseData?.[0];
   if (latestRelease) {
-    const accordionItem = `
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="heading-login">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapse-login" aria-expanded="false" aria-controls="collapse-login">
-            <span class="icon-circle">
-              <i class="fa fa-check icon-check"></i>
-            </span>
-            ${latestRelease.version} - ${latestRelease.date}
-          </button>
-        </h2>
-        <div id="collapse-login" class="accordion-collapse collapse" aria-labelledby="heading-login"
-             data-bs-parent="#accordion-login-page">
-          <div class="accordion-body">
-            <ul>
-              ${latestRelease.features
-                .map((feature) => `<li>${feature}</li>`)
-                .join("")}
-            </ul>
+      const accordionItem = `
+          <div class="accordion-item">
+              <h2 class="accordion-header" id="heading-login">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse-login" aria-expanded="false" aria-controls="collapse-login">
+                      <span class="icon-circle">
+                          <i class="fa fa-check icon-check"></i>
+                      </span>
+                      ${latestRelease.version} - ${latestRelease.date}
+                  </button>
+              </h2>
+              <div id="collapse-login" class="accordion-collapse collapse" aria-labelledby="heading-login"
+                   data-bs-parent="#accordion-login-page">
+                  <div class="accordion-body">
+                      <ul>${latestRelease.features.map(feature => `<li>${feature}</li>`).join("")}</ul>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    `;
-    loginAccordion.append(accordionItem);
+      `;
+      $("#accordion-login-page").empty().append(accordionItem);
   }
 }
 
 function renderReleaseNotesAccordion() {
   const releaseNotesAccordion = $("#accordion-release-notes");
-  releaseNotesAccordion.empty(); // Bersihkan kontainer sebelum ditambahkan
+  releaseNotesAccordion.empty();
 
   ReleaseData.forEach((release, index) => {
-    const releaseId = `collapse-note-${index}`;
-    const headerId = `heading-note-${index}`;
-
-    // Tentukan apakah ini rilis terakhir
-    const isLastRelease = index === 0; // Asumsikan data terbaru berada di indeks pertama
-
-    const accordionItem = `
-      <div class="accordion-item" style="border-radius: 12px; margin-bottom: 10px;">
-        <h2 class="accordion-header" id="${headerId}">
-          <button class="accordion-button ${
-            isLastRelease ? "" : "collapsed"
-          }" type="button" 
-                  data-bs-toggle="collapse"
-                  data-bs-target="#${releaseId}" 
-                  aria-expanded="${isLastRelease}" 
-                  aria-controls="${releaseId}" 
-                  style="border-radius: 12px;">
-            ${release.version} - ${release.date}
-          </button>
-        </h2>
-        <div id="${releaseId}" 
-             class="accordion-collapse collapse ${isLastRelease ? "show" : ""}" 
-             aria-labelledby="${headerId}"
-             data-bs-parent="#accordion-release-notes" 
-             style="border-radius: 12px;">
-          <div class="accordion-body">
-            <ul>
-              ${release.features
-                .map((feature) => `<li>${feature}</li>`)
-                .join("")}
-            </ul>
+      const isLastRelease = index === 0;
+      const accordionItem = `
+          <div class="accordion-item" style="border-radius: 12px; margin-bottom: 10px;">
+              <h2 class="accordion-header" id="heading-note-${index}">
+                  <button class="accordion-button ${isLastRelease ? "" : "collapsed"}" type="button" 
+                          data-bs-toggle="collapse" data-bs-target="#collapse-note-${index}" 
+                          aria-expanded="${isLastRelease}" aria-controls="collapse-note-${index}" 
+                          style="border-radius: 12px;">
+                      ${release.version} - ${release.date}
+                  </button>
+              </h2>
+              <div id="collapse-note-${index}" 
+                   class="accordion-collapse collapse ${isLastRelease ? "show" : ""}" 
+                   aria-labelledby="heading-note-${index}" 
+                   data-bs-parent="#accordion-release-notes" style="border-radius: 12px;">
+                  <div class="accordion-body">
+                      <ul>${release.features.map(feature => `<li>${feature}</li>`).join("")}</ul>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    `;
-    releaseNotesAccordion.append(accordionItem);
+      `;
+      releaseNotesAccordion.append(accordionItem);
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const burgerBtn = document.getElementById("burger-btn");
   const sidebar = document.getElementById("sidebar");
-  const mainContent = document.querySelector(".main-content");
 
-  burgerBtn.addEventListener("click", function () {
-    // Toggle expanded class pada sidebar
-    sidebar.classList.toggle("expanded");
-  });
+  if (burgerBtn && sidebar) {
+      burgerBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("expanded");
+      });
+  }
 
-  // Select the latest version from ReleaseData and set in navbar
   const projectTitle = document.querySelector(".navbar-brand .project-version");
-
-  if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
-    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
-    projectTitle.textContent = `v${latestVersion}`;
+  if (ReleaseData?.length && projectTitle) {
+      projectTitle.textContent = `v${ReleaseData[0].version}`;
   }
 });

@@ -1,4 +1,4 @@
-/* Centered Container for Login Form */
+/* Body and Centered Container */
 body {
     display: flex;
     align-items: center;
@@ -16,11 +16,11 @@ body {
     position: relative;
 }
 
-/* Left Section */
+/* Left Section Styling */
 .left-section {
     background-image: url('../images/background.jpg');
     background-size: cover;
-    background-position:center; 
+    background-position: center;
     background-repeat: no-repeat;
     color: white;
     padding: 40px;
@@ -31,7 +31,7 @@ body {
     border-radius: 12px 0 0 12px;
 }
 
-/* Right Section */
+/* Right Section Styling */
 .right-section {
     padding: 40px;
     background-color: white;
@@ -46,6 +46,7 @@ body.dark .right-section h4 {
     color: black;
 }
 
+/* Form and Logo Styling */
 form {
     width: 100%;
 }
