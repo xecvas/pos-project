@@ -6,6 +6,7 @@ const ReleaseData = [
     features: [
       "added card in main page.",
       "add background image in login page.",
+      "table pagination at middle of page.",
       "fix posititon of main-content",
       "Other bug fixes and improvements.",
     ],

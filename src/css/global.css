@@ -19,7 +19,7 @@ body.dark {
 
 /* === Footer Styling === */
 footer {
-    position: fixed;
+    position:fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -40,7 +40,7 @@ a:hover {
 }
 
 /* === Button and Focus Styling === */
-.btn-close:focus, 
+.btn-close:focus,
 .accordion-button:focus {
     outline: none;
     box-shadow: none;
@@ -92,7 +92,7 @@ a:hover {
     transition: transform 0.2s linear;
 }
 
-.checkbox:checked + .checkbox-label .ball {
+.checkbox:checked+.checkbox-label .ball {
     transform: translateX(24px);
 }
 
@@ -145,9 +145,12 @@ a:hover {
 
 /* Blinking animation for notification dot */
 @keyframes blink {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
     }
+
     50% {
         opacity: 0;
     }
@@ -214,13 +217,14 @@ a:hover {
 }
 
 /* Adjust Content Margin Based on Sidebar */
-.sidebar + .main-content {
+.sidebar+.main-content {
     margin-left: 80px;
     margin-right: 20px;
 }
 
-.sidebar.expanded + .main-content {
-    margin-left: 270px; /* Adjusted dynamically for expanded sidebar */
+.sidebar.expanded+.main-content {
+    margin-left: 270px;
+    /* Adjusted dynamically for expanded sidebar */
     margin-right: 20px;
 }
 
@@ -306,4 +310,51 @@ body.light table td {
 
 .text-uppercase {
     font-size: 12px;
+}
+
+/* Pusatkan pagination dengan `text-align: center` */
+div.dataTables_wrapper div.dataTables_paginate {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: calc(-120px / 2);
+    left: 0;
+    width: 100%;
+    z-index: 0; /* Turunkan prioritas z-index */
+    /* Kompensasi sidebar 60px, bagi dua */
+}
+
+/* Gaya tombol pagination */
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    display: inline-flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li {
+    margin: 0 4px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
 }

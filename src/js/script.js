@@ -1,7 +1,20 @@
 $(document).ready(function () {
   console.log(new Date());
 
-  new DataTable("#MyDatatable");
+  $('#MyDatatable').DataTable({
+    "pagingType": "simple_numbers", // Pagination dengan angka dan Previous/Next
+    "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +  // Menampilkan 'entries' di kiri dan kotak pencarian di kanan
+           "<'row'<'col-sm-12't>>" +  // Tabel utama
+           "<'row'<'col-sm-4'i><'col-sm-4 d-flex justify-content-center'p><'col-sm-4'>>", // Info, Pagination di tengah
+    "language": {
+        "paginate": {
+            "previous": "&lt;", // Custom Previous
+            "next": "&gt;" // Custom Next
+        }
+    }
+});
+
+
 
   //renderLatestReleaseInfo();
   renderLoginPageAccordion();

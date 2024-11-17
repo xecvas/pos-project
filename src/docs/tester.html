@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
     <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
 
@@ -25,11 +26,73 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
     <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
     <script src="{{ url_for('js', filename='script.js') }}"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "pagingType": "simple_numbers", // Pagination dengan angka dan Previous/Next
+                "dom": "<'row'<'col-sm-12'l>>" +  // Dropdown entries
+                       "<'row'<'col-sm-12't>>" +  // Tabel utama
+                       "<'row'<'col-sm-4'i><'col-sm-4 d-flex justify-content-center'p><'col-sm-4'>>", // Info, Pagination di tengah
+                "language": {
+                    "paginate": {
+                        "previous": "&lt;", // Custom Previous
+                        "next": "&gt;" // Custom Next
+                    }
+                }
+            });
+        });
+    </script>
+    
     <style>
-        
+        /* Pusatkan pagination dengan `text-align: center` */
+        div.dataTables_wrapper div.dataTables_paginate {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Info tabel tetap di kiri */
+        div.dataTables_wrapper div.dataTables_info {
+            text-align: left;
+        }
+
+        /* Gaya tombol pagination */
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+            display: inline-flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination li {
+            margin: 0 4px;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #333;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
+            background-color: #e9ecef;
+            border-color: #ccc;
+        }
     </style>
 </head>
-
 <body>
     <div class="navbar">
         <!-- navigation bar -->
@@ -79,20 +142,16 @@
     </div>
 
     <div id="sidebar" class="sidebar collapsed">
-        <ul class="sidebar-menu ">
+        <ul class="sidebar-menu">
             <li><i class="fas fa-home"></i> <span class="label">Home</span></li>
             <li><i class="fas fa-chart-line"></i> <span class="label">Dashboard</span></li>
             <li><i class="fas fa-cogs"></i> <span class="label">Settings</span></li>
         </ul>
     </div>
-
     <div class="main-content">
-        <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur ea earum quo labore porro laboriosam,
-            quasi ex necessitatibus? Vel dolorem eius earum quos molestiae eos suscipit nam dignissimos beatae placeat?
-        </h3>
-        
-    </div>
+        isi tester disini
 
+    </div>
     <!-- Footer Section -->
     <footer class="text-center">
         <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
@@ -120,5 +179,4 @@
         </div>
     </div>
 </body>
-
 </html>
