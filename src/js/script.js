@@ -125,6 +125,10 @@ $(document).ready(function () {
   $("#seeAllReleases").on("click", () => {
     window.location.href = "/release-note";
   });
+
+  $("#export-excel").click(function () {
+    window.location.href = "/export_excel";
+  });
 });
 
 function renderLatestReleaseInfo() {

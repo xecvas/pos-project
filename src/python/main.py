@@ -90,11 +90,19 @@ def release_note():
 
 @app.route('/list-menu')
 def list_menu():
-    return render_template('menu.html')
+    return render_template('list-menu.html')
 
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
+
+@app.route('/create-menu')
+def create_menu():
+    return render_template('create-menu.html')
+
+@app.route('/edit-menu')
+def edit_menu():
+    return render_template('edit-menu.html')
 
 # Get data from the database with pagination
 @app.route('/data', methods=['GET'])
@@ -148,6 +156,8 @@ def get_menu_stats():
         total_kukus = session.query(menu).filter(menu.sub_kategori == 'Kukus').count()
         total_panas = session.query(menu).filter(menu.sub_kategori == 'Panas').count()
         total_dingin = session.query(menu).filter(menu.sub_kategori == 'Dingin').count()
+        total_aktif = session.query(menu).filter(menu.status == 'Aktif').count()
+        total_nonaktif = session.query(menu).filter(menu.status == 'Tidak Aktif').count()
         
         return {
             "total_menu": total_menu,
@@ -161,10 +171,67 @@ def get_menu_stats():
             "total_rebus": total_rebus,
             "total_kukus": total_kukus,
             "total_panas": total_panas,
-            "total_dingin": total_dingin
+            "total_dingin": total_dingin,
+            "total_aktif": total_aktif,
+            "total_nonaktif": total_nonaktif
         }
     finally:
         session.close()
+
+
+# Export database to excel file 
+@app.route('/export_excel')
+def export_excel():
+    # Create a new session to query the database
+    session = SessionLocal()
+    try:
+        # Query the data from the database
+        records = session.query(
+            menu.id,
+            menu.nama_menu,
+            menu.kode,
+            menu.kategori,
+            menu.sub_kategori,
+            menu.harga,
+            menu.status
+        ).all()
+
+        # Convert the SQLAlchemy query result to a list of dictionaries
+        data = [
+            {
+                'ID': record.id,
+                'Nama Pengguna': record.nama_menu,
+                'Kode': record.kode,
+                'Quantity': record.kategori,
+                'Berat': record.sub_kategori,
+                'Harga': record.harga,
+                'Shipping Status': record.status,
+            }
+            for record in records
+        ]
+
+        # Use pandas to create a DataFrame
+        df = pd.DataFrame(data)
+
+        # Create an in-memory Excel file
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Data')
+
+        output.seek(0)  # Move to the beginning of the stream
+
+        # Send the Excel file as a response
+        return send_file(
+            output,
+            as_attachment=True,
+            download_name='data_export.xlsx',
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+    finally:
+        # Close the session
+        session.close()
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
