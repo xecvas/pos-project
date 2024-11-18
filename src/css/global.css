@@ -59,7 +59,7 @@ a:hover {
 
 /* Utility Classes */
 .spacer {
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 /* Toggle Switch Styles */
@@ -175,6 +175,7 @@ a:hover {
     color: black;
     overflow-x: hidden;
     transition: width 0.3s ease;
+    z-index: 100;
 }
 
 .sidebar.expanded {
@@ -192,6 +193,7 @@ a:hover {
     align-items: center;
     white-space: nowrap; /* Mencegah teks membungkus */
     transition: padding 0.3s, margin-right 0.3s;
+    margin-left: 5px;
 }
 
 

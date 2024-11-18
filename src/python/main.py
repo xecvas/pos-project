@@ -88,9 +88,13 @@ def index():
 def release_note():
     return render_template('release-note.html')
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('tester.html')
+@app.route('/list-menu')
+def list_menu():
+    return render_template('menu.html')
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 
 # Get data from the database with pagination
 @app.route('/data', methods=['GET'])

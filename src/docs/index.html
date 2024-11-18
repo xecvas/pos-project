@@ -82,20 +82,30 @@
     <div id="sidebar" class="sidebar collapsed">
         <ul class="sidebar-menu">
             <li>
-                <a href="{{ url_for('index') }}">
-                    <i class="fas fa-home"></i>
-                    <span class="label">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('dashboard') }}">
-                    <i class="fas fa-chart-line"></i>
+                <a href="{{ url_for('index') }}" title="Dashboard">
+                    <i class="fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
                     <span class="label">Dashboard</span>
                 </a>
             </li>
             <li>
+                <a href="{{ url_for('list_menu') }}" title="Menu">
+                    <i class="fas fa-utensils"></i> <!-- Ikon untuk Menu -->
+                    <span class="label">Menu</span>
+                </a>
             </li>
-        </ul>
+            <li>
+                <a href="{{ url_for('release_note') }}" title="Release Notes">
+                    <i class="fas fa-book"></i> <!-- Ikon untuk Settings -->
+                    <span class="label">Release Notes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('settings') }}" title="Settings">
+                    <i class="fas fa-cog"></i> <!-- Ikon untuk Settings -->
+                    <span class="label">Settings</span>
+                </a>
+            </li>
+        </ul>        
     </div>
 
     <div class="main-content">
@@ -210,39 +220,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="table-container">
-            <!-- show data from myDatabase -->
-            <table id="mymenu" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama menu</th>
-                        <th>Kode</th>
-                        <th>Kategori</th>
-                        <th>Sub Kategori</th>
-                        <th>Harga</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for menu in daftar_menu %}
-                    <tr>
-                        <td>{{ menu.id }}</td>
-                        <td>{{ menu.nama_menu }}</td>
-                        <td>{{ menu.kode }}</td>
-                        <td>{{ menu.kategori }}</td>
-                        <td>{{ menu.sub_kategori }}</td>
-                        <td>{{ menu.harga }}</td>
-                        <td>{{ menu.status }}</td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
         </div>
     </div>
     <!-- Footer Section -->
