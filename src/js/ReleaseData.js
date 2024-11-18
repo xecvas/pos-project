@@ -1,6 +1,17 @@
 // ReleaseData.js
 const ReleaseData = [
   {
+    version: "1.5.0",
+    date: "18/10/2024",
+    features: [
+      "added menu database.",
+      "added pagination for menu table.",
+      "fix sidebar effect.",
+      "card in main page show total menu now",
+      "Other bug fixes and improvements.",
+    ],
+  },
+  {
     version: "1.4.0",
     date: "17/10/2024",
     features: [

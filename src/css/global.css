@@ -190,10 +190,13 @@ a:hover {
     padding: 15px;
     display: flex;
     align-items: center;
+    white-space: nowrap; /* Mencegah teks membungkus */
+    transition: padding 0.3s, margin-right 0.3s;
 }
 
+
 .sidebar ul li i {
-    font-size: 24px;
+    font-size: 20px;
     transition: margin-right 0.3s;
 }
 
@@ -202,15 +205,24 @@ a:hover {
 }
 
 .sidebar ul li .label {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s;
+    margin-left: 10px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s, margin-left 0.3s;
 }
 
 .sidebar.expanded ul li .label {
-    display: inline;
     opacity: 1;
+    visibility: visible;
+    margin-left: 5px;
 }
+
+.sidebar:not(.expanded) ul li .label {
+    opacity: 0;
+    visibility: hidden;
+    margin-left: 0;
+}
+
 
 .sidebar+.main-content {
     margin-left: 80px;
