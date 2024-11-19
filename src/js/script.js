@@ -139,6 +139,7 @@ $(document).ready(function () {
         data: null,
         title: "Action",
         orderable: false,
+        className: "text-center",
         render: (row) => `
           <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
           <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>

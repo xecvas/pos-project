@@ -39,6 +39,15 @@ def images(filename):
 # Set session lifetime
 app.permanent_session_lifetime = timedelta(days=7)  # Adjust as needed
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_email' not in session:
+            # Redirect ke login jika belum login
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 # Login route
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -85,22 +94,27 @@ def index():
     return render_template('index.html', **stats)
 
 @app.route('/release-note')
+@login_required
 def release_note():
     return render_template('release-note.html')
 
 @app.route('/list-menu')
+@login_required
 def list_menu():
     return render_template('list-menu.html')
 
 @app.route('/settings')
+@login_required
 def settings():
     return render_template('settings.html')
 
 @app.route('/create-menu')
+@login_required
 def create_menu():
     return render_template('create-menu.html')
 
 @app.route('/edit-menu')
+@login_required
 def edit_menu():
     return render_template('edit-menu.html')
 
