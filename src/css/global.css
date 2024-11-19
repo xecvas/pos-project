@@ -7,7 +7,6 @@
 }
 
 body {
-    min-height: 100vh;
     background-color: #e9e1e1;
     color: black;
 }
@@ -15,6 +14,12 @@ body {
 body.dark {
     background-color: #292c35;
     color: white;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 
 /* Footer Styling */
@@ -189,6 +194,7 @@ a:hover {
 
 .sidebar ul li {
     padding: 15px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     white-space: nowrap; /* Mencegah teks membungkus */
@@ -232,8 +238,7 @@ a:hover {
 }
 
 .sidebar.expanded+.main-content {
-    margin-left: 270px;
-    margin-right: 20px;
+    margin-left: calc(250px + 30px);
 }
 
 /* Support Section Styles */
@@ -354,3 +359,5 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
     background-color: #e9ecef;
     border-color: #ccc;
 }
+
+

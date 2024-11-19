@@ -9,6 +9,8 @@ const ReleaseData = [
       "added release notes to sidebar.",
       "added functional button to menu page",
       "renew some icons and colours",
+      "search bar in release-note is usable now",
+      "fix css code for main-content thing",
       "Other bug fixes and improvements.",
     ],
   },
