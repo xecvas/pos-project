@@ -1,15 +1,21 @@
 /* Main Content Layout */
 .main-content {
-    background-color:transparent; /* Warna sesuai kebutuhan Anda */
+    background-color: transparent;
+    /* Warna sesuai kebutuhan Anda */
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 80px; /* Jarak dari navbar */
-    margin-left: 25px; /* Menyesuaikan sidebar collapsed */
-    margin-right: 25px; /* Jarak dari kanan */
-    margin-bottom: 55px; /* Jarak untuk footer */
-    transition: margin-left 0.3s ease; /* Animasi jika sidebar berubah */
+    margin-top: 80px;
+    /* Jarak dari navbar */
+    margin-left: 25px;
+    /* Menyesuaikan sidebar collapsed */
+    margin-right: 25px;
+    /* Jarak dari kanan */
+    margin-bottom: 55px;
+    /* Jarak untuk footer */
+    transition: margin-left 0.3s ease;
+    /* Animasi jika sidebar berubah */
 }
 
 /* Center Content in Card Container */

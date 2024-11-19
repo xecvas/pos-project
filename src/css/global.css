@@ -150,9 +150,12 @@ a:hover {
 }
 
 @keyframes blink {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
     }
+
     50% {
         opacity: 0;
     }
@@ -198,7 +201,8 @@ a:hover {
     margin-top: 5px;
     display: flex;
     align-items: center;
-    white-space: nowrap; /* Mencegah teks membungkus */
+    white-space: nowrap;
+    /* Mencegah teks membungkus */
     transition: padding 0.3s, margin-right 0.3s;
     margin-left: 5px;
 }
@@ -362,4 +366,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
     border-color: #ccc;
 }
 
-
+/* Menyembunyikan backdrop ketika modal dibuka */
+.modal-backdrop {
+    display: none !important;
+}

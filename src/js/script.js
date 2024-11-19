@@ -5,6 +5,40 @@ $(document).ready(function () {
   const searchInput = $("input[placeholder='Search Version']");
   const releaseNotesAccordion = $("#accordion-release-notes");
 
+  $(".notification").on("click", () => {
+    const latestRelease = ReleaseData?.[0];
+    if (latestRelease) {
+      $("#modalContent").html(`
+            <h5>${latestRelease.version} - ${latestRelease.date}</h5>
+            <ul>${latestRelease.features
+              .map((feature) => `<li>${feature}</li>`)
+              .join("")}</ul>
+        `);
+      $("#releaseModal").modal("show");
+    }
+  });
+
+  const modalHTML = `
+      <div class="modal fade" id="releaseModal" tabindex="-1" aria-labelledby="releaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="releaseModalLabel">Latest Release</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Konten akan diisi oleh JavaScript -->
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <a href="/release-note" id="seeAllReleases" class="btn btn-link" style="text-decoration: none;"><b>See
+                        All Releases</b></a>
+            </div>
+        </div>
+    </div>
+</div>
+  `;
+  $("#dynamicModalContainer").html(modalHTML);
+
   function renderLoginPageAccordion() {
     const latestRelease = ReleaseData?.[0];
     if (latestRelease) {
@@ -34,7 +68,6 @@ $(document).ready(function () {
   }
 
   function renderReleaseNotesAccordion() {
-    const releaseNotesAccordion = $("#accordion-release-notes");
     releaseNotesAccordion.empty();
 
     ReleaseData.forEach((release, index) => {
@@ -91,18 +124,12 @@ $(document).ready(function () {
     filterReleaseNotes(query); // Panggil fungsi filter
   });
 
-  // Optional: Event listener untuk tombol pencarian
-  $("#searchForm button").on("click", function () {
-    const query = searchInput.val();
-    filterReleaseNotes(query);
-  });
-
   // Debounced search input event
   let debounceTimeout;
   searchInput.on("input", function () {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
-      renderFilteredReleaseNotes($(this).val().toLowerCase());
+      filterReleaseNotes($(this).val());
     }, 300);
   });
 
@@ -178,20 +205,6 @@ $(document).ready(function () {
     const isPassword = passwordInput.attr("type") === "password";
     passwordInput.attr("type", isPassword ? "text" : "password");
     $("#eyeIcon").toggleClass("fa-eye fa-eye-slash");
-  });
-
-  // Show latest release in modal
-  $(".notification").on("click", () => {
-    const latestRelease = ReleaseData?.[0];
-    if (latestRelease) {
-      $("#modalContent").html(`
-        <h5>${latestRelease.version} - ${latestRelease.date}</h5>
-        <ul>${latestRelease.features
-          .map((feature) => `<li>${feature}</li>`)
-          .join("")}</ul>
-      `);
-      $("#releaseModal").modal("show");
-    }
   });
 
   // Redirect to all releases page

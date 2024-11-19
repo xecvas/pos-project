@@ -60,11 +60,14 @@
                         </ul>
                     </li>
                 </ul>
+
                 <!-- Notifications Icon -->
                 <div class="notification">
-                    <i class="fas fa-bell fa-lg"></i>
+                    <div id="dynamicModalContainer"></div>
+                    <i class="fas fa-bell fa-lg" data-toggle="modal" data-target="#releaseModal"></i>
                     <span class="dot"></span>
                 </div>
+
                 <!-- Dark Mode Toggle -->
                 <div>
                     <input type="checkbox" class="checkbox" id="checkbox">
@@ -105,38 +108,17 @@
                     <span class="label">Settings</span>
                 </a>
             </li>
-        </ul>        
+        </ul>
     </div>
 
     <div class="main-content">
-        
+
     </div>
     <!-- Footer Section -->
     <footer class="text-center">
         <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project"> &copy;
             2024 POS Project. All rights reserved.</p>
     </footer>
-
-    <!-- Modal -->
-    <div class="modal fade" id="releaseModal" tabindex="-1" aria-labelledby="releaseModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="releaseModalLabel">Latest Release</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modalContent">
-                    <!-- Konten akan diisi oleh JavaScript -->
-                </div>
-                <div class="modal-footer" style="border-top: none;">
-                    <!-- Hyperlink tanpa garis bawah -->
-                    <a href="/release-note" id="seeAllReleases" class="btn btn-link"
-                        style="text-decoration: none;"><b>See All Releases</b></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </body>
 
 </html>
