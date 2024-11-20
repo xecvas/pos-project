@@ -25,7 +25,7 @@ The POS Project is a web application designed to manage a point-of-sale system f
   - Math.js for mathematical operations
 
 ## File Structure
-.
+```bash
 src/ 
 ├── css/ 
 │ ├── global.css 
@@ -46,6 +46,7 @@ src/
 │ ├── main.py 
 │ └── database.py
 └── README.md
+```
 
 ## Installation
 1. Clone the repository:
