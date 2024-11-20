@@ -1,0 +1,12 @@
+{
+  "name": "pos-project",
+  "version": "1.0.0",
+  "description": "The POS Project is a web application designed to manage a point-of-sale system for the food and beverage industry. It provides functionalities for managing menus, release notes, user accounts, and settings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
