@@ -7,7 +7,9 @@
 }
 
 body {
-    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px; /* Ukuran default body */
+    line-height: 1.5;
     background-color: #e9e1e1;
     color: black;
 }
@@ -179,7 +181,6 @@ a:hover {
     height: 100vh;
     position: fixed;
     top: 55px;
-    left: 0;
     background-color: white;
     color: black;
     overflow-x: hidden;
@@ -197,16 +198,18 @@ a:hover {
 }
 
 .sidebar ul li {
-    padding: 15px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
+    padding: 10px; /* Kurangi padding untuk mengurangi jarak antar ikon */
+    margin-top: 0; /* Hilangkan margin top pada setiap item */
+    display: flex; /* Flexbox untuk menyusun ikon dan label */
+    align-items: center; /* Menjaga ikon dan label sejajar vertikal */
     white-space: nowrap;
-    /* Mencegah teks membungkus */
     transition: padding 0.3s, margin-right 0.3s;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
+.sidebar ul li:first-child {
+    margin-top: 5px; /* Tambahkan jarak lebih besar dari ikon pertama ke navbar */
+}
 
 .sidebar ul li i {
     font-size: 20px;
@@ -218,16 +221,18 @@ a:hover {
 }
 
 .sidebar ul li .label {
-    margin-left: 10px;
+    margin-left: 5px; /* Jarak horizontal dari ikon */
+    position: relative; /* Mengaktifkan penyesuaian posisi */
+    top: -3px; /* Menggeser label ke atas sebesar 5px */
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s, margin-left 0.3s;
+    transition: opacity 0.3s, margin-left 0.3s, top 0.3s;
 }
 
 .sidebar.expanded ul li .label {
     opacity: 1;
     visibility: visible;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .sidebar:not(.expanded) ul li .label {
@@ -255,15 +260,28 @@ a:hover {
 
 /* Responsive Typography */
 h1 {
-    font-size: 22px;
+    font-size: 36px;
+    font-weight: bold;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+h4 {
     font-size: 18px;
+    font-weight: bold;
+}
+
+.label, .small-text {
+    font-size: 14px;
+    color: black;
 }
 
 /* Table Styles */
@@ -364,9 +382,4 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
     background-color: #e9ecef;
     border-color: #ccc;
-}
-
-/* Menyembunyikan backdrop ketika modal dibuka */
-.modal-backdrop {
-    display: none !important;
 }

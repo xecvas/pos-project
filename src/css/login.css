@@ -1,10 +1,13 @@
 /* Body and Centered Container */
 body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     color: black;
-    font-size: 16px;
 }
 
 .container {
