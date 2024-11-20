@@ -3,6 +3,17 @@
 ## Overview
 The POS Project is a web application designed to manage a point-of-sale system for the food and beverage industry. It provides functionalities for managing menus, release notes, user accounts, and settings.
 
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [File Structure](#file-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
 ## Features
 - **User  Authentication**: Secure login and logout functionalities.
 - **Dashboard**: Overview of menu statistics including total menu items, categorized counts, and active/inactive status.
