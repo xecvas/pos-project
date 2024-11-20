@@ -24,6 +24,29 @@ The POS Project is a web application designed to manage a point-of-sale system f
   - DataTables for enhanced table functionalities
   - Math.js for mathematical operations
 
+## File Structure
+.
+src/ 
+├── css/ 
+│ ├── global.css 
+│ └── index.css 
+├── docs/ 
+│ ├── index.html 
+│ ├── login.html 
+│ ├── release-note.html 
+│ ├── settings.html 
+│ └── list-menu.html 
+├── js/ 
+│ ├── main.js 
+│ ├── event-handlers.js 
+│ ├── modal-handler.js 
+│ ├── datatable-init.js 
+│ └── ReleaseData.js 
+├── python/ 
+│ ├── main.py 
+│ └── database.py
+└── README.md
+
 ## Installation
 1. Clone the repository:
    ```bash
@@ -40,11 +63,16 @@ The POS Project is a web application designed to manage a point-of-sale system f
 ## Usage
 Access the application via http://localhost:5000.
 Use the provided login credentials to access the dashboard and other functionalities.
-Contributing
-Contributions are welcome! Please submit a pull request or open an issue for any enhancements or bug fixes.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
-Acknowledgements
+Please make sure to update tests as appropriate.
+
+## License
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License - see the LICENSE file for details.
+
+## Acknowledgements
 Thanks to all contributors and libraries used in this project.
+
