@@ -24,18 +24,17 @@ The POS Project is a web application designed to manage a point-of-sale system f
   - DataTables for enhanced table functionalities
   - Math.js for mathematical operations
 
-## File Structure
-src/ ├── css/ │ ├── global.css │ └── index.css ├── docs/ │ ├── index.html │ ├── login.html │ ├── release-note.html │ ├── settings.html │ └── list-menu.html ├── js/ │ ├── main.js │ ├── event-handlers.js │ ├── modal-handler.js │ ├── datatable-init.js │ └── ReleaseData.js └── python/ ├── main.py └── database.py
-
 ## Installation
 1. Clone the repository:
    ```bash
    git clone https://github.com/xecvas/pos-project.git
    cd pos-project
 2. Install the required Python packages:
+   ```bash
    pip install -r requirements.txt
 3. Set up the PostgreSQL database and update the DATABASE_URL in database.py with your credentials.
 4. Run the application:
+   ```bash
    python src/python/main.py
 
 ## Usage
