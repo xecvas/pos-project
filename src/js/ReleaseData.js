@@ -1,84 +1,119 @@
-// ReleaseData.js
 const ReleaseData = [
+  {
+    version: "1.7.0",
+    date: "20/10/2024",
+    features: {
+      added: [
+        "Split JavaScript code into multiple files.",
+        "Form modal for adding and editing menu.",
+      ],
+      fixed: ["Various issues in the list-menu page."],
+      improvements: ["General bug fixes and performance enhancements."],
+    },
+  },
   {
     version: "1.6.0",
     date: "19/10/2024",
-    features: [
-      "search bar in release-note is usable now",
-      "added settings page.",
-      "added release notes to sidebar.",
-      "added functional button to menu page",
-      "move list menu from dashboard to list-menu page.",
-      "move ReleaseNote modal to js file",
-      "renew some icons and colours",
-      "remove ReleaseNote modal from all page",
-      "fix css code for main-content thing",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: [
+        "Search bar functionality in release notes.",
+        "Settings page.",
+        "Release notes in the sidebar.",
+        "Functional buttons on the menu page.",
+      ],
+      moved: [
+        "List menu from the dashboard to the list-menu page.",
+        "ReleaseNote modal to a separate JavaScript file.",
+      ],
+      removed: ["ReleaseNote modal from all pages."],
+      improved: [
+        "Updated icons and colors.",
+        "Improved CSS styling for main content.",
+        "General bug fixes and performance enhancements.",
+      ],
+    },
   },
   {
     version: "1.5.0",
     date: "18/10/2024",
-    features: [
-      "added menu database.",
-      "added pagination for menu table.",
-      "fix sidebar effect.",
-      "card in main page show total menu now",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: [
+        "Menu database.",
+        "Pagination for the menu table.",
+        "Total menu count displayed on the main page card.",
+      ],
+      fixed: ["Sidebar visual effects."],
+      improvements: ["General bug fixes and performance enhancements."],
+    },
   },
   {
     version: "1.4.0",
     date: "17/10/2024",
-    features: [
-      "added card in main page.",
-      "add background image in login page.",
-      "table pagination at middle of page.",
-      "fix posititon of main-content",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: [
+        "Card feature on the main page.",
+        "Background image for the login page.",
+      ],
+      fixed: [
+        "Pagination alignment on the page.",
+        "Positioning of the main content.",
+      ],
+      improvements: ["General bug fixes and performance enhancements."],
+    },
   },
   {
     version: "1.3.0",
     date: "16/10/2024",
-    features: [
-      "can see all release data in release-note.",
-      "split css for each component.",
-      "fix release-note page",
-      "fix font size for all page",
-      "fix UI design.",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: ["View all release notes in the release-note page."],
+      fixed: [
+        "Release-note page functionality.",
+        "Font sizes across all pages.",
+        "UI design consistency.",
+      ],
+      improvements: [
+        "Separated CSS files for each component.",
+        "General bug fixes and performance enhancements.",
+      ],
+    },
   },
   {
     version: "1.2.0",
     date: "13/10/2024",
-    features: [
-      "version info show next to logo.",
-      "Added sidebar and burger button.",
-      "Added some new UI design.",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: [
+        "Version information displayed next to the logo.",
+        "Sidebar and burger menu button.",
+        "New UI design enhancements.",
+      ],
+      improvements: ["General bug fixes and performance enhancements."],
+    },
   },
   {
     version: "1.1.0",
     date: "12/10/2024",
-    features: [
-      "New UI design.",
-      "Added notification icon in main page.",
-      "fix dark/light mode for all pages.",
-      "fix user session when login",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: ["Notification icon on the main page."],
+      fixed: [
+        "Dark/light mode compatibility across all pages.",
+        "User session handling during login.",
+      ],
+      improvements: [
+        "Redesigned user interface.",
+        "General bug fixes and performance enhancements.",
+      ],
+    },
   },
   {
     version: "1.0.0",
     date: "11/10/2024",
-    features: [
-      "Added toggle feature to show/hide password field.",
-      "Improved toggling functionality.",
-      "Enhanced UI design.",
-      "Other bug fixes and improvements.",
-    ],
+    features: {
+      added: ["Password field toggle feature."],
+      improved: [
+        "Toggling functionality.",
+        "User interface design.",
+        "General bug fixes and performance enhancements.",
+      ],
+    },
   },
 ];
