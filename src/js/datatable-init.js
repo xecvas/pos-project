@@ -5,7 +5,11 @@ const formatRupiah = (value) =>
   // Function to initialize DataTable
   export function initDataTable() {
     $("#mymenu").DataTable({
-      columnDefs: [{ visible: false, targets: 0 }], // Hide ID column
+      columnDefs: [
+        { visible: false, targets: 0 }, // Hide ID column
+        { className: "dt-left", targets: 1 },
+        { className: "dt-center", targets: [2, 3, 4, 5, 6, 7] }, // Center content for specific columns
+      ], // Hide ID column
       processing: true,
       serverSide: true,
       ajax: {
@@ -28,7 +32,6 @@ const formatRupiah = (value) =>
           data: null,
           title: "Action",
           orderable: false,
-          className: "text-center",
           render: (row) => `
             <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
             <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>

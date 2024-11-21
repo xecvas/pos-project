@@ -119,10 +119,10 @@
             <button class="btn btn-success text-white" id="export-excel">
                 <i class="fa fa-download"></i> Export ke Excel
             </button>
-            <button class="btn btn-success text-white" id="import-excel"  data-bs-toggle="modal" data-bs-target="#tester">
+            <button class="btn btn-success text-white" id="import-excel">
                 <i class="fa fa-upload"></i> Import dari Excel
             </button>
-            <button class="btn btn-primary text-white" id="add-menu">
+            <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal" data-bs-target="#AddMenu">
                 <i class="fa fa-plus"></i> Add Menu
             </button>
         </div>
@@ -165,87 +165,90 @@
                 2024 POS Project. All rights reserved.</p>
         </footer>
 
-        <!-- input data form -->
-        <div class="modal fade" id="tester" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="formModalLabel">Product Form</h5>
-                    </div>
+        <!-- Add Menu Form -->
+        <div class="modal fade" id="AddMenu" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Tambahkan modal-lg -->
+                <div class="modal-content custom-modal-width"> <!-- Tambahkan kelas kustom -->
                     <div class="modal-body">
                         <form id="productForm" method="POST" action="/add_product">
-                            <!-- Nama Pengguna -->
-                            <div class="mb-3">
-                                <label for="namapengguna" class="form-label">Nama Pengguna</label>
-                                <input type="text" class="form-control" id="namapengguna" name="namapengguna"
-                                    placeholder="Masukkan Nama Pengguna">
+                            <h3><i class="fa fa-plus"></i> Add New Menu</h3>
+                            <!-- Nama Menu -->
+                            <div class="mb-3 spacer">
+                                <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
+                                <input type="text" class="form-control" id="nama_menu" name="nama_menu"
+                                    placeholder="Masukkan Nama Menu" required>
                             </div>
 
                             <!-- Kode -->
                             <div class="mb-3">
-                                <label for="kode" class="form-label">Kode</label>
+                                <label for="kode" class="form-label fw-semibold">Kode</label>
                                 <input type="text" class="form-control" id="kode" name="kode"
-                                    placeholder="Masukkan Kode">
+                                    placeholder="Masukkan Kode" required>
                             </div>
 
-                            <!-- Nama Barang -->
-                            <div class="mb-3">
-                                <label for="namabarang" class="form-label">Nama Barang</label>
-                                <input type="text" class="form-control" id="namabarang" name="namabarang"
-                                    placeholder="Masukkan Nama Barang">
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="mb-3">
-                                <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity"
-                                    placeholder="Masukkan Quantity">
-                            </div>
-
-                            <!-- Berat -->
-                            <div class="mb-3">
-                                <label for="berat" class="form-label">Berat</label>
-                                <input type="number" step="0.01" class="form-control" id="berat" name="berat"
-                                    placeholder="Masukkan Berat (kg)">
+                            <!-- Kategori -->
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="kategori" class="form-label fw-semibold">Kategori</label>
+                                    <input type="text" class="form-control" id="kategori" name="kategori"
+                                        placeholder="Masukkan Kategori">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
+                                    <input type="number" class="form-control" id="sub_kategori" name="sub_kategori"
+                                        placeholder="Masukkan Sub Kategori">
+                                </div>
                             </div>
 
                             <!-- Harga -->
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            <div class="input-group mt-4 mb-3">
+                                <span class="input-group-text bg-light">Rp</span>
                                 <input type="text" class="form-control" id="harga" name="harga"
-                                    placeholder="Masukkan Harga" onclick="toggleCalculator(this)">
-                                <span class="input-group-text calculator-icon">
-                                    <img src="https://img.icons8.com/ios-glyphs/30/000000/calculator.png"
-                                        alt="Calculator Icon">
-                                </span>
+                                    placeholder="Masukkan Harga" required>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    <i class="fa fa-calculator"></i>
+                                </button>
                             </div>
 
-                            <!-- Shipping Status -->
-                            <div class="input-group mb-3">
-                                <select class="form-select" id="shippingstatus" name="shippingstatus">
-                                    <option disabled selected>Shipping Status...</option>
-                                    <option disabled selected value="delivered">delivered</option>
-                                    <option disabled selected value="pending">pending</option>
-                                    <option disabled selected value="canceled">canceled</option>
-                                    <option disabled selected value="on process">on process</option>
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label for="status" class="form-label fw-semibold">Status</label>
+                                <select class="form-select" id="status" name="status" required>
+                                    <option disabled selected>Pilih Status</option>
+                                    <option value="aktif">Aktif</option>
+                                    <option value="tidak_aktif">Tidak Aktif</option>
                                 </select>
                             </div>
 
-                            <!-- Payment Status -->
-                            <div class="input-group mb-3">
-                                <select class="form-select" id="paymentstatus" name="paymentstatus">
-                                    <option disabled selected>Payment Status...</option>
-                                    <option disabled selected value="paymented">paymented</option>
-                                    <option disabled selected value="pending">pending</option>
-                                    <option disabled selected value="canceled">canceled</option>
-                                    <option disabled selected value="on process">on process</option>
-                                </select>
+                            <!-- Deskripsi -->
+                            <div class="mb-3">
+                                <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
+                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"
+                                    placeholder="Masukkan Deskripsi"></textarea>
+                            </div>
+
+                            <!-- Gambar Menu -->
+                            <div class="mb-3">
+                                <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
+                                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                <label for="tags" class="form-label fw-semibold">Tags</label>
+                                <input type="text" class="form-control" id="tags" name="tags"
+                                    placeholder="Contoh: spicy, vegan, bestseller">
+                            </div>
+
+                            <div class="modal-footer" style="border-top: none;">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> Submit
+                                </button>
                             </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" form="productForm" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </div>

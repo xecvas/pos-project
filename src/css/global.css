@@ -433,3 +433,25 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
     background-color: #e9ecef;
     border-color: #ccc;
 }
+
+/* Center all columns using dt-center */
+table.dataTable td.dt-center, 
+table.dataTable th.dt-center {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 8px !important; /* Padding atas-bawah 8px, samping 0 */
+}
+
+/* Center all columns using dt-center */
+table.dataTable td.dt-left, 
+table.dataTable th.dt-left {
+  text-align: left !important;
+  vertical-align: middle !important;
+  padding: 8px !important; /* Padding atas-bawah 8px, samping 0 */
+}
+
+/* Optional: Adjust row height for a cleaner appearance */
+table.dataTable tbody tr {
+    height: auto; /* Automatically adjust height */
+    line-height: 1.5; /* Ensures proper spacing between rows */
+  }

@@ -24,13 +24,19 @@ export function initModals() {
   $(".notification").on("click", () => {
     const latestRelease = ReleaseData?.[0];
     if (latestRelease) {
+      const featuresHTML = Object.entries(latestRelease.features)
+        .map(
+          ([category, items]) =>
+            `<strong>${category.charAt(0).toUpperCase() + category.slice(1)}:</strong>
+             <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
+        )
+        .join("");
+  
       $("#modalContent").html(`
-          <h5>${latestRelease.version} - ${latestRelease.date}</h5>
-          <ul>${latestRelease.features
-            .map((feature) => `<li>${feature}</li>`)
-            .join("")}</ul>
-        `);
-
+        <h5>${latestRelease.version} - ${latestRelease.date}</h5>
+        ${featuresHTML}
+      `);
+  
       $("#releaseModal")
         .modal({
           backdrop: false, // Disable modal backdrop
@@ -39,6 +45,7 @@ export function initModals() {
         .modal("show");
     }
   });
+  
 
   // Close modal if clicking outside
   $(document).on("click", (event) => {
