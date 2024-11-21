@@ -1,6 +1,7 @@
 /* Main Content Layout */
 .main-content {
-    background-color: transparent;
+    background-color: var(--body-bg);
+  color: var(--text-color);
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -10,6 +11,7 @@
     margin-right: 25px;
     margin-bottom: 55px;
     transition: margin-left 0.3s ease;
+
 }
 
 /* Center Content in Card Container */

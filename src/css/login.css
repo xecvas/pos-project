@@ -7,7 +7,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
+    background-color: var(--body-bg);
+  color: black;
 }
 
 .container {
@@ -37,7 +38,7 @@ body {
 /* Right Section Styling */
 .right-section {
     padding: 40px;
-    background-color: white;
+    background-color: var(--right-section-bg);
     width: 400px;
     display: flex;
     flex-direction: column;
