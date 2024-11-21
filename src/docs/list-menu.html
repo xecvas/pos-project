@@ -115,17 +115,70 @@
         <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In numquam omnis, necessitatibus doloribus
             excepturi aliquid corrupti animi! Labore explicabo, optio perspiciatis, aperiam ab voluptatem dolorem vitae
             assumenda odio, eos rerum.</h3>
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-success text-white" id="export-excel">
-                <i class="fa fa-download"></i> Export ke Excel
-            </button>
-            <button class="btn btn-success text-white" id="import-excel">
-                <i class="fa fa-upload"></i> Import dari Excel
-            </button>
-            <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal" data-bs-target="#AddMenu">
-                <i class="fa fa-plus"></i> Add Menu
-            </button>
+        
+
+        <div class="d-flex justify-content-start mb-3">
+            <div class="d-flex align-items-center mb-3">
+                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
+                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        All
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
+                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
+                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        All
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
+                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
+                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        All
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
+                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <button class="btn btn-success text-white" style="margin-right: 30px;" id="export-excel">
+                    <i class="fa fa-download"></i> Export ke Excel
+                </button>
+                <button class="btn btn-success text-white" style="margin-right: 30px;" id="import-excel">
+                    <i class="fa fa-upload"></i> Import dari Excel
+                </button>
+                <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal" data-bs-target="#AddMenu">
+                    <i class="fa fa-plus"></i> Add Menu
+                </button>
+            </div>
         </div>
+
         <div class="table-container">
             <!-- show data from myDatabase -->
             <table id="mymenu" class="table table-striped" style="width:100%">

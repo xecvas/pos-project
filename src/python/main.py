@@ -117,60 +117,67 @@ def tester():
 def get_data():
     session = SessionLocal()
     try:
-        page = int(request.args.get('page', 1))
-        per_page = int(request.args.get('per_page', 10))
-        offset = (page - 1) * per_page
-        search_value = request.args.get('search[value]', '')  # Get the search value
+        draw = int(request.args.get('draw', 1))  # Draw counter for synchronization
+        start = int(request.args.get('start', 0))  # Offset
+        length = int(request.args.get('length', 10))  # Limit
+        search_value = request.args.get('search[value]', '')  # Search input
+        order_column = request.args.get('order[0][column]', '3')  # Default to 'Category'
+        order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction
 
-# Sorting parameters
-        order_column = request.args.get('order[0][column]')  # Column index for sorting
-        order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction (asc/desc)
+        # Map DataTables column index to database fields
+        column_map = {
+            "0": "id",
+            "1": "nama_menu",
+            "2": "kode",
+            "3": "kategori",  # 'Category' column
+            "4": "sub_kategori",
+            "5": "harga",
+            "6": "status",
+        }
 
-        # Map DataTables column index to database column
-        columns = ['id', 'nama_menu', 'kode', 'kategori', 'sub_kategori', 'harga', 'status']
-        if order_column:
-            order_column = columns[int(order_column)]
-        else:
-            order_column = 'id'  # Default column to sort by
+        # Get the column name for sorting
+        order_column_name = column_map.get(order_column, "kategori")  # Default to 'Category'
 
-        # Base query
+        # Build the base query
         query = session.query(menu)
 
-        # If there's a search value, filter the query
+        # Apply search filter if a search value is provided
         if search_value:
             search_value = f"%{search_value}%"
             query = query.filter(
-                menu.nama_menu.ilike(search_value) |  # Search in 'nama_pengguna'
-                menu.kode.ilike(search_value) # Search in 'kode'
+                menu.nama_menu.ilike(search_value) |
+                menu.kode.ilike(search_value) |
+                menu.kategori.ilike(search_value)
             )
 
-# Apply sorting
-        if order_dir == 'asc':
-            query = query.order_by(getattr(menu, order_column).asc())
+        # Apply sorting
+        if order_dir == "asc":
+            query = query.order_by(getattr(menu, order_column_name).asc())
         else:
-            query = query.order_by(getattr(menu, order_column).desc())
+            query = query.order_by(getattr(menu, order_column_name).desc())
 
         # Total records before filtering
         total_records = session.query(menu).count()
 
-        # Filtered records
+        # Filtered records count
         filtered_records = query.count()
-        # Paginate and count rows
-        total_rows = query.count()
-        menus_query = query.limit(per_page).offset(offset)
 
-        data = [menu.to_dict() for menu in menus_query]
+        # Apply pagination
+        data_query = query.offset(start).limit(length).all()
 
+        # Convert data to dictionary format
+        data = [menu.to_dict() for menu in data_query]
+
+        # Construct the response
         response = {
-            'data': data,
-            'recordsTotal': total_rows,
-            'recordsFiltered': total_rows,  # Adjust if using filters
-            'page': page
+            "draw": draw,
+            "recordsTotal": total_records,
+            "recordsFiltered": filtered_records,
+            "data": data,
         }
         return jsonify(response)
     finally:
         session.close()
-
 
 def get_menu_stats():
     session = SessionLocal()

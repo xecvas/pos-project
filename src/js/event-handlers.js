@@ -27,4 +27,20 @@ export function addGlobalEventListeners() {
       $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
     });
   });
+
+  $(document).on("click", ".dropdown-item", function (e) {
+    e.preventDefault();
+  
+    const selectedText = $(this).text(); // Get the selected dropdown text
+    const filterValue = $(this).data("filter"); // Get the filter value
+  
+    // Update the dropdown button text
+    $("#dropdownKategori").text(selectedText);
+  
+    // Apply filtering to the DataTable
+    window.myTable.column(3).search(filterValue).draw(); // Use the global DataTable instance
+  });
+  
+  
+  
 }
