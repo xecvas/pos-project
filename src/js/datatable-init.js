@@ -1,9 +1,10 @@
 // Format currency to Rupiah
 const formatRupiah = (value) =>
-    "Rp. " + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  
-  // Function to initialize DataTable
-  export function initDataTable() {
+  "Rp. " + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+// Function to initialize DataTable
+export function initDataTable() {
+  $("#testing").DataTable({}),
     $("#mymenu").DataTable({
       columnDefs: [
         { visible: false, targets: 0 }, // Hide ID column
@@ -13,12 +14,12 @@ const formatRupiah = (value) =>
       processing: true,
       serverSide: true,
       ajax: {
-        url: "/data", // Endpoint for fetching data
+        url: "/data",
         type: "GET",
-        data: (d) => ({
-          page: Math.ceil(d.start / d.length) + 1, // Calculate page number
-          per_page: d.length, // Items per page
-        }),
+        data: function (d) {
+          d.page = Math.ceil(d.start / d.length) + 1;
+          d.per_page = d.length;
+        },
       },
       columns: [
         { data: "id", title: "ID" },
@@ -52,5 +53,4 @@ const formatRupiah = (value) =>
         this.api().columns().header().to$().addClass("text-center");
       },
     });
-  }
-  
+}

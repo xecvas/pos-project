@@ -108,15 +108,9 @@ def list_menu():
 def settings():
     return render_template('settings.html')
 
-@app.route('/create-menu')
-@login_required
-def create_menu():
-    return render_template('create-menu.html')
-
-@app.route('/edit-menu')
-@login_required
-def edit_menu():
-    return render_template('edit-menu.html')
+@app.route('/tester')
+def tester():
+    return render_template('tester.html')
 
 # Get data from the database with pagination
 @app.route('/data', methods=['GET'])
@@ -128,6 +122,17 @@ def get_data():
         offset = (page - 1) * per_page
         search_value = request.args.get('search[value]', '')  # Get the search value
 
+# Sorting parameters
+        order_column = request.args.get('order[0][column]')  # Column index for sorting
+        order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction (asc/desc)
+
+        # Map DataTables column index to database column
+        columns = ['id', 'nama_menu', 'kode', 'kategori', 'sub_kategori', 'harga', 'status']
+        if order_column:
+            order_column = columns[int(order_column)]
+        else:
+            order_column = 'id'  # Default column to sort by
+
         # Base query
         query = session.query(menu)
 
@@ -136,14 +141,25 @@ def get_data():
             search_value = f"%{search_value}%"
             query = query.filter(
                 menu.nama_menu.ilike(search_value) |  # Search in 'nama_pengguna'
-                menu.kode.ilike(search_value)            # Search in 'kode'
+                menu.kode.ilike(search_value) # Search in 'kode'
             )
 
+# Apply sorting
+        if order_dir == 'asc':
+            query = query.order_by(getattr(menu, order_column).asc())
+        else:
+            query = query.order_by(getattr(menu, order_column).desc())
+
+        # Total records before filtering
+        total_records = session.query(menu).count()
+
+        # Filtered records
+        filtered_records = query.count()
         # Paginate and count rows
         total_rows = query.count()
-        daftar_menu_query = query.limit(per_page).offset(offset)
+        menus_query = query.limit(per_page).offset(offset)
 
-        data = [menu.to_dict() for menu in daftar_menu_query]
+        data = [menu.to_dict() for menu in menus_query]
 
         response = {
             'data': data,
@@ -154,6 +170,7 @@ def get_data():
         return jsonify(response)
     finally:
         session.close()
+
 
 def get_menu_stats():
     session = SessionLocal()
