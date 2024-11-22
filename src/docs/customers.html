@@ -10,7 +10,7 @@
     <meta name="author" content="Xecvas">
 
     <!-- Page Title -->
-    <title>POS Project - Release Notes</title>
+    <title>POS Project - Menu</title>
     <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon">
 
     <!-- CSS Dependencies -->
@@ -125,18 +125,47 @@
 
     <!-- Main Content Section -->
     <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="mb-0">Release Notes</h4>
-            <!-- Search Bar -->
-            <form class="d-flex mb-2" role="search">
-                <input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search Version"
-                    aria-label="Search">
-            </form>
+        <div class="table-container">
+            <!-- show data from myDatabase -->
+            <table id="mycustomer" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Umur</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Roles</th>
+                        <th>Royalty Point</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in daftar_customer %}
+                    <tr>
+                        <td>{{ customer.id }}</td>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.birthday }}</td>
+                        <td>{{ customer.age }}</td>
+                        <td>{{ customer.gender }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.phone }}</td>
+                        <td>{{ customer.address }}</td>
+                        <td>{{ customer.city }}</td>
+                        <td>{{ customer.country }}</td>
+                        <td>{{ customer.roles_type }}</td>
+                        <td>{{ customer.royalty_point }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <!-- Latest Release Info -->
-        <div id="latest-release-info" class="latest-release-info"></div>
-        <!-- Accordion for Release Notes -->
-        <div class="accordion" id="accordion-release-notes"></div>
     </div>
 
     <!-- Footer Section -->

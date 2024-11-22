@@ -87,12 +87,12 @@
 
                 <form class="login-form" action="/login" method="post">
                     <div class="mb-3">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                        <input type="email" class="form-control" id="login_email" name="login_email" placeholder="Enter your email"
                             required>
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <input type="password" class="form-control" id="password" name="password"
+                            <input type="password" class="form-control" id="login_password" name="login_password"
                                 placeholder="Enter your password" required>
                             <span class="input-group-text" id="togglePassword">
                                 <i class="fas fa-eye" id="eyeIcon"></i>
@@ -101,7 +101,8 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Login</button>
                     <div class="mt-3 text-center">
-                        <a href="#" class="forgot-password">Forgot Password?</a>
+                        <a href="#" class="forgot-password" data-bs-toggle="modal"
+                            data-bs-target="#forgot">Forgot Password?</a>
                     </div>
                 </form>
             </div>
@@ -113,6 +114,32 @@
         <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project"> &copy;
             2024 POS Project. All rights reserved.</p>
     </footer>
+
+    <div class="modal fade" id="forgot" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted text-center">
+                        Enter your email address and we'll send you a link to reset your password.
+                    </p>
+                    <form action="#" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="forgot_email" name="forgot_email"
+                                placeholder="Enter your email" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

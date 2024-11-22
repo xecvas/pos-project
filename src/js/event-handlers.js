@@ -4,7 +4,7 @@ export function addGlobalEventListeners() {
 
   // Toggle password visibility
   $("#togglePassword").on("click", () => {
-    const passwordInput = $("#password");
+    const passwordInput = $("#login_password");
     const isPassword = passwordInput.attr("type") === "password";
     passwordInput.attr("type", isPassword ? "text" : "password");
     $("#eyeIcon").toggleClass("fa-eye fa-eye-slash");
@@ -20,6 +20,7 @@ export function addGlobalEventListeners() {
     window.location.href = "/export_excel";
   });
 
+  //release-note search bar for version
   $('input[type="search"]').on("keyup", function () {
     var searchTerm = $(this).val().toLowerCase();
     // Filter elemen berdasarkan input pencarian
@@ -27,20 +28,12 @@ export function addGlobalEventListeners() {
       $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
     });
   });
+  
+  // Select the latest version from ReleaseData and set in navbar
+  const projectTitle = document.querySelector(".navbar-brand .project-version");
 
-  $(document).on("click", ".dropdown-item", function (e) {
-    e.preventDefault();
-  
-    const selectedText = $(this).text(); // Get the selected dropdown text
-    const filterValue = $(this).data("filter"); // Get the filter value
-  
-    // Update the dropdown button text
-    $("#dropdownKategori").text(selectedText);
-  
-    // Apply filtering to the DataTable
-    window.myTable.column(3).search(filterValue).draw(); // Use the global DataTable instance
-  });
-  
-  
-  
+  if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
+    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
+    projectTitle.textContent = `v${latestVersion}`;
+  }
 }

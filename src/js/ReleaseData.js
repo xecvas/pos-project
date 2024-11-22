@@ -1,6 +1,20 @@
 const ReleaseData = [
   {
-    version: "180",
+    version: "1.8.1",
+    date: "22/10/2024",
+    features: {
+      added: [
+        "customer page and customer list"
+      ],
+      fixed: [
+        "Various issues in JavaScript",
+        "the issue with the data not displaying correctly"
+      ],
+      improvements: ["General bug fixes and performance enhancements"],
+    },
+  },
+  {
+    version: "1.8.0",
     date: "21/10/2024",
     features: {
       added: [
@@ -17,7 +31,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "170",
+    version: "1.7.0",
     date: "20/10/2024",
     features: {
       added: [
@@ -29,7 +43,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "160",
+    version: "1.6.0",
     date: "19/10/2024",
     features: {
       added: [
@@ -51,7 +65,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "150",
+    version: "1.5.0",
     date: "18/10/2024",
     features: {
       added: [
@@ -64,7 +78,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "140",
+    version: "1.4.0",
     date: "17/10/2024",
     features: {
       added: [
@@ -79,7 +93,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "130",
+    version: "1.3.0",
     date: "16/10/2024",
     features: {
       added: ["View all release notes in the release-note page"],
@@ -95,7 +109,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "120",
+    version: "1.2.0",
     date: "13/10/2024",
     features: {
       added: [
@@ -107,7 +121,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "110",
+    version: "1.1.0",
     date: "12/10/2024",
     features: {
       added: ["Notification icon on the main page"],
@@ -122,7 +136,7 @@ const ReleaseData = [
     },
   },
   {
-    version: "100",
+    version: "1.0.0",
     date: "11/10/2024",
     features: {
       added: ["Password field toggle feature"],

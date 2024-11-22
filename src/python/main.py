@@ -4,8 +4,10 @@ import os
 from flask import Flask, flash, request, jsonify, send_from_directory, render_template, redirect, session, url_for, send_file
 from io import BytesIO
 import pandas as pd
+from sqlalchemy import String, cast
 from sqlalchemy.orm import sessionmaker
-from database import menu, SessionLocal
+from database import menu
+from database import customer, SessionLocal
 
 # Define the base directory to ensure Flask can find templates and assets correctly
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -56,8 +58,8 @@ def login():
         return redirect(url_for('index'))  # Jika sudah login, langsung ke index
 
     if request.method == 'POST':
-        username = request.form.get('email')
-        password = request.form.get('password')
+        username = request.form.get('login_email')
+        password = request.form.get('login_password')
 
         if username == 'user@gmail.com' and password == '123':
             session.permanent = True
@@ -68,12 +70,6 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html')
-
-# Logout route
-@app.route('/logout')
-def logout():
-    session.pop('user_email', None)
-    return redirect(url_for('login'))
 
 # Login required decorator
 def login_required(f):
@@ -93,15 +89,31 @@ def index():
     stats = get_menu_stats()
     return render_template('index.html', **stats)
 
-@app.route('/release-note')
+# Logout route
+@app.route('/logout')
+def logout():
+    session.pop('user_email', None)
+    return redirect(url_for('login'))
+
+@app.route('/reports')
 @login_required
-def release_note():
-    return render_template('release-note.html')
+def reports():
+    return render_template('reports.html')
 
 @app.route('/list-menu')
 @login_required
 def list_menu():
     return render_template('list-menu.html')
+
+@app.route('/customers')
+@login_required
+def customers():
+    return render_template('customers.html')
+
+@app.route('/release-note')
+@login_required
+def release_note():
+    return render_template('release-note.html')
 
 @app.route('/settings')
 @login_required
@@ -113,7 +125,7 @@ def tester():
     return render_template('tester.html')
 
 # Get data from the database with pagination
-@app.route('/data', methods=['GET'])
+@app.route('/menu', methods=['GET'])
 def get_data():
     session = SessionLocal()
     try:
@@ -216,6 +228,81 @@ def get_menu_stats():
     finally:
         session.close()
 
+@app.route('/data-customers', methods=['GET'])
+def get_customer_data():
+    session = SessionLocal()
+    try:
+        draw = int(request.args.get('draw', 1))  # Draw counter for synchronization
+        start = int(request.args.get('start', 0))  # Offset
+        length = int(request.args.get('length', 10))  # Limit
+        search_value = request.args.get('search[value]', '')  # Search input
+        order_column = request.args.get('order[0][column]', '0')  # Default to 'ID'
+        order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction
+
+        # Map DataTables column index to database fields
+        column_map = {
+            "0": "id",
+            "1": "name",
+            "2": "birthday",
+            "3": "age",
+            "4": "gender",
+            "5": "email",
+            "6": "phone",
+            "7": "address",
+            "8": "city",
+            "9": "country",
+            "10": "roles_type",
+            "11": "royalty_point"
+        }
+
+        # Get the column name for sorting
+        order_column_name = column_map.get(order_column, "id")
+
+        # Build the base query
+        query = session.query(customer)
+
+        # Apply search filter if a search value is provided
+        if search_value:
+            search_value = f"%{search_value}%"
+            query = query.filter(
+                customer.name.ilike(search_value) |
+                customer.birthday.ilike(search_value) |
+                customer.email.ilike(search_value) |
+                cast(customer.phone, String).ilike(search_value) |
+                customer.address.ilike(search_value) |
+                customer.city.ilike(search_value) |
+                customer.country.ilike(search_value)
+            )
+
+
+        # Apply sorting
+        if order_dir == "asc":
+            query = query.order_by(getattr(customer, order_column_name).asc())
+        else:
+            query = query.order_by(getattr(customer, order_column_name).desc())
+
+        # Total records before filtering
+        total_records = session.query(customer).count()
+
+        # Filtered records count
+        filtered_records = query.count()
+
+        # Apply pagination
+        data_query = query.offset(start).limit(length).all()
+
+        # Convert data to dictionary format
+        data = [cust.to_dict() for cust in data_query]
+
+        # Construct the response
+        response = {
+            "draw": draw,
+            "recordsTotal": total_records,
+            "recordsFiltered": filtered_records,
+            "data": data,
+        }
+        return jsonify(response)
+    finally:
+        session.close()
 
 # Export database to excel file 
 @app.route('/export_excel')

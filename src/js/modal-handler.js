@@ -137,4 +137,12 @@ export function renderReleaseNotesAccordion() {
     `;
     releaseNotesAccordion.append(accordionItem);
   });
+
+  // Select the latest version from ReleaseData and set in navbar
+  const projectTitle = document.querySelector(".navbar-brand .project-version");
+
+  if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
+    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
+    projectTitle.textContent = `v${latestVersion}`;
+  }
 }
