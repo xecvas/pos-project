@@ -27,25 +27,26 @@ export function initModals() {
       const featuresHTML = Object.entries(latestRelease.features)
         .map(
           ([category, items]) =>
-            `<strong>${category.charAt(0).toUpperCase() + category.slice(1)}:</strong>
+            `<strong>${
+              category.charAt(0).toUpperCase() + category.slice(1)
+            }:</strong>
              <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
         )
         .join("");
-  
+
       $("#modalContent").html(`
         <h5>${latestRelease.version} - ${latestRelease.date}</h5>
         ${featuresHTML}
       `);
-  
+
       $("#releaseModal")
         .modal({
-          backdrop: false, // Disable modal backdrop
-          keyboard: true, // Enable ESC key to close
+          backdrop: false,
+          keyboard: true,
         })
         .modal("show");
     }
   });
-  
 
   // Close modal if clicking outside
   $(document).on("click", (event) => {
@@ -142,7 +143,26 @@ export function renderReleaseNotesAccordion() {
   const projectTitle = document.querySelector(".navbar-brand .project-version");
 
   if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
-    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
+    const latestVersion = ReleaseData[0].version;
     projectTitle.textContent = `v${latestVersion}`;
   }
+
+  //Forgot Password Modal and Check Email Modal
+  document
+    .getElementById("forgotPasswordForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Hide the Forgot Password Modal
+      var forgotPasswordModal = bootstrap.Modal.getInstance(
+        document.getElementById("forgotPasswordModal")
+      );
+      forgotPasswordModal.hide();
+
+      // Show the Check Email Modal
+      var checkEmailModal = new bootstrap.Modal(
+        document.getElementById("checkEmailModal")
+      );
+      checkEmailModal.show();
+    });
 }

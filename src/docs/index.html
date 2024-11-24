@@ -124,6 +124,8 @@
     </div>
 
     <div class="main-content">
+        <!-- Section Menu -->
+        <h3><i class="fas fa-utensils"></i> Menu Information</h3>
         <div class="card-container">
             <div class="row g-3">
                 <!-- Total Menu -->
@@ -281,10 +283,86 @@
                 </div>
             </div>
         </div>
+
+        <!-- Section Customer -->
+        <div class="mt-5">
+            <h3><i class="fas fa-users"></i> Customer Information</h3>
+            <div class="card-container">
+                <div class="row g-3">
+                    <!-- Total Customer -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-primary text-white"><i class="fa fa-users"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Customer</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_customer }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Member Basic -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-secondary text-white"><i class="fa fa-user"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Member Basic</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_basic }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Member Silver -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-info text-white"><i class="fa fa-user-circle"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Member Silver</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_silver }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Member Gold -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-warning text-white"><i class="fa fa-crown"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Member Gold</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_gold }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Member Platinum -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-secondary text-white"><i class="fa fa-gem"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Member Platinum</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_platinum }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Member Corporate -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card p-3 d-flex align-items-center flex-row">
+                            <div class="icon-card bg-dark text-white"><i class="fa fa-building"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold text-uppercase text-secondary">Total Member Corporate</div>
+                                <div class="fs-4 fw-bold text-dark">{{ total_corporate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <!-- Footer Section -->
     <footer class="text-center">
-        <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project"> &copy;
+        <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
+            &copy;
             2024 POS Project. All rights reserved.</p>
     </footer>
 </body>

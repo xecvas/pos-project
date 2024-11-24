@@ -59,7 +59,7 @@ export function initDataTable() {
     columnDefs: [
       { visible: false, targets: 0 }, // Hide ID column
       { className: "dt-left", targets: 1 },
-      { className: "dt-center", targets: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }, // Center content for specific columns
+      { className: "dt-center", targets: [2, 3, 4, 5, 6, 8, 9, 10, 11, 12] }, // Center content for specific columns
     ],
     processing: true,
     serverSide: true,

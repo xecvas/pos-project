@@ -56,6 +56,25 @@ class customer(Base):
             return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
         return None
 
+    @property
+    def computed_roles_type(self):
+        if self.royalty_point is not None:
+            if 0 <= self.royalty_point < 100:
+                return "Basic"
+            elif 100 <= self.royalty_point < 200:
+                return "Silver"
+            elif 200 <= self.royalty_point < 300:
+                return "Gold"
+            elif 300 <= self.royalty_point < 400:
+                return "Platinum"
+            elif self.royalty_point >= 400:
+                return "Corporate"
+        return "Unknown"
+    
+    def set_roles_type(self):
+        """Explicitly set roles_type based on computed_roles_type."""
+        self.roles_type = self.computed_roles_type
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -68,7 +87,7 @@ class customer(Base):
             'address': self.address,
             'city': self.city,
             'country': self.country,
-            'roles_type': self.roles_type,
+            'roles_type': self.computed_roles_type,
             'royalty_point': self.royalty_point,
         }
 

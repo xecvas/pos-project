@@ -1,6 +1,23 @@
 const ReleaseData = [
   {
-    version: "1.8.1",
+    version: "2.0.0",
+    date: "24/10/2024",
+    features: {
+      added: [
+        "Automatically calculates customer age.",
+        "Automatically categorizes customers into role types based on their loyalty points.",
+        "Modal for the 'forgot password' function.",
+        "Displays total number of customers and their respective roles on the index page."
+      ],
+      fixed: [
+        "Various issues in JavaScript",
+        "the issue with the data not displaying correctly"
+      ],
+      improvements: ["General bug fixes and performance enhancements"],
+    },
+  },
+  {
+    version: "1.9.0",
     date: "22/10/2024",
     features: {
       added: [

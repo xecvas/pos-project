@@ -55,18 +55,27 @@ def login_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'user_email' in session:
-        return redirect(url_for('index'))  # Jika sudah login, langsung ke index
+        return redirect(url_for('index'))  # If already logged in, redirect to index
 
     if request.method == 'POST':
-        username = request.form.get('login_email')
-        password = request.form.get('login_password')
+        # Check if the request is from the login form
+        if 'login_email' in request.form and 'login_password' in request.form:
+            username = request.form.get('login_email')
+            password = request.form.get('login_password')
 
-        if username == 'user@gmail.com' and password == '123':
-            session.permanent = True
-            session['user_email'] = username
-            return redirect(url_for('index'))
-        else:
-            flash("Invalid credentials. Please try again.")
+            if username == 'user@gmail.com' and password == '123':
+                session.permanent = True
+                session['user_email'] = username
+                return redirect(url_for('index'))
+            else:
+                flash("Invalid credentials. Please try again.")
+                return redirect(url_for('login'))
+
+        # Handle forgot password logic here if needed
+        elif 'forgot_email' in request.form:
+            # Here you would add logic to handle the forgot password request
+            # For example, send an email with a reset link
+            # After processing, you can redirect to the login page without setting a flash message
             return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -86,8 +95,9 @@ def login_required(f):
 def index():
     if 'user_email' not in session:
         return redirect(url_for('login'))  # Jika belum login, arahkan ke halaman login
-    stats = get_menu_stats()
-    return render_template('index.html', **stats)
+    menu_stats = get_menu_stats()
+    customer_stats = get_customer_stats()
+    return render_template('index.html', **menu_stats, **customer_stats)
 
 # Logout route
 @app.route('/logout')
@@ -274,7 +284,6 @@ def get_customer_data():
                 customer.country.ilike(search_value)
             )
 
-
         # Apply sorting
         if order_dir == "asc":
             query = query.order_by(getattr(customer, order_column_name).asc())
@@ -301,6 +310,27 @@ def get_customer_data():
             "data": data,
         }
         return jsonify(response)
+    finally:
+        session.close()
+        
+def get_customer_stats():
+    session = SessionLocal()
+    try:
+        total_customer = session.query(customer).count()
+        total_basic = session.query(customer).filter(customer.royalty_point >= 0, customer.royalty_point < 100).count()
+        total_silver = session.query(customer).filter(customer.royalty_point >= 100, customer.royalty_point < 200).count()
+        total_gold = session.query(customer).filter(customer.royalty_point >= 200, customer.royalty_point < 300).count()
+        total_platinum = session.query(customer).filter(customer.royalty_point >= 300, customer.royalty_point < 400).count()
+        total_corporate = session.query(customer).filter(customer.royalty_point >= 400).count()
+
+        return {
+            "total_customer": total_customer,
+            "total_basic": total_basic,
+            "total_silver": total_silver,
+            "total_gold": total_gold,
+            "total_platinum": total_platinum,
+            "total_corporate": total_corporate
+            }
     finally:
         session.close()
 
