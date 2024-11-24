@@ -285,10 +285,16 @@ def get_customer_data():
             )
 
         # Apply sorting
-        if order_dir == "asc":
-            query = query.order_by(getattr(customer, order_column_name).asc())
+        if order_column_name == "roles_type":
+            if order_dir == "asc":
+                query = query.order_by(customer.roles_type.asc())
+            else:
+                query = query.order_by(customer.roles_type.desc())
         else:
-            query = query.order_by(getattr(customer, order_column_name).desc())
+                if order_dir == "asc":
+                    query = query.order_by(getattr(customer, order_column_name).asc())
+                else:
+                    query = query.order_by(getattr(customer, order_column_name).desc())
 
         # Total records before filtering
         total_records = session.query(customer).count()

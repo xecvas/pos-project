@@ -74,19 +74,19 @@ export function initDataTable() {
     columns: [
       { data: "id", title: "ID" },
       { data: "name", title: "Name" },
-      { data: "birthday", title: "Tanggal Lahir"},
-      { data: "age", title: "Umur"},
+      { data: "birthday", title: "Date of Birth"},
+      { data: "age", title: "Age"},
       { data: "gender", title: "Gender" },
       { data: "email", title: "Email" },
-      { data: "phone", title: "Phone" },
-      { data: "address", title: "Alamat" },
+      { data: "phone", title: "Phone Number" },
+      { data: "address", title: "Address" },
       { data: "city", title: "City" },
       { data: "country", title: "Country" },
-      { data: "roles_type", title: "Roles" },
-      { data: "royalty_point", title: "Royalty Poin" },
+      { data: "roles_type", title: "Membership" },
+      { data: "royalty_point", title: "Loyalty Points" },
       {
         data: null,
-        title: "Action",
+        title: "Actions",
         orderable: false,
         render: (row) => `
           <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>

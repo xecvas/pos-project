@@ -230,7 +230,7 @@ a:hover {
 }
 
 .sidebar.expanded {
-    width: 250px;
+    width: 200px;
 }
 
 .sidebar ul {
@@ -290,7 +290,7 @@ a:hover {
 }
 
 .sidebar.expanded+.main-content {
-    margin-left: calc(250px + 30px);
+    margin-left: calc(200px + 30px);
 }
 
 /* Support Section Styles */

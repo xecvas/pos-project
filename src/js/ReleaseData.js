@@ -7,7 +7,8 @@ const ReleaseData = [
         "Automatically calculates customer age.",
         "Automatically categorizes customers into role types based on their loyalty points.",
         "Modal for the 'forgot password' function.",
-        "Displays total number of customers and their respective roles on the index page."
+        "Displays total number of customers and their respective roles on the index page.",
+        "some setting in settings page"
       ],
       fixed: [
         "Various issues in JavaScript",

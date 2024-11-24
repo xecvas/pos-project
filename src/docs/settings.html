@@ -124,8 +124,131 @@
     </div>
 
     <div class="main-content">
+            <h2 class="text-center">POS Restaurant Settings</h2>
+            <form action="#" method="post">
+                <!-- General Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>General Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="restaurantName" class="form-label">Restaurant Name</label>
+                            <input type="text" class="form-control" id="restaurantName" name="restaurantName"
+                                placeholder="Enter restaurant name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="currency" class="form-label">Currency</label>
+                            <select class="form-select" id="currency" name="currency">
+                                <option value="USD" selected>USD - US Dollar</option>
+                                <option value="IDR">IDR - Indonesian Rupiah</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <!-- Add more currencies as needed -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="timeZone" class="form-label">Time Zone</label>
+                            <select class="form-select" id="timeZone" name="timeZone">
+                                <option value="GMT+7" selected>GMT+7 - Jakarta</option>
+                                <option value="GMT+8">GMT+8 - Singapore</option>
+                                <option value="GMT-5">GMT-5 - New York</option>
+                                <!-- Add more time zones as needed -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-    </div>
+                <!-- Menu Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Other Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="menuVisibility" class="form-label">Show Menu to Customers</label>
+                            <select class="form-select" id="menuVisibility" name="menuVisibility">
+                                <option value="yes" selected>Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="defaultCategory" class="form-label">Default Menu Category</label>
+                            <select class="form-select" id="defaultCategory" name="defaultCategory">
+                                <option value="food" selected>Food</option>
+                                <option value="beverages">Beverages</option>
+                                <option value="desserts">Desserts</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Payment Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="paymentMethods" class="form-label">Payment Methods</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="cash" id="cashPayment"
+                                    name="paymentMethods[]">
+                                <label class="form-check-label" for="cashPayment">
+                                    Cash
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="credit" id="creditPayment"
+                                    name="paymentMethods[]">
+                                <label class="form-check-label" for="creditPayment">
+                                    Credit Card
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="online" id="onlinePayment"
+                                    name="paymentMethods[]">
+                                <label class="form-check-label" for="onlinePayment">
+                                    Online Payment (e.g., Gopay, OVO)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tax Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Tax Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="taxRate" class="form-label">Tax Rate (%)</label>
+                            <input type="number" class="form-control" id="taxRate" name="taxRate" min="0" max="100"
+                                placeholder="Enter tax rate">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Additional Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="receiptFooter" class="form-label">Receipt Footer Text</label>
+                            <textarea class="form-control" id="receiptFooter" name="receiptFooter" rows="3"
+                                placeholder="Enter footer text for receipt"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
     <!-- Footer Section -->
     <footer class="text-center">
         <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project"> &copy;
