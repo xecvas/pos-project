@@ -1,0 +1,98 @@
+/* Table Styles */
+body.dark table,
+body.light table {
+    background-color: transparent;
+    color: inherit;
+    border-color: inherit;
+}
+
+body.dark table tr:nth-child(odd),
+body.light table tr:nth-child(even) {
+    background-color: lightslategray;
+    color: #fff;
+}
+
+body.dark table tr:nth-child(even),
+body.light table tr:nth-child(odd) {
+    background-color: #fff;
+    color: black;
+}
+
+body.dark table td,
+body.light table th,
+body.light table td {
+    background-color: transparent;
+    color: inherit;
+    border-color: inherit;
+}
+
+/* Pagination Styling */
+div.dataTables_wrapper div.dataTables_paginate {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: calc(-120px / 2);
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    display: inline-flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li {
+    margin: 0 4px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+}
+
+/* Center all columns using dt-center */
+table.dataTable td.dt-center,
+table.dataTable th.dt-center {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 8px !important;
+    /* Padding atas-bawah 8px, samping 0 */
+}
+
+/* Left all columns using dt-left */
+table.dataTable td.dt-left,
+table.dataTable th.dt-left {
+    text-align: left !important;
+    vertical-align: middle !important;
+    padding: 8px !important;
+    /* Padding atas-bawah 8px, samping 0 */
+}
+
+/* Optional: Adjust row height for a cleaner appearance */
+table.dataTable tbody tr {
+    height: auto;
+    /* Automatically adjust height */
+    line-height: 1.5;
+    /* Ensures proper spacing between rows */
+}

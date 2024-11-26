@@ -38,7 +38,7 @@ class customer(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     birthday = Column(String, nullable=True)
-    age = Column(String, nullable=True)
+    age = Column(Integer, nullable=True)
     gender = Column(String, nullable=True)
     email = Column(String, nullable=False, unique=True)
     phone = Column(BigInteger, nullable=True)

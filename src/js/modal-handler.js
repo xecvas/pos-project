@@ -148,16 +148,18 @@ export function renderReleaseNotesAccordion() {
   }
 
   //Forgot Password Modal and Check Email Modal
-  document
-    .getElementById("forgotPasswordForm")
-    .addEventListener("submit", function (event) {
+  const forgotPasswordModalElement = document.getElementById(
+    "forgotPasswordModal"
+  );
+  if (forgotPasswordModalElement) {
+    forgotPasswordModalElement.addEventListener("submit", function (event) {
       event.preventDefault();
 
       // Hide the Forgot Password Modal
-      var forgotPasswordModal = bootstrap.Modal.getInstance(
-        document.getElementById("forgotPasswordModal")
+      var forgotPasswordModalInstance = bootstrap.Modal.getInstance(
+        forgotPasswordModalElement
       );
-      forgotPasswordModal.hide();
+      forgotPasswordModalInstance.hide();
 
       // Show the Check Email Modal
       var checkEmailModal = new bootstrap.Modal(
@@ -165,4 +167,5 @@ export function renderReleaseNotesAccordion() {
       );
       checkEmailModal.show();
     });
+  }
 }

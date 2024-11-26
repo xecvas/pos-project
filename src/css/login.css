@@ -1,3 +1,13 @@
+:root[data-theme="dark"] {
+    --right-section-bg: white; /* Set background color to red in dark mode */
+    /* other variables */
+}
+
+:root[data-theme="light"] {
+    --right-section-bg: bisque; /* Keep the original color in light mode */
+    /* other variables */
+}
+
 /* Body and Centered Container */
 body {
     font-family: 'Roboto', sans-serif;
@@ -8,7 +18,6 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--body-bg);
-  color: black;
 }
 
 .container {
@@ -38,16 +47,12 @@ body {
 /* Right Section Styling */
 .right-section {
     padding: 40px;
-    background-color: var(--right-section-bg);
+    background-color: var(--right-section-bg); /* Use the variable for background color */
     width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 0 12px 12px 0;
-}
-
-body.dark .right-section h4 {
-    color: black;
 }
 
 /* Form and Logo Styling */
@@ -58,4 +63,18 @@ form {
 .logo-image {
     width: 100%;
     height: auto;
+}
+
+.form-control::placeholder {
+    color: var(--input-placeholder);
+}
+
+.btn {
+    color: var(--text-other);
+    background-color: var(--button-bg);
+}
+
+.btn:hover {
+    color: var(--text-other);
+    background-color: var(--button-hover-bg);
 }

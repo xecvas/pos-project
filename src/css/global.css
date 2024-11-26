@@ -1,36 +1,63 @@
+/* Dark Mode Theme */
 :root[data-theme="dark"] {
-    --navbar-bg: #1e1e1e;
-    --sidebar-bg: #2b2b2b;
-    --footer-bg: #1e1e1e;
-    --body-bg: #2f2f2f;
-    --text-color: #eeeeee;
-    --icon-home-bg: #1e1e1e;
-    --right-section-bg:#ffffff;
-  }
-  
-  :root[data-theme="light"] {
-    --navbar-bg: #ffffff;
-    --sidebar-bg: #f5f5f5;
-    --footer-bg: #ffffff;
-    --body-bg: #fefefe;
-    --text-color: #212121;
-    --icon-home-bg: #ffffff;
-    --right-section-bg:#f1f1e1;
-  }
-  
+    --navbar-bg: #252c48;
+    --sidebar-bg: #252c48;
+    --footer-bg: #252c48;
+    --body-bg: #1d203a;
+    --card-bg: #252c48;
+    --text-primary: #ffffff;
+    --text-secondary: #bbbbbb;
+    --text-other: #ffffff;
+    --icon-color: #ffffff;
+    --icon-hover: #ffca85;
+    --button-bg: #ff8650;
+    --button-hover-bg: hsl(34, 100%, 76%);
+    --accordion-bg: bisque;
+    --border-color: #3c3c3c;
+    --input-bg: #2a2a2a;
+    --input-placeholder: #666666;
+    --disabled-bg: #555555;
+}
+
+/* Light Mode Theme */
+:root[data-theme="light"] {
+    --navbar-bg: #ffb347;
+    --sidebar-bg: #ffb347;
+    --footer-bg: #ffb347;
+    --body-bg: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-other: #ffffff;
+    --icon-color: #ffffff;
+    --icon-hover: #ff8650;
+    --button-bg: #ff7f50;
+    --button-hover-bg: #ffb347;
+    --accordion-bg: bisque;
+    --border-color: #e5e5e5;
+    --input-bg: #ffffff;
+    --input-placeholder: #aaaaaa;
+    --disabled-bg: #c0c0c0;
+}
+
+root[data-theme="light"] #brand-logo {
+    background-image: url("{{ url_for('images', filename='light-banner-page.png') }}");
+}
+
+:root[data-theme="dark"] #brand-logo {
+    background-image: url("{{ url_for('images', filename='dark-banner-page.png') }}");
+}
 
 /* Global Reset and Typography */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
-    /* Ukuran default body */
     line-height: 1.5;
     background-color: var(--body-bg);
     color: var(--text-color);
@@ -40,16 +67,8 @@ body {
     position: fixed;
     width: 100%;
     z-index: 1000;
-}
-
-
-nav.navbar.bg-body-tertiary {
-    background-color: var(--navbar-bg) !important; /* Force application */
+    background-color: var(--navbar-bg) !important;
     color: var(--text-color) !important;
-}
-
-.icon-home {
-    background-color: var(--icon-home-bg)
 }
 
 /* Footer Styling */
@@ -62,54 +81,52 @@ footer {
     text-align: center;
     line-height: 2rem;
     background-color: var(--footer-bg);
-    color: var(--text-color);
+    color: var(--text-other);
 }
 
-/* Link Styling */
-a {
-    text-decoration: none;
+.project-version {
+    color: #19346e;
 }
 
-a:hover {
-    color: rgb(0, 0, 211);
+.nav-link {
+    color: var(--text-other);
 }
-
-/* Button and Focus Styling */
-.btn-close:focus,
-.accordion-button:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.accordion-button:not(.collapsed) {
-    background-color: #b6f6ff;
-    color: inherit;
-}
-
-/* Accordion Content Styling */
-.accordion-body {
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.accordion.collapsed {
-    background-color: var(--accordion-collapsed-bg);
-}
-
-.accordion.expanded {
-    background-color: var(--accordion-expanded-bg);
-}
-
-.modal {
-    background-color: var(--modal-bg);
-    color: var(--text-color);
-}
-
 
 /* Utility Classes */
 .spacer {
     margin-top: 20px;
 }
+
+.icon {
+    color: var(--icon-color);
+    transition: color 0.3s;
+}
+
+.icon:hover {
+    color: var(--icon-hover);
+}
+
+/* Link Styling */
+a {
+    color: var(--button-bg);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: var(--button-hover-bg);
+}
+
+input.form-control {
+    border: 2px solid transparent; /* Set a default transparent border */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Optional: Add a smooth transition for border and shadow */
+}
+
+input.form-control:focus-visible {
+    border: 2px solid var(--footer-bg); /* Border color on focus */
+    box-shadow: 0 0 5px var(--footer-bg); /* Optional: Add shadow */
+}
+
 
 /* Toggle Switch Styles */
 .checkbox {
@@ -204,100 +221,11 @@ a:hover {
     }
 }
 
-/* Sidebar Styling */
-.burger-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-    left: 7px;
-    top: 5px;
-    margin-right: 20px;
-    z-index: 1000;
-}
-
-.sidebar {
-    width: 60px;
-    height: 100vh;
-    position: fixed;
-    top: 55px;
-    overflow-x: hidden;
-    transition: width 0.3s ease;
-    z-index: 100;
-    background-color: var(--sidebar-bg);
-    color: var(--text-color);
-}
-
-.sidebar.expanded {
-    width: 200px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    transition: padding 0.3s, margin-right 0.3s;
-    margin-left: 15px;
-    justify-content: flex-start;
-}
-
-.sidebar ul li:first-child {
-    margin-top: 10px;
-    /* Tambahkan jarak lebih besar dari ikon pertama ke navbar */
-}
-
-.sidebar ul li i {
-    font-size: 20px;
-    width: 20px; /* Lebar konsisten untuk ikon */
-    height: 20px; /* Tinggi konsisten untuk ikon */
-    justify-content: center; /* Perataan horizontal ikon */
-    align-items: center; /* Perataan vertikal ikon */
-    margin: 0; /* Pastikan margin nol */
-    display: flex;
-    transition: margin-right 0.3s;
-}
-
-.sidebar.expanded ul li i {
-    margin-right: 10px;
-}
-
-.sidebar ul li .label {
-    position: relative;
-    top: -20px;
-    margin-left: 40px;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s, margin-left 0.3s, top 0.3s;
-}
-
-.sidebar:not(.expanded) ul li .label {
-    opacity: 0;
-    visibility: hidden;
-    margin-left: 0;
-}
-
-
-.sidebar+.main-content {
-    margin-left: 80px;
-    margin-right: 20px;
-}
-
-.sidebar.expanded+.main-content {
-    margin-left: calc(200px + 30px);
-}
-
-/* Support Section Styles */
-.support {
+/* Theme Toogle */
+.theme {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 12px;
+    top: 15px;
 }
 
 /* Responsive Typography */
@@ -321,39 +249,46 @@ h4 {
     font-weight: bold;
 }
 
-.label,
-.small-text {
+.label {
     font-size: 14px;
-    color: black;
+    color: var(--icon-color);
 }
 
-/* Table Styles */
-body.dark table,
-body.light table {
-    background-color: transparent;
+
+
+
+
+/* Accordion Content Styling */
+.accordion-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.accordion.collapsed {
+    background-color: var(--accordion-collapsed-bg);
+}
+
+.accordion.expanded {
+    background-color: var(--accordion-expanded-bg);
+}
+
+.modal {
+    background-color: var(--modal-bg);
+    color: var(--text-color);
+}
+
+/* Button and Focus Styling */
+.btn-close:focus,
+.accordion-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--accordion-bg);
     color: inherit;
-    border-color: inherit;
 }
 
-body.dark table tr:nth-child(odd),
-body.light table tr:nth-child(even) {
-    background-color: lightslategray;
-    color: #fff;
-}
-
-body.dark table tr:nth-child(even),
-body.light table tr:nth-child(odd) {
-    background-color: #fff;
-    color: black;
-}
-
-body.dark table td,
-body.light table th,
-body.light table td {
-    background-color: transparent;
-    color: inherit;
-    border-color: inherit;
-}
 
 /* Card Styles */
 .card {
@@ -377,74 +312,3 @@ body.light table td {
     align-items: center;
     font-size: 24px;
 }
-
-.text-uppercase {
-    font-size: 15px;
-}
-
-/* Pagination Styling */
-div.dataTables_wrapper div.dataTables_paginate {
-    text-align: center;
-    margin-top: 10px;
-    margin-left: calc(-120px / 2);
-    left: 0;
-    width: 100%;
-    z-index: 0;
-}
-
-div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-    display: inline-flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-}
-
-div.dataTables_wrapper div.dataTables_paginate ul.pagination li {
-    margin: 0 4px;
-}
-
-div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
-    display: inline-block;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: #333;
-    background: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
-    background-color: #e9ecef;
-    border-color: #ccc;
-}
-
-/* Center all columns using dt-center */
-table.dataTable td.dt-center, 
-table.dataTable th.dt-center {
-  text-align: center !important;
-  vertical-align: middle !important;
-  padding: 8px !important; /* Padding atas-bawah 8px, samping 0 */
-}
-
-/* Center all columns using dt-center */
-table.dataTable td.dt-left, 
-table.dataTable th.dt-left {
-  text-align: left !important;
-  vertical-align: middle !important;
-  padding: 8px !important; /* Padding atas-bawah 8px, samping 0 */
-}
-
-/* Optional: Adjust row height for a cleaner appearance */
-table.dataTable tbody tr {
-    height: auto; /* Automatically adjust height */
-    line-height: 1.5; /* Ensures proper spacing between rows */
-  }

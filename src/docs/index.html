@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
     <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='tables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='sidebar.css') }}">
 
     <!-- JS Dependencies -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -41,7 +43,7 @@
                 </button>
                 <!-- Brand Logo and Version -->
                 <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('images', filename='banner-page.png') }}" class="icon" alt="Web Icon"
+                    <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon" alt="Web Icon"
                         style="width: 100px;">
                     <span class="project-version"></span>
                 </a>
@@ -86,37 +88,37 @@
         <ul class="sidebar-menu">
             <li>
                 <a href="{{ url_for('index') }}" title="Dashboard">
-                    <i class="fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
+                    <i class="icon fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
                     <span class="label">Dashboard</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('reports') }}" title="Reports">
-                    <i class="fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
+                    <i class="icon fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
                     <span class="label">Reports</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('list_menu') }}" title="Menu">
-                    <i class="fas fa-utensils"></i> <!-- Ikon untuk Menu -->
+                    <i class="icon fas fa-utensils"></i> <!-- Ikon untuk Menu -->
                     <span class="label">Menu</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('customers') }}" title="customers">
-                    <i class="fas fa-users"></i> <!-- Ikon untuk Menu -->
+                    <i class="icon fas fa-users"></i> <!-- Ikon untuk Menu -->
                     <span class="label">Customers</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('release_note') }}" title="Release Notes">
-                    <i class="fas fa-book"></i> <!-- Ikon untuk Settings -->
+                    <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
                     <span class="label">Release Notes</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('settings') }}" title="Settings">
-                    <i class="fas fa-cog"></i> <!-- Ikon untuk Settings -->
+                    <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
                     <span class="label">Settings</span>
                 </a>
             </li>

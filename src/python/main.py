@@ -4,7 +4,7 @@ import os
 from flask import Flask, flash, request, jsonify, send_from_directory, render_template, redirect, session, url_for, send_file
 from io import BytesIO
 import pandas as pd
-from sqlalchemy import String, cast
+from sqlalchemy import String, cast, func
 from sqlalchemy.orm import sessionmaker
 from database import menu
 from database import customer, SessionLocal
@@ -285,17 +285,11 @@ def get_customer_data():
             )
 
         # Apply sorting
-        if order_column_name == "roles_type":
-            if order_dir == "asc":
-                query = query.order_by(customer.roles_type.asc())
-            else:
-                query = query.order_by(customer.roles_type.desc())
+        if order_dir == "asc":
+            query = query.order_by(getattr(customer, order_column_name).asc())
         else:
-                if order_dir == "asc":
-                    query = query.order_by(getattr(customer, order_column_name).asc())
-                else:
-                    query = query.order_by(getattr(customer, order_column_name).desc())
-
+            query = query.order_by(getattr(customer, order_column_name).desc())
+            
         # Total records before filtering
         total_records = session.query(customer).count()
 

@@ -82,12 +82,12 @@ export function initDataTable() {
       { data: "address", title: "Address" },
       { data: "city", title: "City" },
       { data: "country", title: "Country" },
-      { data: "roles_type", title: "Membership" },
+      { data: "roles_type", title: "Membership", orderable: false },
       { data: "royalty_point", title: "Loyalty Points" },
       {
         data: null,
         title: "Actions",
-        orderable: false,
+        
         render: (row) => `
           <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
           <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
