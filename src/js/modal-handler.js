@@ -77,10 +77,10 @@ export function renderLoginPageAccordion() {
       .join("");
 
     const accordionItem = `
-      <div class="accordion-item">
+      <div class="accordion-item" style="border-radius: 12px;">
         <h2 class="accordion-header" id="heading-login">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapse-login" aria-expanded="false" aria-controls="collapse-login">
+            data-bs-target="#collapse-login" aria-expanded="false" aria-controls="collapse-login" style="border-radius: 12px;">
             <span class="icon-circle"><i class="fa fa-check icon-check"></i></span>
             ${latestRelease.version} - ${latestRelease.date}
           </button>
@@ -115,20 +115,20 @@ export function renderReleaseNotesAccordion() {
       )
       .join("");
 
-    const accordionItem = `
-      <div class="accordion-item" style="border-radius: 12px; margin-bottom: 10px;">
+      const accordionItem = `
+      <div class="accordion-item" style="border-radius: 12px; margin-bottom: 15px;">
         <h2 class="accordion-header" id="heading-note-${index}">
           <button class="accordion-button ${
             isLastRelease ? "" : "collapsed"
           }" type="button"
             data-bs-toggle="collapse" data-bs-target="#collapse-note-${index}"
             aria-expanded="${isLastRelease}" aria-controls="collapse-note-${index}" style="border-radius: 12px;">
-            ${release.version} - ${release.date}
+            <strong>${release.version} - ${release.date}</strong>
           </button>
         </h2>
         <div id="collapse-note-${index}" class="accordion-collapse collapse ${
-      isLastRelease ? "show" : ""
-    }"
+          isLastRelease ? "show" : ""
+        }"
           aria-labelledby="heading-note-${index}" data-bs-parent="#accordion-release-notes" style="border-radius: 12px;">
           <div class="accordion-body">
             ${featuresHTML}
@@ -136,6 +136,7 @@ export function renderReleaseNotesAccordion() {
         </div>
       </div>
     `;
+        
     releaseNotesAccordion.append(accordionItem);
   });
 

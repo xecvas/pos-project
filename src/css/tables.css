@@ -1,29 +1,17 @@
-/* Table Styles */
-body.dark table,
-body.light table {
-    background-color: transparent;
-    color: inherit;
-    border-color: inherit;
+.table-container {
+    background-color: var(--table-container);
+    color: var(--text-primary);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 12px;
+    transition: margin-left 0.3s ease;
 }
 
-body.dark table tr:nth-child(odd),
-body.light table tr:nth-child(even) {
-    background-color: lightslategray;
-    color: #fff;
-}
-
-body.dark table tr:nth-child(even),
-body.light table tr:nth-child(odd) {
-    background-color: #fff;
-    color: black;
-}
-
-body.dark table td,
-body.light table th,
-body.light table td {
-    background-color: transparent;
-    color: inherit;
-    border-color: inherit;
+table.dataTable.datatables tbody tr.odd,
+table.dataTable.display tbody tr.odd {
+  background: var(--table-strip-bg);
 }
 
 /* Pagination Styling */
@@ -62,13 +50,18 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: var(--table-strip-bg);
+    border-color: var(--text-primary);
 }
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
-    background-color: #e9ecef;
-    border-color: #ccc;
+    background-color: transparent;
+    color: white;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:focus {
+    box-shadow: 0 0 5px transparent;
+    /* Optional: Add shadow */
 }
 
 /* Center all columns using dt-center */

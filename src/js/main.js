@@ -1,9 +1,12 @@
 // Import other JavaScript files (using ES6 modules or other methods)
-import { initModals } from './modal-handler.js'; // Modal-related logic
-import { initDataTable } from './datatable-init.js'; // DataTable initialization
-import { setupDarkMode } from './dark-mode.js'; // Dark mode handling
-import { addGlobalEventListeners } from './event-handlers.js'; // Event listeners
-import { renderReleaseNotesAccordion, renderLoginPageAccordion } from './modal-handler.js'; //Modal Handler
+import { initModals } from "./modal-handler.js"; // Modal-related logic
+import { initDataTable } from "./datatable-init.js"; // DataTable initialization
+import { setupDarkMode } from "./dark-mode.js"; // Dark mode handling
+import { addGlobalEventListeners } from "./event-handlers.js"; // Event listeners
+import {
+  renderReleaseNotesAccordion,
+  renderLoginPageAccordion,
+} from "./modal-handler.js"; //Modal Handler
 
 // Entry point
 $(document).ready(function () {

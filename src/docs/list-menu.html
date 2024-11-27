@@ -43,8 +43,8 @@
                 </button>
                 <!-- Brand Logo and Version -->
                 <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('images', filename='banner-page.png') }}" class="icon" alt="Web Icon"
-                        style="width: 100px;">
+                    <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon"
+                        alt="Web Icon" style="width: 100px;">
                     <span class="project-version"></span>
                 </a>
             </div>
@@ -129,7 +129,7 @@
         <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In numquam omnis, necessitatibus doloribus
             excepturi aliquid corrupti animi! Labore explicabo, optio perspiciatis, aperiam ab voluptatem dolorem vitae
             assumenda odio, eos rerum.</h3>
-        
+
 
         <div class="d-flex justify-content-start mb-3">
             <div class="d-flex align-items-center mb-3">
@@ -187,7 +187,8 @@
                 <button class="btn btn-success text-white" style="margin-right: 30px;" id="import-excel">
                     <i class="fa fa-upload"></i> Import dari Excel
                 </button>
-                <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal" data-bs-target="#AddMenu">
+                <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal"
+                    data-bs-target="#AddMenu">
                     <i class="fa fa-plus"></i> Add Menu
                 </button>
             </div>
@@ -195,7 +196,7 @@
 
         <div class="table-container">
             <!-- show data from myDatabase -->
-            <table id="mymenu" class="table table-striped" style="width:100%">
+            <table id="mymenu" class="datatables" style="width:100%">
                 <thead>
                     <tr>
                         <th>ID</th>

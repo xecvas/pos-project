@@ -10,7 +10,7 @@
     <meta name="author" content="Xecvas">
 
     <!-- Page Title -->
-    <title>POS Project - Customers</title>
+    <title>POS Project - List Customers</title>
     <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon">
 
     <!-- CSS Dependencies -->
@@ -43,8 +43,8 @@
                 </button>
                 <!-- Brand Logo and Version -->
                 <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('images', filename='banner-page.png') }}" class="icon" alt="Web Icon"
-                        style="width: 100px;">
+                    <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon"
+                        alt="Web Icon" style="width: 100px;">
                     <span class="project-version"></span>
                 </a>
             </div>
@@ -129,7 +129,7 @@
     <div class="main-content">
         <div class="table-container">
             <!-- show data from myDatabase -->
-            <table id="mycustomer" class="table table-striped" style="width:100%">
+            <table id="mycustomer" class="datatables" style="width:100%">
                 <thead>
                     <tr>
                         <th>ID</th>

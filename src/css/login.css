@@ -60,11 +60,6 @@ form {
     width: 100%;
 }
 
-.logo-image {
-    width: 100%;
-    height: auto;
-}
-
 .form-control::placeholder {
     color: var(--input-placeholder);
 }

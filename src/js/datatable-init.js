@@ -24,15 +24,16 @@ export function initDataTable() {
     columns: [
       { data: "id", title: "ID" },
       { data: "nama_menu", title: "Name" },
-      { data: "kode", title: "Code" },
-      { data: "kategori", title: "Category" }, // Column index 3
-      { data: "sub_kategori", title: "Subcategory" },
-      { data: "harga", title: "Price", render: formatRupiah },
-      { data: "status", title: "Status" },
+      { data: "kode", title: "Code", width: "200px" },
+      { data: "kategori", title: "Category", width: "200px" }, // Column index 3
+      { data: "sub_kategori", title: "Subcategory", width: "200px" },
+      { data: "harga", title: "Price", render: formatRupiah, width: "200px" },
+      { data: "status", title: "Status", width: "200px" },
       {
         data: null,
         title: "Action",
         orderable: false,
+        width: "150px",
         render: (row) => `
           <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
           <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
@@ -108,4 +109,5 @@ export function initDataTable() {
       this.api().columns().header().to$().addClass("text-center");
     },
   });
+
 }

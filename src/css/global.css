@@ -9,14 +9,22 @@
     --text-secondary: #bbbbbb;
     --text-other: #ffffff;
     --icon-color: #ffffff;
-    --icon-hover: #ffca85;
+    --icon-hover: #1d203a;
     --button-bg: #ff8650;
     --button-hover-bg: hsl(34, 100%, 76%);
-    --accordion-bg: bisque;
+    --accordion-bg: #252c48;
     --border-color: #3c3c3c;
     --input-bg: #2a2a2a;
     --input-placeholder: #666666;
     --disabled-bg: #555555;
+    --project-version: #ffffff;
+    --notification-bell: #ffffff;
+    --table-strip-bg: #1d203a;
+    --table-container: #252c48;
+}
+
+:root[data-theme="dark"] #brand-logo {
+    content: url('../images/light-banner-page.png');
 }
 
 /* Light Mode Theme */
@@ -24,7 +32,7 @@
     --navbar-bg: #ffb347;
     --sidebar-bg: #ffb347;
     --footer-bg: #ffb347;
-    --body-bg: #f9f9f9;
+    --body-bg: #f0edf6;
     --card-bg: #ffffff;
     --text-primary: #333333;
     --text-secondary: #666666;
@@ -33,19 +41,27 @@
     --icon-hover: #ff8650;
     --button-bg: #ff7f50;
     --button-hover-bg: #ffb347;
-    --accordion-bg: bisque;
+    --accordion-bg: #f0edf6;
     --border-color: #e5e5e5;
     --input-bg: #ffffff;
     --input-placeholder: #aaaaaa;
     --disabled-bg: #c0c0c0;
+    --project-version: #172e6a;
+    --notification-bell: #000000;
 }
 
-root[data-theme="light"] #brand-logo {
-    background-image: url("{{ url_for('images', filename='light-banner-page.png') }}");
+:root[data-theme="light"] #brand-logo {
+    content: url('../images/dark-banner-page.png');
 }
 
-:root[data-theme="dark"] #brand-logo {
-    background-image: url("{{ url_for('images', filename='dark-banner-page.png') }}");
+/* Light mode */
+:root[data-theme="light"] .accordion-body {
+    margin: 0px 2px 2px 2px;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] .accordion-body {
+    margin: 0px;
 }
 
 /* Global Reset and Typography */
@@ -85,12 +101,44 @@ footer {
 }
 
 .project-version {
-    color: #19346e;
+    color: var(--project-version);
 }
 
-.nav-link {
-    color: var(--text-other);
+/* Navbar link default and hover state */
+.navbar-nav .nav-link {
+    color: white;
+    /* Default color white */
+    transition: color 0.3s ease;
+    /* Smooth transition */
 }
+
+.navbar-nav .nav-link:hover {
+    color: white;
+    /* Hover color white */
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    background-color: var(--sidebar-bg);
+    /* Red background for the dropdown */
+}
+
+.dropdown-menu .dropdown-item {
+    color: white;
+    /* Text color white */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Smooth transition */
+}
+
+/* Hover and active state for dropdown items */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: var(--body-bg);
+    /* Lighter red on hover */
+    color: white;
+    /* Text color stays white */
+}
+
 
 /* Utility Classes */
 .spacer {
@@ -117,16 +165,34 @@ a:hover {
     color: var(--button-hover-bg);
 }
 
-input.form-control {
-    border: 2px solid transparent; /* Set a default transparent border */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Optional: Add a smooth transition for border and shadow */
-}
-
+/* form-control */
 input.form-control:focus-visible {
-    border: 2px solid var(--footer-bg); /* Border color on focus */
-    box-shadow: 0 0 5px var(--footer-bg); /* Optional: Add shadow */
+    box-shadow: 0 0 5px transparent;
 }
 
+/* Card Styles */
+.card {
+    border: none;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.icon-card {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
 
 /* Toggle Switch Styles */
 .checkbox {
@@ -195,7 +261,7 @@ input.form-control:focus-visible {
 }
 
 .notification i.fa-bell {
-    color: black;
+    color: var(--notification-bell);
 }
 
 .notification .dot {
@@ -231,22 +297,18 @@ input.form-control:focus-visible {
 /* Responsive Typography */
 h1 {
     font-size: 36px;
-    font-weight: bold;
 }
 
 h2 {
     font-size: 28px;
-    font-weight: bold;
 }
 
 h3 {
     font-size: 22px;
-    font-weight: bold;
 }
 
 h4 {
     font-size: 18px;
-    font-weight: bold;
 }
 
 .label {
@@ -254,61 +316,35 @@ h4 {
     color: var(--icon-color);
 }
 
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
 
-
-
-
-/* Accordion Content Styling */
 .accordion-body {
-    max-height: 300px;
-    overflow-y: auto;
+    border-radius: 12px;
+    background-color: var(--accordion-bg);
+    color: var(--text-primary);
 }
 
 .accordion.collapsed {
-    background-color: var(--accordion-collapsed-bg);
+    background-color: var(--card-bg);
 }
+
 
 .accordion.expanded {
-    background-color: var(--accordion-expanded-bg);
+    background-color: var(--card-bg);
 }
 
-.modal {
-    background-color: var(--modal-bg);
-    color: var(--text-color);
-}
 
-/* Button and Focus Styling */
-.btn-close:focus,
 .accordion-button:focus {
-    outline: none;
-    box-shadow: none;
+    border: 0 solid;
+    box-shadow: 0 0 0;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: var(--accordion-bg);
+    background-color: transparent;
     color: inherit;
-}
-
-
-/* Card Styles */
-.card {
-    border: none;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.03);
-}
-
-.icon-card {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
+    border: 0 solid;
+    box-shadow: 0 0 0;
 }
