@@ -7,11 +7,10 @@
     --card-bg: #252c48;
     --text-primary: #ffffff;
     --text-secondary: #bbbbbb;
-    --text-other: #ffffff;
     --icon-color: #ffffff;
-    --icon-hover: #1d203a;
-    --button-bg: #ff8650;
-    --button-hover-bg: hsl(34, 100%, 76%);
+    --icon-hover: #666666;
+    --button-bg: #172e6a;
+    --button-hover-bg: #252c48;
     --accordion-bg: #252c48;
     --border-color: #3c3c3c;
     --input-bg: #2a2a2a;
@@ -19,8 +18,7 @@
     --disabled-bg: #555555;
     --project-version: #ffffff;
     --notification-bell: #ffffff;
-    --table-strip-bg: #1d203a;
-    --table-container: #252c48;
+    --dropdown-bg: #1d203a;
 }
 
 :root[data-theme="dark"] #brand-logo {
@@ -36,9 +34,8 @@
     --card-bg: #ffffff;
     --text-primary: #333333;
     --text-secondary: #666666;
-    --text-other: #ffffff;
-    --icon-color: #ffffff;
-    --icon-hover: #ff8650;
+    --icon-color: #000000;
+    --icon-hover: #ffffff;
     --button-bg: #ff7f50;
     --button-hover-bg: #ffb347;
     --accordion-bg: #f0edf6;
@@ -48,6 +45,7 @@
     --disabled-bg: #c0c0c0;
     --project-version: #172e6a;
     --notification-bell: #000000;
+    --dropdown-bg: #f0edf6;
 }
 
 :root[data-theme="light"] #brand-logo {
@@ -84,7 +82,7 @@ body {
     width: 100%;
     z-index: 1000;
     background-color: var(--navbar-bg) !important;
-    color: var(--text-color) !important;
+    color: var(--text-color) ;
 }
 
 /* Footer Styling */
@@ -97,7 +95,7 @@ footer {
     text-align: center;
     line-height: 2rem;
     background-color: var(--footer-bg);
-    color: var(--text-other);
+    color: var(--text-primary);
 }
 
 .project-version {
@@ -105,38 +103,39 @@ footer {
 }
 
 /* Navbar link default and hover state */
-.navbar-nav .nav-link {
-    color: white;
-    /* Default color white */
-    transition: color 0.3s ease;
-    /* Smooth transition */
+.navbar-nav .nav-item .nav-link {
+    color: var(--text-primary) ; /* Default color white */
+    
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover {
-    color: white;
-    /* Hover color white */
+/* Hover state for dropdown toggle (A) */
+.navbar-nav .nav-item .nav-link:hover {
+    color: var(--text-primary) ; /* Keep it white on hover */
 }
 
-/* Dropdown menu styling */
+/* Active state (when menu B and C are shown) */
+.navbar-nav .nav-item.dropdown.show .nav-link {
+    color: var(--text-primary) ; /* Keep A white when B or C is shown */
+}
+
 .dropdown-menu {
     background-color: var(--sidebar-bg);
-    /* Red background for the dropdown */
 }
-
+/* Hover state on dropdown items (B and C) */
 .dropdown-menu .dropdown-item {
-    color: white;
-    /* Text color white */
+    color: var(--text-primary) ; /* Default text color white */
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* Smooth transition */
 }
 
-/* Hover and active state for dropdown items */
-.dropdown-menu .dropdown-item:hover,
-.dropdown-menu .dropdown-item:focus {
-    background-color: var(--body-bg);
-    /* Lighter red on hover */
-    color: white;
-    /* Text color stays white */
+.dropdown-menu .dropdown-item:hover {
+    background-color: transparent ; /* Lighter red on hover */
+    color: var(--text-secondary) ; /* Keep text white on hover */
+}
+
+/* Prevent A from becoming black when hovering over B or C */
+.navbar-nav .nav-item.dropdown.show:hover .nav-link {
+    color: var(--text-primary) ; /* Ensure A remains white */
 }
 
 
@@ -323,8 +322,6 @@ h4 {
 
 .accordion-body {
     border-radius: 12px;
-    background-color: var(--accordion-bg);
-    color: var(--text-primary);
 }
 
 .accordion.collapsed {

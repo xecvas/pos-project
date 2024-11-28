@@ -25,7 +25,26 @@
     transition: width 0.3s ease;
     z-index: 100;
     background-color: var(--sidebar-bg);
-    color: var(--text-secondary);
+}
+
+.sidebar-menu .icon {
+    color: var(--icon-color);
+}
+
+/* Default label styles */
+.sidebar-menu .label {
+    color: var(--icon-color);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover state for labels */
+.sidebar-menu li:hover .label {
+    color: var(--icon-hover);
+}
+
+/* Change icon color on hover as well */
+.sidebar-menu li:hover .icon {
+    color: var(--icon-hover);
 }
 
 .sidebar.expanded {
@@ -49,21 +68,15 @@
 
 .sidebar ul li:first-child {
     margin-top: 10px;
-    /* Tambahkan jarak lebih besar dari ikon pertama ke navbar */
 }
 
 .sidebar ul li i {
     font-size: 20px;
     width: 20px;
-    /* Lebar konsisten untuk ikon */
     height: 20px;
-    /* Tinggi konsisten untuk ikon */
     justify-content: center;
-    /* Perataan horizontal ikon */
     align-items: center;
-    /* Perataan vertikal ikon */
     margin: 0;
-    /* Pastikan margin nol */
     display: flex;
     transition: margin-right 0.3s;
 }
@@ -94,12 +107,4 @@
 
 .sidebar.expanded+.main-content {
     margin-left: calc(200px + 20px);
-}
-
-.sidebar-icon {
-    color: var(--icon-color);
-}
-
-.sidebar-icon:hover {
-    color: var(--icon-hover);
 }

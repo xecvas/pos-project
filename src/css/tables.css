@@ -1,3 +1,28 @@
+:root[data-theme="dark"] {
+    --table-strip-bg: #1d203a;
+    --table-container: #252c48;
+    --table-pagination-active: #1d203a;
+    --table-pagination-inactive: #ffffff;
+    --table-page-border : #ffffff;
+    --active-page-number :#ffffff;
+    --inactive-page-number: #1d203a;
+}
+
+:root[data-theme="dark"] #brand-logo {
+    content: url('../images/light-banner-page.png');
+}
+
+/* Light Mode Theme */
+:root[data-theme="light"] {
+    --table-strip-bg: #f0edf6;
+    --table-container: #ffffff;
+    --table-pagination-active: #ffffff;
+    --table-pagination-inactive: #ffb347;
+    --table-page-border : #ffb347;
+    --active-page-number :#ffb347;
+    --inactive-page-number: #ffffff;
+}
+
 .table-container {
     background-color: var(--table-container);
     color: var(--text-primary);
@@ -40,23 +65,25 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination li a {
     display: inline-block;
     padding: 8px 12px;
     text-decoration: none;
-    color: #333;
-    background: #f0f0f0;
-    border: 1px solid #ddd;
+    color: var(--inactive-page-number);
+    background-color: var(--table-pagination-inactive);
+    border: 1px solid;
     border-radius: 4px;
     font-size: 14px;
     transition: all 0.3s ease;
 }
 
+/* active pagination number */
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li.active a {
-    color: #fff;
-    background-color: var(--table-strip-bg);
-    border-color: var(--text-primary);
+    color: var(--active-page-number);
+    background-color: var(--table-pagination-active);
+    border-color: var(--table-page-border);
 }
 
+/* inactive pagination number */
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:hover {
-    background-color: transparent;
-    color: white;
+    background-color: var(--table-pagination-active);
+    color: var(--active-page-number);
 }
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination li a:focus {
