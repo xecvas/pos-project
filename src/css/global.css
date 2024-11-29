@@ -31,7 +31,7 @@
     --sidebar-bg: #ffb347;
     --footer-bg: #ffb347;
     --body-bg: #f0edf6;
-    --card-bg: #ffffff;
+    --card-bg: #f0edf6;
     --text-primary: #333333;
     --text-secondary: #666666;
     --icon-color: #000000;
@@ -60,6 +60,10 @@
 /* Dark mode */
 :root[data-theme="dark"] .accordion-body {
     margin: 0px;
+}
+
+.bg-purple {
+    background-color: #6f42c1 !important; /* Define the purple color */
 }
 
 /* Global Reset and Typography */
