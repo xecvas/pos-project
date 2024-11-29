@@ -126,9 +126,19 @@
     </div>
 
     <div class="main-content">
-        <div class="table-container">
-            <!-- Section Menu -->
-            <h3><i class="fas fa-chart-bar"></i> Sales Information</h3>
+        <h3>Live View</h3>
+        <h4 class="current-time">time here</h4>
+        <div class="table-container spacer">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Section Menu -->
+                <div>
+                    <h3><i class="fas fa-chart-bar"></i> Sales Information</h3>
+                </div>
+                <div>
+                    <a href="{{ url_for('reports') }}"><button class="btn btn-warning text-white">Details</button></a>
+                </div>
+            </div>
+            
             <div class="card-container">
                 <div class="row g-3">
                     <!-- Net Sales -->
@@ -224,8 +234,16 @@
 
         <!-- Section Menu -->
         <div class="table-container mt-4">
-            <!-- Section Menu -->
-            <h3><i class="fas fa-utensils"></i> Menu Information</h3>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Section Menu -->
+                <div>
+                    <h3><i class="fas fa-utensils"></i> Menu Information</h3>
+                </div>
+                <div>
+                    <a href="{{ url_for('list_menu') }}"><button class="btn btn-warning text-white">Details</button></a>
+                </div>
+            </div>
+
             <div class="card-container">
                 <div class="row g-3">
                     <!-- Total Menu -->
@@ -238,6 +256,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Total Makanan -->
                     <div class="col-md-4 col-lg-3">
@@ -387,7 +406,15 @@
 
         <!-- Section Customer -->
         <div class="table-container mt-4">
-            <h3><i class="fas fa-users"></i> Member Information</h3>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h3><i class="fas fa-users"></i> Member Information</h3>
+                </div>
+                <div>
+                    <a href="{{ url_for('customers') }}"><button class="btn btn-warning text-white">Details</button></a>
+                </div>
+            </div>
+
             <div class="card-container">
                 <div class="row g-3">
                     <!-- Total Member -->

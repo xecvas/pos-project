@@ -4,13 +4,13 @@
     --sidebar-bg: #252c48;
     --footer-bg: #252c48;
     --body-bg: #1d203a;
-    --card-bg: #252c48;
+    --card-bg: #1d203a;
     --text-primary: #ffffff;
     --text-secondary: #bbbbbb;
     --icon-color: #ffffff;
     --icon-hover: #666666;
-    --button-bg: #172e6a;
-    --button-hover-bg: #252c48;
+    --button-bg: #1d203a;
+    --button-hover-bg: #666666;
     --accordion-bg: #252c48;
     --border-color: #3c3c3c;
     --input-bg: #2a2a2a;
@@ -36,8 +36,8 @@
     --text-secondary: #666666;
     --icon-color: #000000;
     --icon-hover: #ffffff;
-    --button-bg: #ff7f50;
-    --button-hover-bg: #ffb347;
+    --button-bg: #ffb347;
+    --button-hover-bg: #ff7f50;
     --accordion-bg: #f0edf6;
     --border-color: #e5e5e5;
     --input-bg: #ffffff;
@@ -297,21 +297,24 @@ input.form-control:focus-visible {
     top: 15px;
 }
 
-/* Responsive Typography */
 h1 {
-    font-size: 36px;
+    font-size: 38px;
+    font-weight: 700;
 }
 
 h2 {
-    font-size: 28px;
+    font-size: 30px; 
+    font-weight: 700;
 }
 
 h3 {
     font-size: 22px;
+    font-weight: 600;
 }
 
 h4 {
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .label {
