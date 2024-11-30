@@ -4,7 +4,7 @@ const formatRupiah = (value) =>
 
 // Function to initialize DataTable
 export function initDataTable() {
-  // Initialize the main DataTable
+  // Initialize the Menu DataTable
   window.menuTable = $("#mymenu").DataTable({
     columnDefs: [
       { visible: false, targets: 0 }, // Hide ID column
@@ -55,7 +55,7 @@ export function initDataTable() {
     },
   });
 
-  // Initialize the main DataTable
+  // Initialize the Customers DataTable
   window.customersTable = $("#mycustomer").DataTable({
     columnDefs: [
       { visible: false, targets: 0 }, // Hide ID column
@@ -109,5 +109,4 @@ export function initDataTable() {
       this.api().columns().header().to$().addClass("text-center");
     },
   });
-
 }

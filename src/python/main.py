@@ -334,9 +334,59 @@ def get_customer_stats():
     finally:
         session.close()
 
-# Export database to excel file 
-@app.route('/export_excel')
-def export_excel():
+# route to delete menu
+@app.route('/delete_menu/<int:id>', methods=['POST'])
+def delete_menu(id):
+    """Delete a product by ID."""
+    session = SessionLocal()
+    try:
+        # Query the product from the menu table
+        product = session.query(menu).get(id)
+        if product is None:
+            return "Product not found", 404
+        
+        # Delete the product from the database
+        session.delete(product)
+        session.commit()
+        
+        # Redirect to the desired route (e.g., list-menu) after deletion
+        return redirect(url_for('list_menu'))
+    except Exception as e:
+        # Rollback in case of an error
+        session.rollback()
+        return f"An error occurred: {e}", 500
+    finally:
+        # Close the session
+        session.close()
+
+# route to delete customers
+@app.route('/delete_customer/<int:id>', methods=['POST'])
+def delete_customer(id):
+    """Delete a customer by ID."""
+    session = SessionLocal()
+    try:
+        # Query the customer by ID
+        customer_to_delete = session.query(customer).get(id)
+        if customer_to_delete is None:
+            return "Customer not found", 404
+        
+        # Delete the customer from the database
+        session.delete(customer_to_delete)
+        session.commit()
+        
+        # Redirect to the customers page after deletion
+        return redirect(url_for('customers'))
+    except Exception as e:
+        # Rollback in case of an error
+        session.rollback()
+        return f"An error occurred: {e}", 500
+    finally:
+        # Close the session
+        session.close()
+
+# Export menu database to excel file 
+@app.route('/export_menu')
+def export_menu():
     # Create a new session to query the database
     session = SessionLocal()
     try:
@@ -379,14 +429,96 @@ def export_excel():
         return send_file(
             output,
             as_attachment=True,
-            download_name='data_export.xlsx',
+            download_name='menu_export.xlsx',
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
     finally:
         # Close the session
         session.close()
 
+# Export customer database to excel file 
+@app.route('/export_customers', methods=['GET'])
+def export_customers():
+    """Export customer data to an Excel file."""
+    session = SessionLocal()
+    try:
+        # Query only database columns
+        records = session.query(
+            customer.id,
+            customer.name,
+            customer.birthday,
+            customer.gender,
+            customer.email,
+            customer.phone,
+            customer.address,
+            customer.city,
+            customer.country,
+            customer.royalty_point
+        ).all()
 
+        # Convert query result to a list of dictionaries
+        from datetime import datetime
+
+        data = []
+        for record in records:
+            # Calculate `age` and `computed_roles_type` manually
+            if record.birthday:
+                birth_date = datetime.strptime(record.birthday, '%d-%m-%Y')
+                today = datetime.today()
+                age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            else:
+                age = None
+
+            if record.royalty_point is not None:
+                if 0 <= record.royalty_point < 100:
+                    roles_type = "Basic"
+                elif 100 <= record.royalty_point < 200:
+                    roles_type = "Silver"
+                elif 200 <= record.royalty_point < 300:
+                    roles_type = "Gold"
+                elif 300 <= record.royalty_point < 400:
+                    roles_type = "Platinum"
+                elif record.royalty_point >= 400:
+                    roles_type = "Corporate"
+                else:
+                    roles_type = "Unknown"
+            else:
+                roles_type = "Unknown"
+
+            data.append({
+                'ID': record.id,
+                'Name': record.name,
+                'Birthday': record.birthday,
+                'Age': age,
+                'Gender': record.gender,
+                'Email': record.email,
+                'Phone': record.phone,
+                'Address': record.address,
+                'City': record.city,
+                'Country': record.country,
+                'Role Type': roles_type,
+                'Royalty Points': record.royalty_point
+            })
+
+        # Use pandas to create a DataFrame
+        df = pd.DataFrame(data)
+
+        # Create an in-memory Excel file
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Customers')
+
+        output.seek(0)  # Move to the beginning of the stream
+
+        # Send the Excel file as a response
+        return send_file(
+            output,
+            as_attachment=True,
+            download_name='customers_export.xlsx',
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+    finally:
+        session.close()
 
 if __name__ == '__main__':
     app.run(debug=True)

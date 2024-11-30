@@ -1,7 +1,27 @@
 const ReleaseData = [
   {
+    version: "2.1.0",
+    date: "30/11/2024",
+    features: {
+      added: [
+        "export to Excel functionality for customers.",
+        "implemented delete functionality for menu and customers.",
+        "corresponding modals for delete function.",
+        "new backend routes.",
+        "live current time in all page."
+      ],
+      fixed: [
+        "resolved issue with the delete functionality.",
+        "renew almost all css code.",
+        "updated DataTable initialization",
+        "Various issues in code."
+      ],
+      improvements: ["General bug fixes and performance enhancements"],
+    },
+  },
+  {
     version: "2.0.0",
-    date: "24/10/2024",
+    date: "24/11/2024",
     features: {
       added: [
         "Automatically calculates customer age.",
@@ -19,7 +39,7 @@ const ReleaseData = [
   },
   {
     version: "1.9.0",
-    date: "22/10/2024",
+    date: "22/11/2024",
     features: {
       added: [
         "customer page and customer list"
@@ -33,7 +53,7 @@ const ReleaseData = [
   },
   {
     version: "1.8.0",
-    date: "21/10/2024",
+    date: "21/11/2024",
     features: {
       added: [
         "button to show table by category",
@@ -50,7 +70,7 @@ const ReleaseData = [
   },
   {
     version: "1.7.0",
-    date: "20/10/2024",
+    date: "20/11/2024",
     features: {
       added: [
         "Split JavaScript code into multiple files",
@@ -62,7 +82,7 @@ const ReleaseData = [
   },
   {
     version: "1.6.0",
-    date: "19/10/2024",
+    date: "19/11/2024",
     features: {
       added: [
         "Search bar functionality in release notes",
@@ -84,7 +104,7 @@ const ReleaseData = [
   },
   {
     version: "1.5.0",
-    date: "18/10/2024",
+    date: "18/11/2024",
     features: {
       added: [
         "Menu database",
@@ -97,7 +117,7 @@ const ReleaseData = [
   },
   {
     version: "1.4.0",
-    date: "17/10/2024",
+    date: "17/11/2024",
     features: {
       added: [
         "Card feature on the main page",
@@ -112,7 +132,7 @@ const ReleaseData = [
   },
   {
     version: "1.3.0",
-    date: "16/10/2024",
+    date: "16/11/2024",
     features: {
       added: ["View all release notes in the release-note page"],
       fixed: [
@@ -128,7 +148,7 @@ const ReleaseData = [
   },
   {
     version: "1.2.0",
-    date: "13/10/2024",
+    date: "13/11/2024",
     features: {
       added: [
         "Version information displayed next to the logo",
@@ -140,7 +160,7 @@ const ReleaseData = [
   },
   {
     version: "1.1.0",
-    date: "12/10/2024",
+    date: "12/11/2024",
     features: {
       added: ["Notification icon on the main page"],
       fixed: [
@@ -155,7 +175,7 @@ const ReleaseData = [
   },
   {
     version: "1.0.0",
-    date: "11/10/2024",
+    date: "11/11/2024",
     features: {
       added: ["Password field toggle feature"],
       improved: [

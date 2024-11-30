@@ -15,9 +15,14 @@ export function addGlobalEventListeners() {
     window.location.href = "/release-note";
   });
 
-  // Export to Excel
-  $("#export-excel").on("click", () => {
-    window.location.href = "/export_excel";
+  // Export menu to Excel
+  $("#export-menu").on("click", () => {
+    window.location.href = "/export_menu";
+  });
+
+  // Export customer to Excel
+  $("#export-customers").on("click", () => {
+    window.location.href = "/export_customers";
   });
 
   //release-note search bar for version

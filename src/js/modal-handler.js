@@ -115,7 +115,7 @@ export function renderReleaseNotesAccordion() {
       )
       .join("");
 
-      const accordionItem = `
+    const accordionItem = `
       <div class="accordion-item" style="border-radius: 12px; margin-bottom: 15px;">
         <h2 class="accordion-header" id="heading-note-${index}">
           <button class="accordion-button ${
@@ -127,8 +127,8 @@ export function renderReleaseNotesAccordion() {
           </button>
         </h2>
         <div id="collapse-note-${index}" class="accordion-collapse collapse ${
-          isLastRelease ? "show" : ""
-        }"
+      isLastRelease ? "show" : ""
+    }"
           aria-labelledby="heading-note-${index}" data-bs-parent="#accordion-release-notes" style="border-radius: 12px;">
           <div class="accordion-body">
             ${featuresHTML}
@@ -136,7 +136,7 @@ export function renderReleaseNotesAccordion() {
         </div>
       </div>
     `;
-        
+
     releaseNotesAccordion.append(accordionItem);
   });
 
@@ -169,4 +169,91 @@ export function renderReleaseNotesAccordion() {
       checkEmailModal.show();
     });
   }
+}
+
+export function initDeleteModals() {
+  // Add the modals dynamically to the DOM
+  const modalHTML = `
+    <div class="modal fade" id="datatable-delete-modal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="border-bottom: none;">
+            <h5 class="modal-title" id="formModalLabel"><i class="fa fa-warning"></i>  Delete Data</h5>
+          </div>
+          <div class="modal-body">Are you sure to delete this record?</div>
+          <div class="modal-footer" style="border-top: none;">
+            <button type="button" id="row-delete-no" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" id="row-delete-yes" class="btn btn-danger delete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="success-delete-modal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <p class="fs-4">Delete Success</p>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Append modals to the body
+  $("body").append(modalHTML);
+
+  let rowToDelete = null; // Scope for the row to delete
+  let currentTable = null; // Scope for the current table
+
+  // Show the delete modal when the delete button is clicked
+  $(document).on("click", ".delete-btn", function () {
+    const id = $(this).data("id"); // Get the ID from the clicked button
+    const tableName = $(this).closest("table").attr("id"); // Determine which table the button belongs to
+
+    if (tableName === "mymenu") {
+      currentTable = window.menuTable;
+    } else if (tableName === "mycustomer") {
+      currentTable = window.customersTable;
+    }
+
+    rowToDelete = currentTable.row($(this).closest("tr")); // Get the corresponding row
+    $("#row-delete-yes").data("id", id); // Set the ID for the confirmation button
+    $("#datatable-delete-modal").modal("show"); // Show the delete modal
+  });
+
+  // Handle delete confirmation
+  $("#row-delete-yes").on("click", function () {
+    const id = $(this).data("id"); // Get the ID from the confirmation button
+
+    if (currentTable && rowToDelete) {
+      // Determine the correct endpoint
+      const endpoint =
+        currentTable === window.menuTable
+          ? `/delete_menu/${id}`
+          : `/delete_customer/${id}`;
+
+      // Make an AJAX request to delete the record
+      $.ajax({
+        type: "POST",
+        url: endpoint,
+        success: function () {
+          // Remove the row from DataTable and redraw
+          rowToDelete.remove().draw();
+
+          // Hide the delete modal and show success modal
+          $("#datatable-delete-modal").modal("hide");
+          $("#success-delete-modal").modal("show");
+        },
+        error: function (xhr, status, error) {
+          console.error("Error deleting record:", error);
+        },
+      });
+    }
+  });
+
+  // Hide delete success modal on "OK" button click
+  $("#success-delete-modal").on("click", function () {
+    $("#success-delete-modal").modal("hide"); // Hide the success modal
+  });
 }
