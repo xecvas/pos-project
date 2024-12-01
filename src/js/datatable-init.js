@@ -40,6 +40,7 @@ export function initDataTable() {
         `,
       },
     ],
+    order: [[1, "asc"]],
     pagingType: "simple_numbers", // Simplified pagination controls
     dom:
       "<'row'<'col-sm-6'l><'col-sm-6'f>>" + // Length changing and search input
@@ -83,7 +84,7 @@ export function initDataTable() {
       { data: "address", title: "Address" },
       { data: "city", title: "City" },
       { data: "country", title: "Country" },
-      { data: "roles_type", title: "Membership", orderable: false },
+      { data: "roles_type", title: "Membership" },
       { data: "royalty_point", title: "Loyalty Points" },
       {
         data: null,
@@ -95,6 +96,7 @@ export function initDataTable() {
         `,
       },
     ],
+    order: [[1, "asc"]],
     pagingType: "simple_numbers", // Simplified pagination controls
     dom:
       "<'row'<'col-sm-6'l><'col-sm-6'f>>" + // Length changing and search input

@@ -1,103 +1,166 @@
 from datetime import timedelta
 from functools import wraps
 import os
-from flask import Flask, flash, request, jsonify, send_from_directory, render_template, redirect, session, url_for, send_file
 from io import BytesIO
-import pandas as pd
-from sqlalchemy import String, cast, func
-from sqlalchemy.orm import sessionmaker
-from database import menu
-from database import customer, SessionLocal
 
-# Define the base directory to ensure Flask can find templates and assets correctly
+import pandas as pd
+from flask import (
+    Flask, flash, request, jsonify, render_template,
+    redirect, session, url_for, send_file, send_from_directory
+)
+from sqlalchemy import String, cast
+from sqlalchemy.sql import func
+from sqlalchemy.orm import sessionmaker
+from database import menu, customer, SessionLocal  # Assuming these modules are properly structured
+
+# Define directories for templates and static files
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, '../docs')
-CSS_DIR = os.path.join(BASE_DIR, '../css')
-JS_DIR = os.path.join(BASE_DIR, '../js')
-ICONS_DIR = os.path.join(BASE_DIR, '../assets/icons')
-IMAGES_DIR = os.path.join(BASE_DIR, '../assets/images')
+STATIC_DIRS = {
+    'css': os.path.join(BASE_DIR, '../css'),
+    'js': os.path.join(BASE_DIR, '../js'),
+    'icons': os.path.join(BASE_DIR, '../assets/icons'),
+    'images': os.path.join(BASE_DIR, '../assets/images')
+}
 
-# Create the Flask app with custom template folder
+# Initialize Flask app
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
-app.secret_key = os.urandom(24)  # Secure secret key for session management
+app.secret_key = os.urandom(24)  # Secure random secret key
+app.permanent_session_lifetime = timedelta(days=7)
 
-# Serve CSS, JavaScript, icons, and images
-@app.route('/css/<path:filename>')
-def css(filename):
-    return send_from_directory(CSS_DIR, filename)
+# Static file routes
+@app.route('/css/<path:filename>', endpoint='css')
+@app.route('/js/<path:filename>', endpoint='js')
+@app.route('/icons/<path:filename>', endpoint='icons')
+@app.route('/images/<path:filename>', endpoint='images')
+def serve_static(filename):
+    """Serve static files such as CSS, JS, icons, and images."""
+    directory = STATIC_DIRS[request.endpoint]  # Use the endpoint name to get the correct directory
+    return send_from_directory(directory, filename)
 
-@app.route('/js/<path:filename>')
-def js(filename):
-    return send_from_directory(JS_DIR, filename)
-
-@app.route('/icons/<path:filename>')
-def icons(filename):
-    return send_from_directory(ICONS_DIR, filename)
-
-@app.route('/images/<path:filename>')
-def images(filename):
-    return send_from_directory(IMAGES_DIR, filename)
-
-# Set session lifetime
-app.permanent_session_lifetime = timedelta(days=7)  # Adjust as needed
-
+def get_session():
+    """Provide a new session and ensure closure."""
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+        
+# Login-required decorator
 def login_required(f):
+    """Ensure user is logged in before accessing a route."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_email' not in session:
-            # Redirect ke login jika belum login
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+def export_to_excel(query_result, filename, sheet_name):
+    """Export query results to an Excel file."""
+    df = pd.DataFrame([item.to_dict() for item in query_result])
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name=sheet_name)
+    output.seek(0)
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name=f'{filename}.xlsx',
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+def get_menu_stats():
+    session = SessionLocal()
+    try:
+        total_menu = session.query(menu).count()
+        total_makanan = session.query(menu).filter(menu.kategori == 'Makanan').count()
+        total_minuman = session.query(menu).filter(menu.kategori == 'Minuman').count()
+        total_snack = session.query(menu).filter(menu.kategori == 'Snack').count()
+        total_nasi = session.query(menu).filter(menu.sub_kategori == 'Nasi').count()
+        total_mie = session.query(menu).filter(menu.sub_kategori == 'Mie').count()
+        total_lainnya = session.query(menu).filter(menu.sub_kategori == 'Lainnya').count()
+        total_goreng = session.query(menu).filter(menu.sub_kategori == 'Goreng').count()
+        total_rebus = session.query(menu).filter(menu.sub_kategori == 'Rebus').count()
+        total_kukus = session.query(menu).filter(menu.sub_kategori == 'Kukus').count()
+        total_panas = session.query(menu).filter(menu.sub_kategori == 'Panas').count()
+        total_dingin = session.query(menu).filter(menu.sub_kategori == 'Dingin').count()
+        total_aktif = session.query(menu).filter(menu.status == 'Aktif').count()
+        total_nonaktif = session.query(menu).filter(menu.status == 'Tidak Aktif').count()
+        
+        return {
+            "total_menu": total_menu,
+            "total_makanan": total_makanan,
+            "total_minuman": total_minuman,
+            "total_snack": total_snack,
+            "total_nasi": total_nasi,
+            "total_mie": total_mie,
+            "total_lainnya": total_lainnya,
+            "total_goreng": total_goreng,
+            "total_rebus": total_rebus,
+            "total_kukus": total_kukus,
+            "total_panas": total_panas,
+            "total_dingin": total_dingin,
+            "total_aktif": total_aktif,
+            "total_nonaktif": total_nonaktif
+        }
+    finally:
+        session.close()
+
+def get_customer_stats():
+    session = SessionLocal()
+    try:
+        total_customer = session.query(customer).count()
+        total_basic = session.query(customer).filter(customer.royalty_point >= 0, customer.royalty_point < 100).count()
+        total_silver = session.query(customer).filter(customer.royalty_point >= 100, customer.royalty_point < 200).count()
+        total_gold = session.query(customer).filter(customer.royalty_point >= 200, customer.royalty_point < 300).count()
+        total_platinum = session.query(customer).filter(customer.royalty_point >= 300, customer.royalty_point < 400).count()
+        total_corporate = session.query(customer).filter(customer.royalty_point >= 400).count()
+
+        return {
+            "total_customer": total_customer,
+            "total_basic": total_basic,
+            "total_silver": total_silver,
+            "total_gold": total_gold,
+            "total_platinum": total_platinum,
+            "total_corporate": total_corporate
+            }
+    finally:
+        session.close()
+
+# Static file routes
+@app.route('/<file_type>/<path:filename>')
+def serve_static(file_type, filename):
+    """Serve static files such as CSS, JS, icons, and images."""
+    directory = STATIC_DIRS.get(file_type)
+    if not directory:
+        return "File type not supported", 404
+    return send_from_directory(directory, filename)
 
 # Login route
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Handle user login."""
     if 'user_email' in session:
-        return redirect(url_for('index'))  # If already logged in, redirect to index
+        return redirect(url_for('index'))
 
     if request.method == 'POST':
-        # Check if the request is from the login form
-        if 'login_email' in request.form and 'login_password' in request.form:
-            username = request.form.get('login_email')
-            password = request.form.get('login_password')
-
-            if username == 'user@gmail.com' and password == '123':
-                session.permanent = True
-                session['user_email'] = username
-                return redirect(url_for('index'))
-            else:
-                flash("Invalid credentials. Please try again.")
-                return redirect(url_for('login'))
-
-        # Handle forgot password logic here if needed
-        elif 'forgot_email' in request.form:
-            # Here you would add logic to handle the forgot password request
-            # For example, send an email with a reset link
-            # After processing, you can redirect to the login page without setting a flash message
-            return redirect(url_for('login'))
+        username = request.form.get('login_email')
+        password = request.form.get('login_password')
+        if username == 'user@gmail.com' and password == '123':
+            session['user_email'] = username
+            session.permanent = True
+            return redirect(url_for('index'))
+        flash("Invalid credentials. Please try again.")
 
     return render_template('login.html')
 
-# Login required decorator
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user_email' not in session:
-            # Redirect to login page if user is not logged in
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-# Protected index route
 @app.route('/index')
+@login_required
 def index():
-    if 'user_email' not in session:
-        return redirect(url_for('login'))  # Jika belum login, arahkan ke halaman login
-    menu_stats = get_menu_stats()
-    customer_stats = get_customer_stats()
-    return render_template('index.html', **menu_stats, **customer_stats)
+    """Display the dashboard."""
+    return render_template('index.html', **get_menu_stats(), **get_customer_stats())
 
 # Logout route
 @app.route('/logout')
@@ -143,7 +206,7 @@ def get_data():
         start = int(request.args.get('start', 0))  # Offset
         length = int(request.args.get('length', 10))  # Limit
         search_value = request.args.get('search[value]', '')  # Search input
-        order_column = request.args.get('order[0][column]', '3')  # Default to 'Category'
+        order_column = request.args.get('order[0][column]', '0')  # Default to 'ID'
         order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction
 
         # Map DataTables column index to database fields
@@ -151,14 +214,15 @@ def get_data():
             "0": "id",
             "1": "nama_menu",
             "2": "kode",
-            "3": "kategori",  # 'Category' column
+            "3": "kategori",
             "4": "sub_kategori",
             "5": "harga",
             "6": "status",
         }
 
         # Get the column name for sorting
-        order_column_name = column_map.get(order_column, "kategori")  # Default to 'Category'
+        order_column = request.args.get('order[0][column]', '0')
+        order_column_name = column_map.get(order_column, "id")
 
         # Build the base query
         query = session.query(menu)
@@ -177,7 +241,7 @@ def get_data():
             query = query.order_by(getattr(menu, order_column_name).asc())
         else:
             query = query.order_by(getattr(menu, order_column_name).desc())
-
+            
         # Total records before filtering
         total_records = session.query(menu).count()
 
@@ -201,55 +265,19 @@ def get_data():
     finally:
         session.close()
 
-def get_menu_stats():
-    session = SessionLocal()
-    try:
-        total_menu = session.query(menu).count()
-        total_makanan = session.query(menu).filter(menu.kategori == 'Makanan').count()
-        total_minuman = session.query(menu).filter(menu.kategori == 'Minuman').count()
-        total_snack = session.query(menu).filter(menu.kategori == 'Snack').count()
-        total_nasi = session.query(menu).filter(menu.sub_kategori == 'Nasi').count()
-        total_mie = session.query(menu).filter(menu.sub_kategori == 'Mie').count()
-        total_lainnya = session.query(menu).filter(menu.sub_kategori == 'Lainnya').count()
-        total_goreng = session.query(menu).filter(menu.sub_kategori == 'Goreng').count()
-        total_rebus = session.query(menu).filter(menu.sub_kategori == 'Rebus').count()
-        total_kukus = session.query(menu).filter(menu.sub_kategori == 'Kukus').count()
-        total_panas = session.query(menu).filter(menu.sub_kategori == 'Panas').count()
-        total_dingin = session.query(menu).filter(menu.sub_kategori == 'Dingin').count()
-        total_aktif = session.query(menu).filter(menu.status == 'Aktif').count()
-        total_nonaktif = session.query(menu).filter(menu.status == 'Tidak Aktif').count()
-        
-        return {
-            "total_menu": total_menu,
-            "total_makanan": total_makanan,
-            "total_minuman": total_minuman,
-            "total_snack": total_snack,
-            "total_nasi": total_nasi,
-            "total_mie": total_mie,
-            "total_lainnya": total_lainnya,
-            "total_goreng": total_goreng,
-            "total_rebus": total_rebus,
-            "total_kukus": total_kukus,
-            "total_panas": total_panas,
-            "total_dingin": total_dingin,
-            "total_aktif": total_aktif,
-            "total_nonaktif": total_nonaktif
-        }
-    finally:
-        session.close()
+
 
 @app.route('/data-customers', methods=['GET'])
 def get_customer_data():
     session = SessionLocal()
     try:
-        draw = int(request.args.get('draw', 1))  # Draw counter for synchronization
-        start = int(request.args.get('start', 0))  # Offset
-        length = int(request.args.get('length', 10))  # Limit
-        search_value = request.args.get('search[value]', '')  # Search input
-        order_column = request.args.get('order[0][column]', '0')  # Default to 'ID'
-        order_dir = request.args.get('order[0][dir]', 'asc')  # Sorting direction
+        draw = int(request.args.get('draw', 1))
+        start = int(request.args.get('start', 0))
+        length = int(request.args.get('length', 10))
+        search_value = request.args.get('search[value]', '')
+        order_column = request.args.get('order[0][column]', '0')
+        order_dir = request.args.get('order[0][dir]', 'asc')
 
-        # Map DataTables column index to database fields
         column_map = {
             "0": "id",
             "1": "name",
@@ -261,48 +289,48 @@ def get_customer_data():
             "7": "address",
             "8": "city",
             "9": "country",
-            "10": "roles_type",
-            "11": "royalty_point"
+            "10": "computed_roles_type",
+            "11": "royalty_point",
         }
 
-        # Get the column name for sorting
         order_column_name = column_map.get(order_column, "id")
+        order_column = getattr(customer, order_column_name)
 
-        # Build the base query
-        query = session.query(customer)
+        # Define calculated age column
+        age_column = func.date_part('year', func.age(func.to_date(customer.birthday, 'DD-MM-YYYY'))).label('age')
 
-        # Apply search filter if a search value is provided
+        # Build query
+        query = session.query(customer, age_column)
+
         if search_value:
             search_value = f"%{search_value}%"
             query = query.filter(
                 customer.name.ilike(search_value) |
                 customer.birthday.ilike(search_value) |
-                customer.email.ilike(search_value) |
-                cast(customer.phone, String).ilike(search_value) |
-                customer.address.ilike(search_value) |
-                customer.city.ilike(search_value) |
-                customer.country.ilike(search_value)
+                customer.email.ilike(search_value)
             )
 
-        # Apply sorting
-        if order_dir == "asc":
-            query = query.order_by(getattr(customer, order_column_name).asc())
+        if order_column_name == "age":
+            if order_dir == "asc":
+                query = query.order_by(age_column.asc())
+            else:
+                query = query.order_by(age_column.desc())
         else:
-            query = query.order_by(getattr(customer, order_column_name).desc())
-            
-        # Total records before filtering
+            query = query.order_by(order_column.asc() if order_dir == "asc" else order_column.desc())
+
         total_records = session.query(customer).count()
-
-        # Filtered records count
         filtered_records = query.count()
-
-        # Apply pagination
         data_query = query.offset(start).limit(length).all()
 
-        # Convert data to dictionary format
-        data = [cust.to_dict() for cust in data_query]
+        # Process results
+        data = [
+            {
+                **cust.customer.to_dict(),
+                "age": cust.age
+            }
+            for cust in data_query
+        ]
 
-        # Construct the response
         response = {
             "draw": draw,
             "recordsTotal": total_records,
@@ -313,27 +341,6 @@ def get_customer_data():
     finally:
         session.close()
         
-def get_customer_stats():
-    session = SessionLocal()
-    try:
-        total_customer = session.query(customer).count()
-        total_basic = session.query(customer).filter(customer.royalty_point >= 0, customer.royalty_point < 100).count()
-        total_silver = session.query(customer).filter(customer.royalty_point >= 100, customer.royalty_point < 200).count()
-        total_gold = session.query(customer).filter(customer.royalty_point >= 200, customer.royalty_point < 300).count()
-        total_platinum = session.query(customer).filter(customer.royalty_point >= 300, customer.royalty_point < 400).count()
-        total_corporate = session.query(customer).filter(customer.royalty_point >= 400).count()
-
-        return {
-            "total_customer": total_customer,
-            "total_basic": total_basic,
-            "total_silver": total_silver,
-            "total_gold": total_gold,
-            "total_platinum": total_platinum,
-            "total_corporate": total_corporate
-            }
-    finally:
-        session.close()
-
 # route to delete menu
 @app.route('/delete_menu/<int:id>', methods=['POST'])
 def delete_menu(id):
@@ -385,138 +392,23 @@ def delete_customer(id):
         session.close()
 
 # Export menu database to excel file 
-@app.route('/export_menu')
+@app.route('/export_menu', methods=['GET'])
 def export_menu():
-    # Create a new session to query the database
+    """Export menu data to Excel."""
     session = SessionLocal()
     try:
-        # Query the data from the database
-        records = session.query(
-            menu.id,
-            menu.nama_menu,
-            menu.kode,
-            menu.kategori,
-            menu.sub_kategori,
-            menu.harga,
-            menu.status
-        ).all()
-
-        # Convert the SQLAlchemy query result to a list of dictionaries
-        data = [
-            {
-                'ID': record.id,
-                'Nama Pengguna': record.nama_menu,
-                'Kode': record.kode,
-                'Quantity': record.kategori,
-                'Berat': record.sub_kategori,
-                'Harga': record.harga,
-                'Shipping Status': record.status,
-            }
-            for record in records
-        ]
-
-        # Use pandas to create a DataFrame
-        df = pd.DataFrame(data)
-
-        # Create an in-memory Excel file
-        output = BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='Data')
-
-        output.seek(0)  # Move to the beginning of the stream
-
-        # Send the Excel file as a response
-        return send_file(
-            output,
-            as_attachment=True,
-            download_name='menu_export.xlsx',
-            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        query_result = session.query(menu).all()
+        return export_to_excel(query_result, 'menu_export', 'Menu')
     finally:
-        # Close the session
         session.close()
 
-# Export customer database to excel file 
 @app.route('/export_customers', methods=['GET'])
 def export_customers():
-    """Export customer data to an Excel file."""
+    """Export customer data to Excel."""
     session = SessionLocal()
     try:
-        # Query only database columns
-        records = session.query(
-            customer.id,
-            customer.name,
-            customer.birthday,
-            customer.gender,
-            customer.email,
-            customer.phone,
-            customer.address,
-            customer.city,
-            customer.country,
-            customer.royalty_point
-        ).all()
-
-        # Convert query result to a list of dictionaries
-        from datetime import datetime
-
-        data = []
-        for record in records:
-            # Calculate `age` and `computed_roles_type` manually
-            if record.birthday:
-                birth_date = datetime.strptime(record.birthday, '%d-%m-%Y')
-                today = datetime.today()
-                age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-            else:
-                age = None
-
-            if record.royalty_point is not None:
-                if 0 <= record.royalty_point < 100:
-                    roles_type = "Basic"
-                elif 100 <= record.royalty_point < 200:
-                    roles_type = "Silver"
-                elif 200 <= record.royalty_point < 300:
-                    roles_type = "Gold"
-                elif 300 <= record.royalty_point < 400:
-                    roles_type = "Platinum"
-                elif record.royalty_point >= 400:
-                    roles_type = "Corporate"
-                else:
-                    roles_type = "Unknown"
-            else:
-                roles_type = "Unknown"
-
-            data.append({
-                'ID': record.id,
-                'Name': record.name,
-                'Birthday': record.birthday,
-                'Age': age,
-                'Gender': record.gender,
-                'Email': record.email,
-                'Phone': record.phone,
-                'Address': record.address,
-                'City': record.city,
-                'Country': record.country,
-                'Role Type': roles_type,
-                'Royalty Points': record.royalty_point
-            })
-
-        # Use pandas to create a DataFrame
-        df = pd.DataFrame(data)
-
-        # Create an in-memory Excel file
-        output = BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='Customers')
-
-        output.seek(0)  # Move to the beginning of the stream
-
-        # Send the Excel file as a response
-        return send_file(
-            output,
-            as_attachment=True,
-            download_name='customers_export.xlsx',
-            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        query_result = session.query(customer).all()
+        return export_to_excel(query_result, 'customers_export', 'Customers')
     finally:
         session.close()
 
