@@ -33,11 +33,12 @@ export function initDataTable() {
         data: null,
         title: "Action",
         orderable: false,
-        width: "150px",
+        width: "180px",
         render: (row) => `
-          <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
-          <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
-        `,
+  <button class="btn btn-warning btn-sm view-btn" data-id="${row.id}" style="margin-right: 3px;">View</button>
+  <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}" style="margin-right: 3px;">Edit</button>
+  <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
+`,
       },
     ],
     order: [[1, "asc"]],
@@ -76,8 +77,8 @@ export function initDataTable() {
     columns: [
       { data: "id", title: "ID" },
       { data: "name", title: "Name" },
-      { data: "birthday", title: "Date of Birth"},
-      { data: "age", title: "Age"},
+      { data: "birthday", title: "Date of Birth" },
+      { data: "age", title: "Age" },
       { data: "gender", title: "Gender" },
       { data: "email", title: "Email" },
       { data: "phone", title: "Phone Number" },
@@ -89,11 +90,13 @@ export function initDataTable() {
       {
         data: null,
         title: "Actions",
-        
+        orderable: false,
+        width: "180px",
         render: (row) => `
-          <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}">Edit</button>
-          <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
-        `,
+  <button class="btn btn-warning btn-sm view-btn" data-id="${row.id}" style="margin-right: 3px;">View</button>
+  <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}" style="margin-right: 3px;">Edit</button>
+  <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
+`,
       },
     ],
     order: [[1, "asc"]],

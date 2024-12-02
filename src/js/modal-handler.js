@@ -256,4 +256,104 @@ export function initDeleteModals() {
   $("#success-delete-modal").on("click", function () {
     $("#success-delete-modal").modal("hide"); // Hide the success modal
   });
+
+  $(document).on("click", ".view-btn", function () {
+    const id = $(this).data("id"); // Ambil ID dari atribut data-id
+    showCustomerModal(id, "view");
+  });
+
+  $(document).on("click", ".edit-btn", function () {
+    const id = $(this).data("id"); // Ambil ID dari atribut data-id
+    showCustomerModal(id, "edit");
+  });
+
+  function showCustomerModal(id, mode) {
+    // Reset form
+    $("#CustomersModalsForm")[0].reset();
+    $("input, textarea, select").removeAttr("readonly").removeAttr("disabled");
+
+    // Fetch customer data
+    $.ajax({
+      url: `/get_customer/${id}`,
+      method: "GET",
+      success: function (data) {
+        // Populate form with customer data
+        $("#customer_id").val(data.id);
+        $("#nama_customers").val(data.name);
+        $("#dob").val(
+          data.birthday
+            ? moment(data.birthday, "DD-MM-YYYY").format("YYYY-MM-DD")
+            : ""
+        );
+        $("#age").val(data.age);
+        $("#gender").val(data.gender);
+        $("#email").val(data.email);
+        $("#phone_number").val(data.phone);
+        $("#address").val(data.address);
+        $("#city").val(data.city);
+        $("#country").val(data.country);
+        $("#loyalty_points").val(data.royalty_point);
+        $("#membership").val(data.roles_type);
+
+        // Mode: View
+        if (mode === "view") {
+          // Buat semua field readonly atau disabled
+          $(
+            "#CustomersModalsForm input, #CustomersModalsForm textarea, #CustomersModalsForm select"
+          )
+            .attr("readonly", true)
+            .attr("disabled", true);
+        }
+
+        // Mode: Edit
+        if (mode === "edit") {
+          // Hanya field tertentu yang readonly
+          $("#age").attr("readonly", true);
+          $("#membership").attr("readonly", true);
+          $("#loyalty_points").attr("readonly", true);
+        }
+
+        // Tampilkan modal
+        $("#CustomersModals").modal("show");
+      },
+      error: function (xhr) {
+        alert(`Error: ${xhr.responseJSON.error}`);
+      },
+    });
+
+    // Event Listener untuk menghitung umur otomatis
+    $("#dob").on("change", function () {
+      const dob = $(this).val(); // Format input date (YYYY-MM-DD)
+      if (dob) {
+        const today = moment();
+        const birthDate = moment(dob, "YYYY-MM-DD");
+        const age = today.diff(birthDate, "years"); // Hitung umur
+        $("#age").val(age); // Set umur ke input age
+      } else {
+        $("#age").val(""); // Kosongkan jika tanggal lahir dihapus
+      }
+    });
+  }
+
+  $("#CustomersModalsForm").on("submit", function (event) {
+    event.preventDefault();
+
+    const id = $("#customer_id").val(); // Ambil ID pelanggan dari hidden input
+    const url = `/update_customer/${id}`; // Endpoint untuk update
+
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: $(this).serialize(),
+      success: function (response) {
+        alert(response.message);
+        $("#CustomersModals").modal("hide");
+        // Reload daftar pelanggan jika perlu
+        location.reload(); // Atau panggil fungsi render ulang tabel
+      },
+      error: function (xhr) {
+        alert(`Error: ${xhr.responseJSON.error}`);
+      },
+    });
+  });
 }

@@ -1,5 +1,22 @@
 const ReleaseData = [
   {
+    version: "2.2.0",
+    date: "02/12/2024",
+    features: {
+      added: [
+        "implemented view functionality for menu and customers.",
+        "implemented edit functionality for menu and customers.",
+        "new backend routes."
+      ],
+      fixed: [
+        "resolved issue with the view functionality.",
+        "updated DataTable initialization",
+        "Various issues in HTML and JavaScript code."
+      ],
+      improvements: ["General bug fixes and performance enhancements"],
+    },
+  },
+  {
     version: "2.1.0",
     date: "30/11/2024",
     features: {

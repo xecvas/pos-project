@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from functools import wraps
 import os
 from io import BytesIO
@@ -548,6 +548,66 @@ def add_customer():
     finally:
         session.close()
 
+@app.route('/get_customer/<int:id>', methods=['GET'])
+def get_customer(id):
+    """Retrieve customer data by ID."""
+    session = SessionLocal()
+    try:
+        customer_data = session.query(customer).get(id)
+        if not customer_data:
+            return jsonify({"error": "Customer not found"}), 404
+
+        # Siapkan data untuk dikirim ke modal
+        response_data = customer_data.to_dict()
+        # Format date of birth untuk HTML input date
+        if customer_data.birthday:
+            birth_date = datetime.strptime(customer_data.birthday, "%d-%m-%Y")
+            response_data["birthday"] = birth_date.strftime("%Y-%m-%d")
+        else:
+            response_data["birthday"] = None
+        
+        # Hitung umur jika tidak tersedia
+        if response_data.get("age") is None:
+            if response_data["birthday"]:
+                today = datetime.today()
+                birth_date = datetime.strptime(response_data["birthday"], "%Y-%m-%d")
+                response_data["age"] = (
+                    today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+                )
+            else:
+                response_data["age"] = None
+
+        return jsonify(response_data), 200
+    finally:
+        session.close()
+
+@app.route('/update_customer/<int:id>', methods=['POST'])
+def update_customer(id):
+    """Update customer data by ID."""
+    session = SessionLocal()
+    try:
+        customer_to_update = session.query(customer).get(id)
+        if not customer_to_update:
+            return jsonify({"error": "Customer not found"}), 404
+
+        # Update fields
+        customer_to_update.name = request.form.get('nama_customers')
+        customer_to_update.birthday = request.form.get('dob')
+        customer_to_update.gender = request.form.get('gender')
+        customer_to_update.email = request.form.get('email')
+        customer_to_update.phone = request.form.get('phone_number')
+        customer_to_update.address = request.form.get('address')
+        customer_to_update.city = request.form.get('city')
+        customer_to_update.country = request.form.get('country')
+        customer_to_update.royalty_point = request.form.get('loyalty_points', type=int)
+
+        session.commit()
+        return jsonify({"message": "Customer updated successfully"}), 200
+    except Exception as e:
+        session.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -28,6 +28,7 @@
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
   <script type="module" src="{{ url_for('js', filename='main.js') }}"></script>
 </head>
@@ -196,11 +197,12 @@
     </footer>
 
     <!-- Add Customers Form -->
-    <div class="modal fade" id="AddCustomers" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal fade" id="CustomersModals" tabindex="-1" aria-labelledby="CustomersModals" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-body">
-            <form id="AddCustomersForm" method="POST" action="/add_customers">
+            <form id="CustomersModalsForm">
+              <input type="hidden" id="customer_id" name="customer_id">
               <h3><i class="fa fa-plus"></i> Add Customers</h3>
 
               <!-- Customers Name -->
@@ -218,7 +220,7 @@
                 </div>
                 <div class="col-md-4">
                   <label for="age" class="form-label fw-semibold">Age</label>
-                  <input type="number" class="form-control" id="age" name="age" placeholder="Enter Age" required>
+                  <input type="number" class="form-control" id="age" name="age" placeholder="Age" readonly>
                 </div>
                 <div class="col-md-4">
                   <label for="gender" class="form-label fw-semibold">Gender</label>
@@ -269,12 +271,12 @@
                 <div class="col-md-6">
                   <label for="membership" class="form-label fw-semibold">Membership</label>
                   <input type="text" class="form-control" id="membership" name="membership"
-                    placeholder="Enter Membership" required>
+                    placeholder="Membership" readonly>
                 </div>
                 <div class="col-md-6">
                   <label for="loyalty_points" class="form-label fw-semibold">Loyalty Points</label>
                   <input type="number" class="form-control" id="loyalty_points" name="loyalty_points"
-                    placeholder="Enter Loyalty Points" required>
+                    placeholder="Loyalty Points" readonly>
                 </div>
               </div>
 
