@@ -2,186 +2,296 @@
 <html lang="en">
 
 <head>
-    <!-- Basic Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Welcome to My Xecvas POS.">
-    <meta name="keywords" content="POS">
-    <meta name="author" content="Xecvas">
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Welcome to My Xecvas POS." />
+  <meta name="keywords" content="POS" />
+  <meta name="author" content="Xecvas" />
 
-    <!-- Page Title -->
-    <title>POS Project - List Customers</title>
-    <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon">
+  <!-- Page Title -->
+  <title>POS Project - List Customers</title>
+  <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon" />
 
-    <!-- CSS Dependencies -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
-    <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('css', filename='tables.css') }}">
-    <link rel="stylesheet" href="{{ url_for('css', filename='sidebar.css') }}">
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('css', filename='tables.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('css', filename='sidebar.css') }}" />
 
-    <!-- JS Dependencies -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
-    <script type="module" src="{{ url_for('js', filename='main.js') }}"></script>
+  <!-- JS Dependencies -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
+  <script type="module" src="{{ url_for('js', filename='main.js') }}"></script>
 </head>
 
 <body>
-    <!-- Navbar Section -->
-    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
-        <div class="container-fluid">
-            <div class="navbar-left">
-                <!-- Sidebar Toggle Button -->
-                <button id="burger-btn" class="burger-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <!-- Brand Logo and Version -->
-                <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
-                    <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon"
-                        alt="Web Icon" style="width: 100px;">
-                    <span class="project-version"></span>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <!-- User Account Dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            {{ session['user_email'] if session.get('user_email') else 'Account' }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Change Password</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <!-- Notifications Icon -->
-                <div class="notification">
-                    <div id="dynamicModalContainer"></div>
-                    <i class="fas fa-bell fa-lg" data-toggle="modal" data-target="#releaseModal"></i>
-                    <span class="dot"></span>
-                </div>
-
-                <!-- Dark Mode Toggle -->
-                <div>
-                    <input type="checkbox" class="checkbox" id="checkbox">
-                    <label for="checkbox" class="checkbox-label">
-                        <i class="fas fa-moon"></i>
-                        <i class="fas fa-sun"></i>
-                        <span class="ball"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Sidebar Section -->
-    <div id="sidebar" class="sidebar collapsed">
-        <ul class="sidebar-menu">
-            <li>
-                <a href="{{ url_for('index') }}" title="Dashboard">
-                    <i class="icon fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('reports') }}" title="Reports">
-                    <i class="icon fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Reports</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('list_menu') }}" title="Menu">
-                    <i class="icon fas fa-utensils"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Menu</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('customers') }}" title="customers">
-                    <i class="icon fas fa-users"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Customers</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('release_note') }}" title="Release Notes">
-                    <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Release Notes</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('settings') }}" title="Settings">
-                    <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Settings</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="main-content">
-        <h3>Live View</h3>
-        <h4 class="current-time">time here</h4>
-        <button class="btn btn-success text-white" style="margin-right: 30px;" id="export-customers">
-            <i class="fa fa-download"></i> Export ke Excel
+  <!-- Navbar Section -->
+  <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+    <div class="container-fluid">
+      <div class="navbar-left">
+        <!-- Sidebar Toggle Button -->
+        <button id="burger-btn" class="burger-btn">
+          <i class="fas fa-bars"></i>
         </button>
-        <div class="table-container">
-            <!-- show data from myDatabase -->
-            <table id="mycustomer" class="datatables" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Umur</th>
-                        <th>Gender</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>Country</th>
-                        <th>Roles</th>
-                        <th>Royalty Point</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for customer in daftar_customer %}
-                    <tr>
-                        <td>{{ customer.id }}</td>
-                        <td>{{ customer.name }}</td>
-                        <td>{{ customer.birthday }}</td>
-                        <td>{{ customer.age }}</td>
-                        <td>{{ customer.gender }}</td>
-                        <td>{{ customer.email }}</td>
-                        <td>{{ customer.phone }}</td>
-                        <td>{{ customer.address }}</td>
-                        <td>{{ customer.city }}</td>
-                        <td>{{ customer.country }}</td>
-                        <td>{{ customer.roles_type }}</td>
-                        <td>{{ customer.royalty_point }}</td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Brand Logo and Version -->
+        <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
+          <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon"
+            alt="Web Icon" style="width: 100px" />
+          <span class="project-version"></span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <!-- User Account Dropdown -->
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ session['user_email'] if session.get('user_email') else
+              'Account' }}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Change Password</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <!-- Notifications Icon -->
+        <div class="notification">
+          <div id="dynamicModalContainer"></div>
+          <i class="fas fa-bell fa-lg" data-toggle="modal" data-target="#releaseModal"></i>
+          <span class="dot"></span>
         </div>
+
+        <!-- Dark Mode Toggle -->
+        <div>
+          <input type="checkbox" class="checkbox" id="checkbox" />
+          <label for="checkbox" class="checkbox-label">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+            <span class="ball"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar Section -->
+  <div id="sidebar" class="sidebar collapsed">
+    <ul class="sidebar-menu">
+      <li>
+        <a href="{{ url_for('index') }}" title="Dashboard">
+          <i class="icon fas fa-chart-line"></i>
+          <!-- Ikon untuk Dashboard -->
+          <span class="label">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('reports') }}" title="Reports">
+          <i class="icon fas fa-chart-bar"></i>
+          <!-- Ikon untuk Dashboard -->
+          <span class="label">Reports</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('list_menu') }}" title="Menu">
+          <i class="icon fas fa-utensils"></i>
+          <!-- Ikon untuk Menu -->
+          <span class="label">Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('customers') }}" title="customers">
+          <i class="icon fas fa-users"></i>
+          <!-- Ikon untuk Menu -->
+          <span class="label">Customers</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('release_note') }}" title="Release Notes">
+          <i class="icon fas fa-book"></i>
+          <!-- Ikon untuk Settings -->
+          <span class="label">Release Notes</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('settings') }}" title="Settings">
+          <i class="icon fas fa-cog"></i>
+          <!-- Ikon untuk Settings -->
+          <span class="label">Settings</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="main-content">
+    <h3>Live View</h3>
+    <h4 class="current-time">time here</h4>
+    <button class="btn btn-success text-white" style="margin-right: 30px" id="export-customers">
+      <i class="fa fa-download"></i> Export ke Excel
+    </button>
+
+    <button class="btn btn-primary text-white" id="add-customers" data-bs-toggle="modal" data-bs-target="#AddCustomers">
+      <i class="fa fa-plus"></i> Add Customers
+    </button>
+
+    <div class="table-container">
+      <!-- show data from myDatabase -->
+      <table id="mycustomer" class="datatables" style="width: 100%">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Tanggal Lahir</th>
+            <th>Umur</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Roles</th>
+            <th>Royalty Point</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customer in daftar_customer %}
+          <tr>
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.birthday }}</td>
+            <td>{{ customer.age }}</td>
+            <td>{{ customer.gender }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.city }}</td>
+            <td>{{ customer.country }}</td>
+            <td>{{ customer.roles_type }}</td>
+            <td>{{ customer.royalty_point }}</td>
+            <td></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <!-- Footer Section -->
     <footer class="text-center">
-        <p>
-            <img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
-            &copy; 2024 POS Project. All rights reserved.
-        </p>
+      <p>
+        <img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project" />
+        &copy; 2024 POS Project. All rights reserved.
+      </p>
     </footer>
+
+    <!-- Add Customers Form -->
+    <div class="modal fade" id="AddCustomers" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form id="AddCustomersForm" method="POST" action="/add_customers">
+              <h3><i class="fa fa-plus"></i> Add Customers</h3>
+
+              <!-- Customers Name -->
+              <div class="mb-3 spacer">
+                <label for="nama_customers" class="form-label fw-semibold">Customers Name</label>
+                <input type="text" class="form-control" id="nama_customers" name="nama_customers"
+                  placeholder="Enter Customer's Name" required>
+              </div>
+
+              <!-- Date of Birth, Age, and Gender (side by side) -->
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="dob" class="form-label fw-semibold">Date of Birth</label>
+                  <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="age" class="form-label fw-semibold">Age</label>
+                  <input type="number" class="form-control" id="age" name="age" placeholder="Enter Age" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="gender" class="form-label fw-semibold">Gender</label>
+                  <select class="form-select" id="gender" name="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Email and Phone Number (side by side) -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="email" class="form-label fw-semibold">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone_number" class="form-label fw-semibold">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                    placeholder="Enter Phone Number" required>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="mb-3">
+                <label for="address" class="form-label fw-semibold">Address</label>
+                <textarea class="form-control" id="address" name="address" placeholder="Enter Address" rows="3"
+                  required></textarea>
+              </div>
+
+              <!-- City and Country (side by side) -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="city" class="form-label fw-semibold">City</label>
+                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="country" class="form-label fw-semibold">Country</label>
+                  <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country"
+                    required>
+                </div>
+              </div>
+
+              <!-- Membership and Loyalty Points (side by side) -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="membership" class="form-label fw-semibold">Membership</label>
+                  <input type="text" class="form-control" id="membership" name="membership"
+                    placeholder="Enter Membership" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="loyalty_points" class="form-label fw-semibold">Loyalty Points</label>
+                  <input type="number" class="form-control" id="loyalty_points" name="loyalty_points"
+                    placeholder="Enter Loyalty Points" required>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="fa fa-times"></i> Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa fa-save"></i> Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

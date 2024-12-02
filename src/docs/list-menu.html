@@ -232,10 +232,10 @@
 
         <!-- Add Menu Form -->
         <div class="modal fade" id="AddMenu" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Tambahkan modal-lg -->
-                <div class="modal-content custom-modal-width"> <!-- Tambahkan kelas kustom -->
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
                     <div class="modal-body">
-                        <form id="productForm" method="POST" action="/add_product">
+                        <form id="AddMenuForm" method="POST" action="/add_menu">
                             <h3><i class="fa fa-plus"></i> Add New Menu</h3>
                             <!-- Nama Menu -->
                             <div class="mb-3 spacer">
@@ -260,7 +260,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
-                                    <input type="number" class="form-control" id="sub_kategori" name="sub_kategori"
+                                    <input type="text" class="form-control" id="sub_kategori" name="sub_kategori"
                                         placeholder="Masukkan Sub Kategori">
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
                             <!-- Harga -->
                             <div class="input-group mt-4 mb-3">
                                 <span class="input-group-text bg-light">Rp</span>
-                                <input type="text" class="form-control" id="harga" name="harga"
+                                <input type="number" class="form-control" id="harga" name="harga"
                                     placeholder="Masukkan Harga" required>
                                 <button type="button" class="btn btn-outline-secondary">
                                     <i class="fa fa-calculator"></i>
@@ -318,7 +318,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 </body>
 
 </html>
