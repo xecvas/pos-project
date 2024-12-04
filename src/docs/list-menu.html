@@ -185,7 +185,7 @@
                     <i class="fa fa-upload"></i> Import dari Excel
                 </button>
                 <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal"
-                    data-bs-target="#AddMenu">
+                    data-bs-target="#MenuModals">
                     <i class="fa fa-plus"></i> Add Menu
                 </button>
             </div>
@@ -231,12 +231,13 @@
         </footer>
 
         <!-- Add Menu Form -->
-        <div class="modal fade" id="AddMenu" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal fade" id="MenuModals" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <form id="AddMenuForm" method="POST" action="/add_menu">
-                            <h3><i class="fa fa-plus"></i> Add New Menu</h3>
+                        <form id="MenuModalsForm">
+                            <input type="hidden" id="menu_id" name="menu_id">
+                            <h3 class="modal-title" id="MenuModalsLabel"></h3>
                             <!-- Nama Menu -->
                             <div class="mb-3 spacer">
                                 <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
@@ -280,8 +281,8 @@
                                 <label for="status" class="form-label fw-semibold">Status</label>
                                 <select class="form-select" id="status" name="status" required>
                                     <option disabled selected>Pilih Status</option>
-                                    <option value="aktif">Aktif</option>
-                                    <option value="tidak_aktif">Tidak Aktif</option>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Tidak Aktif">Tidak Aktif</option>
                                 </select>
                             </div>
 

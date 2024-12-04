@@ -654,5 +654,42 @@ def update_customer(id):
     finally:
         session.close()
 
+@app.route('/get_menu/<int:id>', methods=['GET'])
+def get_menu(id):
+    """Retrieve menu data by ID."""
+    session = SessionLocal()
+    try:
+        menu_item = session.query(menu).get(id)
+        if not menu_item:
+            return jsonify({"error": "Menu not found"}), 404
+
+        return jsonify(menu_item.to_dict()), 200
+    finally:
+        session.close()
+
+@app.route('/update_menu/<int:id>', methods=['POST'])
+def update_menu(id):
+    """Update menu data by ID."""
+    session = SessionLocal()
+    try:
+        menu_item = session.query(menu).get(id)
+        if not menu_item:
+            return jsonify({"error": "Menu not found"}), 404
+
+        menu_item.nama_menu = request.form.get('nama_menu')
+        menu_item.kode = request.form.get('kode')
+        menu_item.kategori = request.form.get('kategori')
+        menu_item.sub_kategori = request.form.get('sub_kategori')
+        menu_item.harga = request.form.get('harga', type=int)
+        menu_item.status = request.form.get('status')
+
+        session.commit()
+        return jsonify({"message": "Menu updated successfully"}), 200
+    except Exception as e:
+        session.rollback()
+        return jsonify({"error": f"Failed to update menu: {str(e)}"}), 500
+    finally:
+        session.close()
+
 if __name__ == "__main__":
     app.run(debug=True)

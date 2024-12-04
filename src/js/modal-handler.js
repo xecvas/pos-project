@@ -35,13 +35,18 @@ export function initModals() {
         <h5>${latestRelease.version} - ${latestRelease.date}</h5>
         ${featuresHTML}
       `);
-      $("#releaseModal").modal({ backdrop: false, keyboard: true }).modal("show");
+      $("#releaseModal")
+        .modal({ backdrop: false, keyboard: true })
+        .modal("show");
     }
   });
 
   $(document).on("click", (event) => {
     const modalDialog = $("#releaseModal .modal-dialog");
-    if (!modalDialog.is(event.target) && modalDialog.has(event.target).length === 0) {
+    if (
+      !modalDialog.is(event.target) &&
+      modalDialog.has(event.target).length === 0
+    ) {
       if ($("#releaseModal").is(":visible")) {
         $("#releaseModal").modal("hide");
       }
@@ -54,7 +59,9 @@ function generateFeaturesHTML(features) {
   return Object.entries(features)
     .map(
       ([category, items]) =>
-        `<strong>${category.charAt(0).toUpperCase() + category.slice(1)}:</strong>
+        `<strong>${
+          category.charAt(0).toUpperCase() + category.slice(1)
+        }:</strong>
          <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
     )
     .join("");
@@ -95,13 +102,17 @@ export function renderReleaseNotesAccordion() {
     const accordionItem = `
       <div class="accordion-item" style="border-radius: 12px; margin-bottom: 15px;">
         <h2 class="accordion-header" id="heading-note-${index}">
-          <button class="accordion-button ${isLastRelease ? "" : "collapsed"}" type="button"
+          <button class="accordion-button ${
+            isLastRelease ? "" : "collapsed"
+          }" type="button"
             data-bs-toggle="collapse" data-bs-target="#collapse-note-${index}"
             aria-expanded="${isLastRelease}" aria-controls="collapse-note-${index}" style="border-radius: 12px;">
             <strong>${release.version} - ${release.date}</strong>
           </button>
         </h2>
-        <div id="collapse-note-${index}" class="accordion-collapse collapse ${isLastRelease ? "show" : ""}"
+        <div id="collapse-note-${index}" class="accordion-collapse collapse ${
+      isLastRelease ? "show" : ""
+    }"
           aria-labelledby="heading-note-${index}" data-bs-parent="#accordion-release-notes" style="border-radius: 12px;">
           <div class="accordion-body">${featuresHTML}</div>
         </div>
@@ -121,13 +132,19 @@ export function renderReleaseNotesAccordion() {
 
 // Initialize Forgot Password Modal
 function initForgotPasswordModal() {
-  const forgotPasswordModalElement = document.getElementById("forgotPasswordModal");
+  const forgotPasswordModalElement = document.getElementById(
+    "forgotPasswordModal"
+  );
   if (forgotPasswordModalElement) {
     forgotPasswordModalElement.addEventListener("submit", function (event) {
       event.preventDefault();
-      const forgotPasswordModalInstance = bootstrap.Modal.getInstance(forgotPasswordModalElement);
+      const forgotPasswordModalInstance = bootstrap.Modal.getInstance(
+        forgotPasswordModalElement
+      );
       forgotPasswordModalInstance.hide();
-      const checkEmailModal = new bootstrap.Modal(document.getElementById("checkEmailModal"));
+      const checkEmailModal = new bootstrap.Modal(
+        document.getElementById("checkEmailModal")
+      );
       checkEmailModal.show();
     });
   }
@@ -145,7 +162,7 @@ export function initDeleteModals() {
     `
   );
 
-  const successModalHTML = (`
+  const successModalHTML = `
   <div class="modal fade" id="success-delete-modal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -156,8 +173,7 @@ export function initDeleteModals() {
       </div>
     </div>
   </div>
-`
-);
+`;
 
   $("body").append(modalHTML + successModalHTML);
 
@@ -167,7 +183,8 @@ export function initDeleteModals() {
   $(document).on("click", ".delete-btn", function () {
     const id = $(this).data("id");
     const tableName = $(this).closest("table").attr("id");
-    currentTable = tableName === "mymenu" ? window.menuTable : window.customersTable;
+    currentTable =
+      tableName === "mymenu" ? window.menuTable : window.customersTable;
     rowToDelete = currentTable.row($(this).closest("tr"));
     $("#row-delete-yes").data("id", id);
     $("#datatable-delete-modal").modal("show");
@@ -176,7 +193,10 @@ export function initDeleteModals() {
   $("#row-delete-yes").on("click", function () {
     const id = $(this).data("id");
     if (currentTable && rowToDelete) {
-      const endpoint = currentTable === window.menuTable ? `/delete_menu/${id}` : `/delete_customer/${id}`;
+      const endpoint =
+        currentTable === window.menuTable
+          ? `/delete_menu/${id}`
+          : `/delete_customer/${id}`;
       $.ajax({
         type: "POST",
         url: endpoint,
@@ -195,109 +215,148 @@ export function initDeleteModals() {
   $("#success-delete-modal").on("click", function () {
     $("#success-delete-modal").modal("hide");
   });
-
-  $(document).on("click", ".view-btn", function () {
-    const id = $(this).data("id");
-    showCustomerModal(id, "view");
-  });
-
-  $(document).on("click", ".edit-btn", function () {
-    const id = $(this).data("id");
-    showCustomerModal(id, "edit");
-  });
-
-  $(document).on("click", "#add-customers", function () {
-    resetCustomerForm();
-    $("#CustomersModals").modal("show");
-  });
-
-  function showCustomerModal(id, mode) {
-    resetCustomerForm();
+  function resetForm(type) {
+    const formId = type === "menu" ? "#MenuModalsForm" : "#CustomersModalsForm";
+    $(formId)[0].reset();
+    $(`${formId} input, ${formId} textarea, ${formId} select`)
+      .removeAttr("readonly")
+      .removeAttr("disabled");
+    if (type === "menu") {
+      $("#menu_id").val("");
+      $("#MenuModalsLabel").html('<i class="fa fa-plus"></i> Add New Menu');
+    } else {
+      $("#customer_id").val("");
+      $("#age, #membership, #loyalty_points").attr("readonly", true);
+      $("#loyalty_points").val(0);
+      $("#membership").val("Basic");
+      $("#CustomersModalsLabel").html(
+        '<i class="fa fa-plus"></i> Add New Customer'
+      );
+    }
+  }
+  
+  function populateForm(data, type, mode) {
+    if (type === "menu") {
+      $("#menu_id").val(data.id);
+      $("#nama_menu").val(data.nama_menu);
+      $("#kode").val(data.kode);
+      $("#kategori").val(data.kategori);
+      $("#sub_kategori").val(data.sub_kategori);
+      $("#harga").val(data.harga);
+      $("#status").val(data.status);
+  
+      if (mode === "view") {
+        $("#MenuModalsLabel").html('<i class="fa fa-eye"></i> View Menu');
+        disableFormInputs("#MenuModalsForm");
+      } else {
+        $("#MenuModalsLabel").html('<i class="fa fa-edit"></i> Edit Menu');
+      }
+    } else {
+      $("#customer_id").val(data.id);
+      $("#nama_customers").val(data.name);
+      $("#dob").val(
+        data.birthday
+          ? moment(data.birthday, "DD-MM-YYYY").format("DD-MM-YYYY")
+          : ""
+      );
+      $("#age").val(data.age);
+      $("#gender").val(data.gender);
+      $("#email").val(data.email);
+      $("#phone").val(data.phone);
+      $("#address").val(data.address);
+      $("#city").val(data.city);
+      $("#country").val(data.country);
+      $("#loyalty_points").val(data.royalty_point);
+      $("#membership").val(data.roles_type);
+  
+      if (mode === "view") {
+        $("#CustomersModalsLabel").html('<i class="fa fa-eye"></i> View Customer');
+        disableFormInputs("#CustomersModalsForm");
+      } else {
+        $("#CustomersModalsLabel").html('<i class="fa fa-edit"></i> Edit Customer');
+      }
+    }
+  }
+  
+  function disableFormInputs(formId) {
+    $(`${formId} input, ${formId} textarea, ${formId} select`)
+      .attr("readonly", true)
+      .attr("disabled", true);
+  }
+  
+  function handleFormSubmit(event, type) {
+    event.preventDefault();
+    const idField = type === "menu" ? "#menu_id" : "#customer_id";
+    const formId = type === "menu" ? "#MenuModalsForm" : "#CustomersModalsForm";
+    const id = $(idField).val();
+    const url = id
+      ? `/update_${type}/${id}`
+      : `/add_${type}`;
+  
     $.ajax({
-      url: `/get_customer/${id}`,
+      url: url,
+      method: "POST",
+      data: $(formId).serialize(),
+      success: function (response) {
+        alert(response.message);
+        $(`${type === "menu" ? "#MenuModals" : "#CustomersModals"}`).modal("hide");
+        location.reload();
+      },
+      error: function (xhr) {
+        const errorMessage =
+          xhr.responseJSON.error || "An unknown error occurred.";
+        showErrorModal(errorMessage);
+      },
+    });
+  }
+  
+  function showErrorModal(message) {
+    $("#errorMessage").text(message);
+    $("#errorModal").modal("show");
+  }
+  
+  $(document).on("click", ".view-menu-btn, .view-btn", function () {
+    const id = $(this).data("id");
+    const type = $(this).hasClass("view-menu-btn") ? "menu" : "customer";
+    resetForm(type);
+    $.ajax({
+      url: `/get_${type}/${id}`,
       method: "GET",
       success: function (data) {
-        populateCustomerForm(data, mode);
-        $("#CustomersModals").modal("show");
+        populateForm(data, type, "view");
+        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
       },
       error: function (xhr) {
         alert(`Error: ${xhr.responseJSON.error}`);
       },
     });
-  }
-
-  function resetCustomerForm() {
-    $("#CustomersModalsForm")[0].reset();
-    $("input, textarea, select").removeAttr("readonly").removeAttr("disabled");
-    $("#customer_id").val("");
-    $("#age, #membership, #loyalty_points").attr("readonly", true);
-    $("#CustomersModalsLabel").html('<i class="fa fa-plus"></i> Add New Customer');
-  }
-
-  function populateCustomerForm(data, mode) {
-    $("#customer_id").val(data.id);
-    $("#nama_customers").val(data.name);
-    $("#dob").val(data.birthday ? moment(data.birthday, "DD-MM-YYYY").format("DD-MM-YYYY") : "");
-    $("#age").val(data.age);
-    $("#gender").val(data.gender);
-    $("#email").val(data.email);
-    $("#phone_number").val(data.phone);
-    $("#address").val(data.address);
-    $("#city").val(data.city);
-    $("#country").val(data.country);
-    $("#loyalty_points").val(data.royalty_point);
-    $("#membership").val(data.roles_type);
-
-    if (mode === "view") {
-      $("#CustomersModalsLabel").html('<i class="fa fa-eye"></i> View Customer');
-      $("#CustomersModalsForm input, #CustomersModalsForm textarea, #CustomersModalsForm select").attr("readonly", true).attr("disabled", true);
-    } else if (mode === "edit") {
-      $("#CustomersModalsLabel").html('<i class="fa fa-edit"></i> Edit Customer');
-    }
-  }
-
-  $("#CustomersModalsForm").on("submit", function (event) {
-    event.preventDefault();
-    const id = $("#customer_id").val();
-    const url = id ? `/update_customer/${id}` : "/add_customer";
-
+  });
+  
+  $(document).on("click", ".edit-menu-btn, .edit-btn", function () {
+    const id = $(this).data("id");
+    const type = $(this).hasClass("edit-menu-btn") ? "menu" : "customer";
+    resetForm(type);
     $.ajax({
-      url: url,
-      method: "POST",
-      data: $(this).serialize(),
-      success: function (response) {
-        alert(response.message);
-        $("#CustomersModals").modal("hide");
-        location.reload();
+      url: `/get_${type}/${id}`,
+      method: "GET",
+      success: function (data) {
+        populateForm(data, type, "edit");
+        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
       },
       error: function (xhr) {
-        const errorMessage = xhr.responseJSON.error || "An unknown error occurred.";
-        showErrorModal(errorMessage);
+        alert(`Error: ${xhr.responseJSON.error}`);
       },
     });
   });
-
-  $(document).on("change", "#dob", function () {
-    const dob = $(this).val();
-    const isValid = /^\d{2}-\d{2}-\d{4}$/.test(dob);
-    if (!$("#CustomersModals").hasClass("show")) return;
-
-    if (!isValid && dob) {
-      alert("Tanggal harus dalam format DD-MM-YYYY");
-      $(this).val("");
-    }
+  
+  $(document).on("click", "#add-menu, #add-customers", function () {
+    const type = $(this).attr("id") === "add-menu" ? "menu" : "customer";
+    resetForm(type);
+    $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
   });
-
-  $("#CustomersModalsForm").on("submit", function (event) {
-    const gender = $("#gender").val();
-    if (!["Male", "Female", "Other"].includes(gender)) {
-      event.preventDefault();
-      showErrorModal("Please select a valid gender.");
-    }
-  });
-
-  function showErrorModal(message) {
-    $("#errorMessage").text(message);
-    $("#errorModal").modal("show");
-  }
+  
+  $("#MenuModalsForm, #CustomersModalsForm").on("submit", function (event) {
+    const type = $(this).attr("id") === "MenuModalsForm" ? "menu" : "customer";
+    handleFormSubmit(event, type);
+  });  
 }

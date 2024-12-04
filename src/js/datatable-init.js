@@ -35,8 +35,8 @@ export function initDataTable() {
               orderable: false,
               width: "180px",
               render: (row) => `
-                  <button class="btn btn-warning btn-sm view-btn" data-id="${row.id}" style="margin-right: 3px;">View</button>
-                  <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}" style="margin-right: 3px;">Edit</button>
+                  <button class="btn btn-warning btn-sm view-menu-btn" data-id="${row.id}" style="margin-right: 3px;">View</button>
+                  <button class="btn btn-primary btn-sm edit-menu-btn" data-id="${row.id}" style="margin-right: 3px;">Edit</button>
                   <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}">Delete</button>
               `,
           },
