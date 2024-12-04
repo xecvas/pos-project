@@ -509,42 +509,54 @@ def add_menu():
 @app.route("/add_customer", methods=["POST"])
 def add_customer():
     """Add a new customer to the database."""
-    # Extract form data
-    name = request.form.get("name")
-    birthday = request.form.get("birthday")  # Expecting format DD-MM-YYYY
-    gender = request.form.get("gender")
-    email = request.form.get("email")
-    phone = request.form.get("phone", type=int)
-    address = request.form.get("address")
-    city = request.form.get("city")
-    country = request.form.get("country")
-    royalty_point = request.form.get("royalty_point", type=int)
-
-    # Validate form data
-    if not all([name, email]) or royalty_point is None:
-        return "Name, email, and royalty points are required", 400
-
-    # Create a new customer record
-    new_customer = customer(
-        name=name,
-        birthday=birthday,
-        gender=gender,
-        email=email,
-        phone=phone,
-        address=address,
-        city=city,
-        country=country,
-        royalty_point=royalty_point,
-    )
-
     session = SessionLocal()
     try:
+        # Ambil data dari form
+        name = request.form.get("name")
+        dob = request.form.get("dob")
+        if dob:
+            try:
+                dob = datetime.strptime(dob, "%d-%m-%Y").strftime("%d-%m-%Y")
+            except ValueError:
+                return jsonify({"error": "Invalid date format. Use DD-MM-YYYY"}), 400
+
+        gender = request.form.get("gender")
+        email = request.form.get("email")
+        phone = request.form.get("phone", type=int)
+        address = request.form.get("address")
+        city = request.form.get("city")
+        country = request.form.get("country")
+        royalty_point = request.form.get("royalty_point", type=int)
+
+        # Validasi
+        if not all([name, email, phone]):
+            return jsonify({"error": "Name, email, and phone are required"}), 400
+
+        if session.query(customer).filter_by(email=email).first():
+            return jsonify({"error": "Email already exists"}), 400
+
+        if session.query(customer).filter_by(phone=phone).first():
+            return jsonify({"error": "Phone number already exists"}), 400
+
+        # Tambahkan ke database
+        new_customer = customer(
+            name=name,
+            birthday=dob,
+            gender=gender,
+            email=email,
+            phone=phone,
+            address=address,
+            city=city,
+            country=country,
+            royalty_point=royalty_point,
+        )
         session.add(new_customer)
         session.commit()
-        return redirect(url_for("customers"))  # Adjust to your template route
+
+        return jsonify({"message": "Customer added successfully"}), 200
     except Exception as e:
         session.rollback()
-        return f"An error occurred: {e}", 500
+        return jsonify({"error": f"Failed to add customer: {str(e)}"}), 500
     finally:
         session.close()
 
@@ -562,10 +574,10 @@ def get_customer(id):
         # Format date of birth untuk HTML input date
         if customer_data.birthday:
             birth_date = datetime.strptime(customer_data.birthday, "%d-%m-%Y")
-            response_data["birthday"] = birth_date.strftime("%Y-%m-%d")
+            response_data["birthday"] = birth_date.strftime("%d-%m-%Y")
         else:
             response_data["birthday"] = None
-        
+
         # Hitung umur jika tidak tersedia
         if response_data.get("age") is None:
             if response_data["birthday"]:
@@ -586,26 +598,59 @@ def update_customer(id):
     """Update customer data by ID."""
     session = SessionLocal()
     try:
+        # Ambil data customer berdasarkan ID
         customer_to_update = session.query(customer).get(id)
         if not customer_to_update:
             return jsonify({"error": "Customer not found"}), 404
 
+        # Validasi gender
+        gender = request.form.get('gender')
+        if gender not in ["Male", "Female", "Other"]:
+            return jsonify({"error": "Invalid gender value"}), 400
+        customer_to_update.gender = gender
+
+        # Validasi email unik
+        email = request.form.get('email')
+        if email:
+            existing_email = session.query(customer).filter(
+                customer.email == email, customer.id != id
+            ).first()
+            if existing_email:
+                return jsonify({"error": "Email already exists"}), 400
+
+        # Validasi nomor telepon unik
+        phone = request.form.get('phone', type=int)
+        if phone:
+            existing_phone = session.query(customer).filter(
+                customer.phone == phone, customer.id != id
+            ).first()
+            if existing_phone:
+                return jsonify({"error": "Phone number already exists"}), 400
+
         # Update fields
         customer_to_update.name = request.form.get('nama_customers')
-        customer_to_update.birthday = request.form.get('dob')
+        dob = request.form.get('dob')
+        if dob:
+            try:
+                dob = datetime.strptime(dob, "%d-%m-%Y").strftime("%d-%m-%Y")
+            except ValueError:
+                return jsonify({"error": "Invalid date format. Use DD-MM-YYYY"}), 400
+        customer_to_update.birthday = dob
         customer_to_update.gender = request.form.get('gender')
-        customer_to_update.email = request.form.get('email')
-        customer_to_update.phone = request.form.get('phone_number')
+        customer_to_update.email = email
+        customer_to_update.phone = phone
         customer_to_update.address = request.form.get('address')
         customer_to_update.city = request.form.get('city')
         customer_to_update.country = request.form.get('country')
         customer_to_update.royalty_point = request.form.get('loyalty_points', type=int)
 
+        # Simpan perubahan
         session.commit()
         return jsonify({"message": "Customer updated successfully"}), 200
+
     except Exception as e:
         session.rollback()
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Failed to update customer: {str(e)}"}), 500
     finally:
         session.close()
 

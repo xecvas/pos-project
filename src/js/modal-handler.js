@@ -267,6 +267,22 @@ export function initDeleteModals() {
     showCustomerModal(id, "edit");
   });
 
+  $(document).on("click", "#add-customers", function () {
+    // Reset form
+    $("#CustomersModalsForm")[0].reset();
+    $("input, textarea, select").removeAttr("readonly").removeAttr("disabled");
+
+    // Set default values for Add mode
+    $("#CustomersModalsLabel").html('<i class="fa fa-plus"></i> Add New Customer'); // Untuk Add
+    $("#customer_id").val(""); // Kosongkan ID pelanggan
+    $("#age").attr("readonly", true); // Tetap readonly karena dihitung otomatis
+    $("#membership").attr("readonly", true); // Tetap readonly
+    $("#loyalty_points").attr("readonly", true); // Tetap readonly
+
+    // Tampilkan modal
+    $("#CustomersModals").modal("show");
+  });
+
   function showCustomerModal(id, mode) {
     // Reset form
     $("#CustomersModalsForm")[0].reset();
@@ -282,7 +298,7 @@ export function initDeleteModals() {
         $("#nama_customers").val(data.name);
         $("#dob").val(
           data.birthday
-            ? moment(data.birthday, "DD-MM-YYYY").format("YYYY-MM-DD")
+            ? moment(data.birthday, "DD-MM-YYYY").format("DD-MM-YYYY")
             : ""
         );
         $("#age").val(data.age);
@@ -298,6 +314,7 @@ export function initDeleteModals() {
         // Mode: View
         if (mode === "view") {
           // Buat semua field readonly atau disabled
+          $("#CustomersModalsLabel").html('<i class="fa fa-eye"></i> View Customer'); // Untuk View
           $(
             "#CustomersModalsForm input, #CustomersModalsForm textarea, #CustomersModalsForm select"
           )
@@ -308,6 +325,7 @@ export function initDeleteModals() {
         // Mode: Edit
         if (mode === "edit") {
           // Hanya field tertentu yang readonly
+          $("#CustomersModalsLabel").html('<i class="fa fa-edit"></i> Edit Customer'); // Untuk Edit
           $("#age").attr("readonly", true);
           $("#membership").attr("readonly", true);
           $("#loyalty_points").attr("readonly", true);
@@ -320,40 +338,57 @@ export function initDeleteModals() {
         alert(`Error: ${xhr.responseJSON.error}`);
       },
     });
-
-    // Event Listener untuk menghitung umur otomatis
-    $("#dob").on("change", function () {
-      const dob = $(this).val(); // Format input date (YYYY-MM-DD)
-      if (dob) {
-        const today = moment();
-        const birthDate = moment(dob, "YYYY-MM-DD");
-        const age = today.diff(birthDate, "years"); // Hitung umur
-        $("#age").val(age); // Set umur ke input age
-      } else {
-        $("#age").val(""); // Kosongkan jika tanggal lahir dihapus
-      }
-    });
   }
 
   $("#CustomersModalsForm").on("submit", function (event) {
     event.preventDefault();
 
-    const id = $("#customer_id").val(); // Ambil ID pelanggan dari hidden input
-    const url = `/update_customer/${id}`; // Endpoint untuk update
+    const id = $("#customer_id").val(); // Ambil ID pelanggan
+    const url = id ? `/update_customer/${id}` : "/add_customer"; // Gunakan endpoint sesuai mode
 
     $.ajax({
       url: url,
       method: "POST",
       data: $(this).serialize(),
       success: function (response) {
-        alert(response.message);
-        $("#CustomersModals").modal("hide");
-        // Reload daftar pelanggan jika perlu
-        location.reload(); // Atau panggil fungsi render ulang tabel
+        alert(response.message); // Tampilkan pesan sukses
+        $("#CustomersModals").modal("hide"); // Tutup modal
+        location.reload(); // Reload tabel pelanggan
       },
       error: function (xhr) {
-        alert(`Error: ${xhr.responseJSON.error}`);
+        const errorMessage =
+          xhr.responseJSON.error || "An unknown error occurred.";
+        showErrorModal(errorMessage); // Tampilkan pesan error
       },
     });
   });
+
+  $(document).on("change", "#dob", function () {
+    const dob = $(this).val(); // Format input date
+    const isValid = /^\d{2}-\d{2}-\d{4}$/.test(dob); // Regex untuk DD-MM-YYYY
+
+    // Pastikan modal masih aktif
+    if (!$("#CustomersModals").hasClass("show")) {
+      return; // Jika modal tidak aktif, keluar dari validasi
+    }
+
+    if (!isValid && dob) {
+      // Validasi hanya jika ada nilai
+      alert("Tanggal harus dalam format DD-MM-YYYY");
+      $(this).val(""); // Kosongkan input jika format salah
+    }
+  });
+
+  $("#CustomersModalsForm").on("submit", function (event) {
+    const gender = $("#gender").val();
+    if (!["Male", "Female", "Other"].includes(gender)) {
+      event.preventDefault();
+      showErrorModal("Please select a valid gender.");
+    }
+  });
+
+  function showErrorModal(message) {
+    $("#errorMessage").text('tralala'); // Set pesan error
+    $("#errorModal").modal("show"); // Tampilkan modal
+  }
 }

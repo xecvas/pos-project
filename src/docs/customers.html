@@ -142,7 +142,8 @@
       <i class="fa fa-download"></i> Export ke Excel
     </button>
 
-    <button class="btn btn-primary text-white" id="add-customers" data-bs-toggle="modal" data-bs-target="#AddCustomers">
+    <button class="btn btn-primary text-white" id="add-customers" data-bs-toggle="modal"
+    data-bs-target="#CustomersModals">
       <i class="fa fa-plus"></i> Add Customers
     </button>
 
@@ -196,14 +197,14 @@
       </p>
     </footer>
 
-    <!-- Add Customers Form -->
+    <!-- Customers Modal Form -->
     <div class="modal fade" id="CustomersModals" tabindex="-1" aria-labelledby="CustomersModals" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-body">
             <form id="CustomersModalsForm">
               <input type="hidden" id="customer_id" name="customer_id">
-              <h3><i class="fa fa-plus"></i> Add Customers</h3>
+              <h3 class="modal-title" id="CustomersModalsLabel">Modal Title</h3>
 
               <!-- Customers Name -->
               <div class="mb-3 spacer">
@@ -216,7 +217,7 @@
               <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="dob" class="form-label fw-semibold">Date of Birth</label>
-                  <input type="date" class="form-control" id="dob" name="dob" required>
+                  <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY" required>
                 </div>
                 <div class="col-md-4">
                   <label for="age" class="form-label fw-semibold">Age</label>
@@ -270,8 +271,8 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="membership" class="form-label fw-semibold">Membership</label>
-                  <input type="text" class="form-control" id="membership" name="membership"
-                    placeholder="Membership" readonly>
+                  <input type="text" class="form-control" id="membership" name="membership" placeholder="Membership"
+                    readonly>
                 </div>
                 <div class="col-md-6">
                   <label for="loyalty_points" class="form-label fw-semibold">Loyalty Points</label>
@@ -293,6 +294,25 @@
         </div>
       </div>
     </div>
+
+    <!-- error modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="errorModalLabel">Error</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="errorMessage">An error occurred. Please try again.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </body>
 
