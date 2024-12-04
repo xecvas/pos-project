@@ -1,44 +1,41 @@
-// Toggle sidebar visibility
 export function addGlobalEventListeners() {
+  // Toggle sidebar visibility
   $("#burger-btn").on("click", () => $("#sidebar").toggleClass("expanded"));
 
   // Toggle password visibility
   $("#togglePassword").on("click", () => {
-    const passwordInput = $("#login_password");
-    const isPassword = passwordInput.attr("type") === "password";
-    passwordInput.attr("type", isPassword ? "text" : "password");
-    $("#eyeIcon").toggleClass("fa-eye fa-eye-slash");
+      const passwordInput = $("#login_password");
+      const isPassword = passwordInput.attr("type") === "password";
+      passwordInput.attr("type", isPassword ? "text" : "password");
+      $("#eyeIcon").toggleClass("fa-eye fa-eye-slash");
   });
 
-  // Redirect to all releases page
+  // Redirect to the all releases page
   $("#seeAllReleases").on("click", () => {
-    window.location.href = "/release-note";
+      window.location.href = "/release-note";
   });
 
-  // Export menu to Excel
+  // Export menu data to Excel
   $("#export-menu").on("click", () => {
-    window.location.href = "/export_menu";
+      window.location.href = "/export_menu";
   });
 
-  // Export customer to Excel
+  // Export customer data to Excel
   $("#export-customers").on("click", () => {
-    window.location.href = "/export_customers";
+      window.location.href = "/export_customers";
   });
 
-  //release-note search bar for version
+  // Filter release notes by search input
   $('input[type="search"]').on("keyup", function () {
-    var searchTerm = $(this).val().toLowerCase();
-    // Filter elemen berdasarkan input pencarian
-    $("#accordion-release-notes .accordion-item").filter(function () {
-      $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
-    });
+      const searchTerm = $(this).val().toLowerCase();
+      $("#accordion-release-notes .accordion-item").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().includes(searchTerm));
+      });
   });
-  
-  // Select the latest version from ReleaseData and set in navbar
-  const projectTitle = document.querySelector(".navbar-brand .project-version");
 
-  if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
-    const latestVersion = ReleaseData[0].version; // Assuming the latest version is the first item
-    projectTitle.textContent = `v${latestVersion}`;
+  // Set the latest release version in the navbar
+  const projectTitle = document.querySelector(".navbar-brand .project-version");
+  if (ReleaseData?.length > 0 && projectTitle) {
+      projectTitle.textContent = `v${ReleaseData[0].version}`; // Assumes the latest version is the first item
   }
 }

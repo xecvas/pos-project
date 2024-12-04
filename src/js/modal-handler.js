@@ -1,4 +1,4 @@
-// Function to create modal HTML
+// Create modal HTML
 function createModalHTML(id, title, bodyContent, footerContent) {
   return `
     <div class="modal fade" id="${id}" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
@@ -16,7 +16,7 @@ function createModalHTML(id, title, bodyContent, footerContent) {
   `;
 }
 
-// Function to initialize modals
+// Initialize modals
 export function initModals() {
   const modalHTML = createModalHTML(
     "releaseModal",
@@ -27,7 +27,6 @@ export function initModals() {
 
   $("#dynamicModalContainer").html(modalHTML);
 
-  // Event listener to display the latest release in modal
   $(".notification").on("click", () => {
     const latestRelease = ReleaseData?.[0];
     if (latestRelease) {
@@ -40,7 +39,6 @@ export function initModals() {
     }
   });
 
-  // Close modal if clicking outside
   $(document).on("click", (event) => {
     const modalDialog = $("#releaseModal .modal-dialog");
     if (!modalDialog.is(event.target) && modalDialog.has(event.target).length === 0) {
@@ -51,7 +49,7 @@ export function initModals() {
   });
 }
 
-// Function to generate features HTML
+// Generate features HTML
 function generateFeaturesHTML(features) {
   return Object.entries(features)
     .map(
@@ -62,7 +60,7 @@ function generateFeaturesHTML(features) {
     .join("");
 }
 
-// Function to render login page accordion with the latest release
+// Render login page accordion with the latest release
 export function renderLoginPageAccordion() {
   const latestRelease = ReleaseData?.[0];
   if (latestRelease) {
@@ -86,7 +84,7 @@ export function renderLoginPageAccordion() {
   }
 }
 
-// Function to render all release notes in an accordion
+// Render all release notes in an accordion
 export function renderReleaseNotesAccordion() {
   const releaseNotesAccordion = $("#accordion-release-notes");
   releaseNotesAccordion.empty();
@@ -112,18 +110,16 @@ export function renderReleaseNotesAccordion() {
     releaseNotesAccordion.append(accordionItem);
   });
 
-  // Update navbar with the latest version
   const projectTitle = document.querySelector(".navbar-brand .project-version");
   if (ReleaseData && ReleaseData.length > 0 && projectTitle) {
     const latestVersion = ReleaseData[0].version;
     projectTitle.textContent = `v${latestVersion}`;
   }
 
-  // Initialize modals for Forgot Password and Check Email
   initForgotPasswordModal();
 }
 
-// Function to initialize Forgot Password Modal
+// Initialize Forgot Password Modal
 function initForgotPasswordModal() {
   const forgotPasswordModalElement = document.getElementById("forgotPasswordModal");
   if (forgotPasswordModalElement) {
@@ -137,7 +133,7 @@ function initForgotPasswordModal() {
   }
 }
 
-// Function to initialize delete modals
+// Initialize delete modals
 export function initDeleteModals() {
   const modalHTML = createModalHTML(
     "datatable-delete-modal",
@@ -165,10 +161,9 @@ export function initDeleteModals() {
 
   $("body").append(modalHTML + successModalHTML);
 
-  let rowToDelete = null; // Scope for the row to delete
-  let currentTable = null; // Scope for the current table
+  let rowToDelete = null;
+  let currentTable = null;
 
-  // Show the delete modal when the delete button is clicked
   $(document).on("click", ".delete-btn", function () {
     const id = $(this).data("id");
     const tableName = $(this).closest("table").attr("id");
@@ -178,7 +173,6 @@ export function initDeleteModals() {
     $("#datatable-delete-modal").modal("show");
   });
 
-  // Handle delete confirmation
   $("#row-delete-yes").on("click", function () {
     const id = $(this).data("id");
     if (currentTable && rowToDelete) {
@@ -198,12 +192,10 @@ export function initDeleteModals() {
     }
   });
 
-  // Hide delete success modal on "OK" button click
   $("#success-delete-modal").on("click", function () {
     $("#success-delete-modal").modal("hide");
   });
 
-  // Event listeners for view and edit buttons
   $(document).on("click", ".view-btn", function () {
     const id = $(this).data("id");
     showCustomerModal(id, "view");
@@ -214,13 +206,11 @@ export function initDeleteModals() {
     showCustomerModal(id, "edit");
   });
 
-  // Event listener for adding customers
   $(document).on("click", "#add-customers", function () {
     resetCustomerForm();
     $("#CustomersModals").modal("show");
   });
 
-  // Function to show customer modal
   function showCustomerModal(id, mode) {
     resetCustomerForm();
     $.ajax({
@@ -236,16 +226,14 @@ export function initDeleteModals() {
     });
   }
 
-  // Function to reset customer form
   function resetCustomerForm() {
     $("#CustomersModalsForm")[0].reset();
     $("input, textarea, select").removeAttr("readonly").removeAttr("disabled");
     $("#customer_id").val("");
     $("#age, #membership, #loyalty_points").attr("readonly", true);
-    $("#CustomersModalsLabel").html('<i class="fa fa-plus"></i> Add New Customer'); // Untuk Add
+    $("#CustomersModalsLabel").html('<i class="fa fa-plus"></i> Add New Customer');
   }
 
-  // Function to populate customer form with data
   function populateCustomerForm(data, mode) {
     $("#customer_id").val(data.id);
     $("#nama_customers").val(data.name);
@@ -268,7 +256,6 @@ export function initDeleteModals() {
     }
   }
 
-  // Event listener for customer form submission
   $("#CustomersModalsForm").on("submit", function (event) {
     event.preventDefault();
     const id = $("#customer_id").val();
@@ -290,7 +277,6 @@ export function initDeleteModals() {
     });
   });
 
-  // Event listener for date of birth validation
   $(document).on("change", "#dob", function () {
     const dob = $(this).val();
     const isValid = /^\d{2}-\d{2}-\d{4}$/.test(dob);
@@ -302,7 +288,6 @@ export function initDeleteModals() {
     }
   });
 
-  // Event listener for gender validation
   $("#CustomersModalsForm").on("submit", function (event) {
     const gender = $("#gender").val();
     if (!["Male", "Female", "Other"].includes(gender)) {
@@ -311,7 +296,6 @@ export function initDeleteModals() {
     }
   });
 
-  // Function to show error modal
   function showErrorModal(message) {
     $("#errorMessage").text(message);
     $("#errorModal").modal("show");
