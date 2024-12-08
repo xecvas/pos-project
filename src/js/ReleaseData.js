@@ -4,6 +4,7 @@ const ReleaseData = [
     date: "08/12/2024",
     features: {
       added: [
+        "Age is now calculated automatically when adding or editing customer details.",
         "Added a calculator to calculate item prices.",
         "Disabled clicks outside of menus and customers modals for enhanced usability.",
         "Introduced the ability to add, view, and edit menu pictures."

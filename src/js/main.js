@@ -18,7 +18,9 @@ $(document).ready(function () {
   // Initialize Utilities
   utils();
   createCalculator();
-  initCalculator();
+  if (window.location.pathname.includes('list-menu.html')) {
+    initCalculator();
+}
 
   // Initialize modals
   initModals();

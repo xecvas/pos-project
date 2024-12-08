@@ -217,7 +217,7 @@
               <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="dob" class="form-label fw-semibold">Date of Birth</label>
-                  <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY" required>
+                  <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" required>
                 </div>
                 <div class="col-md-4">
                   <label for="age" class="form-label fw-semibold">Age</label>
@@ -226,7 +226,7 @@
                 <div class="col-md-4">
                   <label for="gender" class="form-label fw-semibold">Gender</label>
                   <select class="form-select" id="gender" name="gender" required>
-                    <option value="" disabled selected>Select Gender</option>
+                    <option value="" selected>Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
