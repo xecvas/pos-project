@@ -222,104 +222,110 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <!-- Footer Section -->
-        <footer class="text-center">
-            <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
-                &copy;
-                2024 POS Project. All rights reserved.</p>
-        </footer>
+    <!-- Footer Section -->
+    <footer class="text-center">
+        <p><img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
+            &copy;
+            2024 POS Project. All rights reserved.</p>
+    </footer>
+</body>
 
-        <!-- Add Menu Form -->
-        <div class="modal fade" id="MenuModals" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form id="MenuModalsForm">
-                            <input type="hidden" id="menu_id" name="menu_id">
-                            <h3 class="modal-title" id="MenuModalsLabel"></h3>
-                            <!-- Nama Menu -->
-                            <div class="mb-3 spacer">
-                                <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
-                                <input type="text" class="form-control" id="nama_menu" name="nama_menu"
-                                    placeholder="Masukkan Nama Menu" required>
-                            </div>
+<!-- Add Menu Form -->
+<div class="modal fade" id="MenuModals" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="MenuModalsForm">
+                    <input type="hidden" id="menu_id" name="menu_id">
+                    <h3 class="modal-title" id="MenuModalsLabel"></h3>
 
-                            <!-- Kode -->
-                            <div class="mb-3">
-                                <label for="kode" class="form-label fw-semibold">Kode</label>
-                                <input type="text" class="form-control" id="kode" name="kode"
-                                    placeholder="Masukkan Kode" required>
-                            </div>
+                    <!-- Nama Menu -->
+                    <div class="mb-3">
+                        <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
+                        <input type="text" class="form-control" id="nama_menu" name="nama_menu"
+                            placeholder="Masukkan Nama Menu" required>
+                    </div>
 
-                            <!-- Kategori -->
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="kategori" class="form-label fw-semibold">Kategori</label>
-                                    <input type="text" class="form-control" id="kategori" name="kategori"
-                                        placeholder="Masukkan Kategori">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
-                                    <input type="text" class="form-control" id="sub_kategori" name="sub_kategori"
-                                        placeholder="Masukkan Sub Kategori">
-                                </div>
-                            </div>
+                    <!-- Kode, Kategori, Sub Kategori -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label for="kode" class="form-label fw-semibold">Kode</label>
+                            <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan Kode"
+                                required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="kategori" class="form-label fw-semibold">Kategori</label>
+                            <input type="text" class="form-control" id="kategori" name="kategori"
+                                placeholder="Masukkan Kategori">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
+                            <input type="text" class="form-control" id="sub_kategori" name="sub_kategori"
+                                placeholder="Masukkan Sub Kategori">
+                        </div>
+                    </div>
 
-                            <!-- Harga -->
-                            <div class="input-group mt-4 mb-3">
-                                <span class="input-group-text bg-light">Rp</span>
+                    <!-- Status dan Harga -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="status" class="form-label fw-semibold">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option disabled selected>Pilih Status</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="harga" class="form-label fw-semibold">Harga</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
                                 <input type="number" class="form-control" id="harga" name="harga"
                                     placeholder="Masukkan Harga" required>
-                                <button type="button" class="btn btn-outline-secondary">
-                                    <i class="fa fa-calculator"></i>
-                                </button>
+                                <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
+                                    <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
+                                </span>
                             </div>
+                        </div>
 
-                            <!-- Status -->
-                            <div class="mb-3">
-                                <label for="status" class="form-label fw-semibold">Status</label>
-                                <select class="form-select" id="status" name="status" required>
-                                    <option disabled selected>Pilih Status</option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Tidak Aktif">Tidak Aktif</option>
-                                </select>
+                        <!-- Tags -->
+                        <div class="mb-3">
+                            <label for="tags" class="form-label fw-semibold">Tags</label>
+                            <input type="text" class="form-control" id="tags" name="tags"
+                                placeholder="Contoh: spicy, vegan, bestseller">
+                        </div>
+
+                        <!-- Gambar Menu dan Deskripsi -->
+                        <div class="row gx-2 mb-3">
+                            <div class="col-md-3"> <!-- Ubah dari col-md-6 menjadi col-md-4 -->
+                                <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
+                                <div class="d-flex justify-content-center align-items-center border rounded"
+                                    style="width: 175px; height: 157px;">
+                                    <img id="preview_gambar" src="#" alt="Preview Gambar"
+                                        style="max-height: 100%; max-width: 100%; display: none;">
+                                </div>
                             </div>
-
-                            <!-- Deskripsi -->
-                            <div class="mb-3">
+                            <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
                                 <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"
+                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6"
                                     placeholder="Masukkan Deskripsi"></textarea>
                             </div>
+                        </div>
 
-                            <!-- Gambar Menu -->
-                            <div class="mb-3">
-                                <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
-                                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
-                            </div>
 
-                            <!-- Tags -->
-                            <div class="mb-3">
-                                <label for="tags" class="form-label fw-semibold">Tags</label>
-                                <input type="text" class="form-control" id="tags" name="tags"
-                                    placeholder="Contoh: spicy, vegan, bestseller">
-                            </div>
-
-                            <div class="modal-footer" style="border-top: none;">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                    <i class="fa fa-times"></i> Cancel
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-save"></i> Submit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                        <div class="modal-footer" style="border-top: none;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Submit
+                            </button>
+                        </div>
+                </form>
             </div>
         </div>
     </div>
-</body>
+</div>
 
 </html>

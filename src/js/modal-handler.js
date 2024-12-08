@@ -234,7 +234,7 @@ export function initDeleteModals() {
       );
     }
   }
-  
+
   function populateForm(data, type, mode) {
     if (type === "menu") {
       $("#menu_id").val(data.id);
@@ -244,11 +244,30 @@ export function initDeleteModals() {
       $("#sub_kategori").val(data.sub_kategori);
       $("#harga").val(data.harga);
       $("#status").val(data.status);
-  
+
       if (mode === "view") {
+        const statusValue = data.status === "aktif" ? "Aktif" : "Tidak Aktif";
+        $("#status").replaceWith(
+          `<input type="text" class="form-control" id="status" value="${statusValue}" readonly />`
+        );
+        $("#calc-toggle").hide();
+        $("#harga").addClass("rounded-end");
         $("#MenuModalsLabel").html('<i class="fa fa-eye"></i> View Menu');
         disableFormInputs("#MenuModalsForm");
       } else {
+        $("#status").replaceWith(`
+          <select class="form-select" id="status" name="status" required>
+              <option disabled>Pilih Status</option>
+              <option value="Aktif" ${
+                data.status === "Aktif" ? "selected" : ""
+              }>Aktif</option>
+              <option value="Tidak Aktif" ${
+                data.status === "Tidak Aktif" ? "selected" : ""
+              }>Tidak Aktif</option>
+          </select> 
+      `);
+        $("#calc-toggle").show();
+        $("#harga").removeClass("rounded-end");
         $("#MenuModalsLabel").html('<i class="fa fa-edit"></i> Edit Menu');
       }
     } else {
@@ -268,38 +287,67 @@ export function initDeleteModals() {
       $("#country").val(data.country);
       $("#loyalty_points").val(data.royalty_point);
       $("#membership").val(data.roles_type);
-  
+
       if (mode === "view") {
-        $("#CustomersModalsLabel").html('<i class="fa fa-eye"></i> View Customer');
+        const genderValue =
+          data.gender === "Male"
+            ? "Male"
+            : data.gender === "Female"
+            ? "Female"
+            : data.gender === "Other"
+            ? "Other"
+            : "Unknown";
+        $("#gender").replaceWith(
+          `<input type="text" class="form-control" id="gender" value="${genderValue}" readonly />`
+        );
+        $("#CustomersModalsLabel").html(
+          '<i class="fa fa-eye"></i> View Customer'
+        );
         disableFormInputs("#CustomersModalsForm");
       } else {
-        $("#CustomersModalsLabel").html('<i class="fa fa-edit"></i> Edit Customer');
+        $("#gender").replaceWith(`
+          <select class="form-select" id="gender" name="gender" required>
+            <option disabled>Pilih Gender</option>
+            <option value="Male" ${
+              data.gender === "Male" ? "selected" : ""
+            }>Male</option>
+            <option value="Female" ${
+              data.gender === "Female" ? "selected" : ""
+            }>Female</option>
+            <option value="Other" ${
+              data.gender === "Other" ? "selected" : ""
+            }>Other</option>
+          </select>
+        `);
+        $("#CustomersModalsLabel").html(
+          '<i class="fa fa-edit"></i> Edit Customer'
+        );
       }
     }
   }
-  
+
   function disableFormInputs(formId) {
     $(`${formId} input, ${formId} textarea, ${formId} select`)
       .attr("readonly", true)
       .attr("disabled", true);
   }
-  
+
   function handleFormSubmit(event, type) {
     event.preventDefault();
     const idField = type === "menu" ? "#menu_id" : "#customer_id";
     const formId = type === "menu" ? "#MenuModalsForm" : "#CustomersModalsForm";
     const id = $(idField).val();
-    const url = id
-      ? `/update_${type}/${id}`
-      : `/add_${type}`;
-  
+    const url = id ? `/update_${type}/${id}` : `/add_${type}`;
+
     $.ajax({
       url: url,
       method: "POST",
       data: $(formId).serialize(),
       success: function (response) {
         alert(response.message);
-        $(`${type === "menu" ? "#MenuModals" : "#CustomersModals"}`).modal("hide");
+        $(`${type === "menu" ? "#MenuModals" : "#CustomersModals"}`).modal(
+          "hide"
+        );
         location.reload();
       },
       error: function (xhr) {
@@ -309,12 +357,12 @@ export function initDeleteModals() {
       },
     });
   }
-  
+
   function showErrorModal(message) {
     $("#errorMessage").text(message);
     $("#errorModal").modal("show");
   }
-  
+
   $(document).on("click", ".view-menu-btn, .view-btn", function () {
     const id = $(this).data("id");
     const type = $(this).hasClass("view-menu-btn") ? "menu" : "customer";
@@ -324,14 +372,16 @@ export function initDeleteModals() {
       method: "GET",
       success: function (data) {
         populateForm(data, type, "view");
-        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
+        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal(
+          "show"
+        );
       },
       error: function (xhr) {
         alert(`Error: ${xhr.responseJSON.error}`);
       },
     });
   });
-  
+
   $(document).on("click", ".edit-menu-btn, .edit-btn", function () {
     const id = $(this).data("id");
     const type = $(this).hasClass("edit-menu-btn") ? "menu" : "customer";
@@ -341,22 +391,24 @@ export function initDeleteModals() {
       method: "GET",
       success: function (data) {
         populateForm(data, type, "edit");
-        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
+        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal(
+          "show"
+        );
       },
       error: function (xhr) {
         alert(`Error: ${xhr.responseJSON.error}`);
       },
     });
   });
-  
+
   $(document).on("click", "#add-menu, #add-customers", function () {
     const type = $(this).attr("id") === "add-menu" ? "menu" : "customer";
     resetForm(type);
     $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
   });
-  
+
   $("#MenuModalsForm, #CustomersModalsForm").on("submit", function (event) {
     const type = $(this).attr("id") === "MenuModalsForm" ? "menu" : "customer";
     handleFormSubmit(event, type);
-  });  
+  });
 }

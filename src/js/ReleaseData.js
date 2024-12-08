@@ -1,40 +1,60 @@
 const ReleaseData = [
   {
+    version: "2.3.0",
+    date: "08/12/2024",
+    features: {
+      added: [
+        "Added a calculator to calculate item prices.",
+        "Disabled clicks outside of menus and customers modals for enhanced usability.",
+        "Introduced the ability to add, view, and edit menu pictures."
+      ],
+      fixed: [
+        "Fixed issues with the view functionality for menus and customers.",
+        "Resolved problems with the edit functionality for menus and customers.",
+        "Addressed various issues within the JavaScript code."
+      ],
+      improvements: [
+        "General bug fixes and performance enhancements.",
+        "Ensured no errors are present in the console."
+      ]
+    }
+  },
+  {
     version: "2.2.0",
     date: "02/12/2024",
     features: {
       added: [
-        "implemented view functionality for menu and customers.",
-        "implemented edit functionality for menu and customers.",
-        "new backend routes."
+        "Implemented the view functionality for menus and customers.",
+        "Added edit functionality for menus and customers.",
+        "Introduced new backend routes for improved system performance."
       ],
       fixed: [
-        "resolved issue with the view functionality.",
-        "updated DataTable initialization",
-        "Various issues in HTML and JavaScript code."
+        "Fixed issues with the view functionality.",
+        "Updated DataTable initialization for better performance.",
+        "Resolved various issues in HTML and JavaScript code."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "2.1.0",
     date: "30/11/2024",
     features: {
       added: [
-        "export to Excel functionality for customers.",
-        "implemented delete functionality for menu and customers.",
-        "corresponding modals for delete function.",
-        "new backend routes.",
-        "live current time in all page."
+        "Added export-to-Excel functionality for customers.",
+        "Implemented delete functionality for both menus and customers.",
+        "Introduced corresponding modals for the delete function.",
+        "Added new backend routes.",
+        "Displayed live current time across all pages."
       ],
       fixed: [
-        "resolved issue with the delete functionality.",
-        "renew almost all css code.",
-        "updated DataTable initialization",
-        "Various issues in code."
+        "Resolved issues with the delete functionality.",
+        "Refreshed nearly all CSS code.",
+        "Updated DataTable initialization.",
+        "Addressed various code-related issues."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "2.0.0",
@@ -45,161 +65,159 @@ const ReleaseData = [
         "Automatically categorizes customers into role types based on their loyalty points.",
         "Modal for the 'forgot password' function.",
         "Displays total number of customers and their respective roles on the index page.",
-        "some setting in settings page"
+        "Various settings added in the settings page."
       ],
       fixed: [
-        "Various issues in JavaScript",
-        "the issue with the data not displaying correctly"
+        "Resolved various issues in JavaScript.",
+        "Fixed the issue with data not displaying correctly."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.9.0",
     date: "22/11/2024",
     features: {
-      added: [
-        "customer page and customer list"
-      ],
+      added: ["Customer page and customer list."],
       fixed: [
-        "Various issues in JavaScript",
-        "the issue with the data not displaying correctly"
+        "Resolved various issues in JavaScript.",
+        "Fixed the issue with data not displaying correctly."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.8.0",
     date: "21/11/2024",
     features: {
       added: [
-        "button to show table by category",
-        "Form icon modal for adding and editing menu",
-        "new dark color",
+        "Button to show table by category.",
+        "Form icon modal for adding and editing menu.",
+        "New dark color theme."
       ],
       fixed: [
-        "Various issues in the list-menu page",
-        "the issue with the menu not displaying correctly",
-        "sorting problem in list-menu"
+        "Fixed various issues in the list-menu page.",
+        "Resolved the issue with menus not displaying correctly.",
+        "Fixed sorting problems in the list-menu."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.7.0",
     date: "20/11/2024",
     features: {
       added: [
-        "Split JavaScript code into multiple files",
-        "Form modal for adding and editing menu",
+        "Split JavaScript code into multiple files.",
+        "Form modal for adding and editing menu."
       ],
-      fixed: ["Various issues in the list-menu page"],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      fixed: ["Fixed various issues in the list-menu page."],
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.6.0",
     date: "19/11/2024",
     features: {
       added: [
-        "Search bar functionality in release notes",
-        "Settings page",
-        "Release notes in the sidebar",
-        "Functional buttons on the menu page",
+        "Search bar functionality in release notes.",
+        "Settings page.",
+        "Release notes section in the sidebar.",
+        "Functional buttons on the menu page."
       ],
       moved: [
-        "List menu from the dashboard to the list-menu page",
-        "ReleaseNote modal to a separate JavaScript file",
+        "Moved list menu from the dashboard to the list-menu page.",
+        "Moved ReleaseNote modal to a separate JavaScript file."
       ],
-      removed: ["ReleaseNote modal from all pages"],
+      removed: ["Removed ReleaseNote modal from all pages."],
       improved: [
-        "Updated icons and colors",
-        "Improved CSS styling for main content",
-        "General bug fixes and performance enhancements",
-      ],
-    },
+        "Updated icons and colors.",
+        "Improved CSS styling for main content.",
+        "General bug fixes and performance enhancements."
+      ]
+    }
   },
   {
     version: "1.5.0",
     date: "18/11/2024",
     features: {
       added: [
-        "Menu database",
-        "Pagination for the menu table",
-        "Total menu count displayed on the main page card",
+        "Menu database.",
+        "Pagination for the menu table.",
+        "Total menu count displayed on the main page card."
       ],
-      fixed: ["Sidebar visual effects"],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      fixed: ["Fixed sidebar visual effects."],
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.4.0",
     date: "17/11/2024",
     features: {
       added: [
-        "Card feature on the main page",
-        "Background image for the login page",
+        "Card feature on the main page.",
+        "Background image for the login page."
       ],
       fixed: [
-        "Pagination alignment on the page",
-        "Positioning of the main content",
+        "Fixed pagination alignment on the page.",
+        "Fixed positioning of the main content."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.3.0",
     date: "16/11/2024",
     features: {
-      added: ["View all release notes in the release-note page"],
+      added: ["View all release notes in the release-note page."],
       fixed: [
-        "Release-note page functionality",
-        "Font sizes across all pages",
-        "UI design consistency",
+        "Fixed release-note page functionality.",
+        "Adjusted font sizes across all pages.",
+        "Ensured UI design consistency."
       ],
       improvements: [
-        "Separated CSS files for each component",
-        "General bug fixes and performance enhancements",
-      ],
-    },
+        "Separated CSS files for each component.",
+        "General bug fixes and performance enhancements."
+      ]
+    }
   },
   {
     version: "1.2.0",
     date: "13/11/2024",
     features: {
       added: [
-        "Version information displayed next to the logo",
-        "Sidebar and burger menu button",
-        "New UI design enhancements",
+        "Version information displayed next to the logo.",
+        "Sidebar and burger menu button.",
+        "New UI design enhancements."
       ],
-      improvements: ["General bug fixes and performance enhancements"],
-    },
+      improvements: ["General bug fixes and performance enhancements."]
+    }
   },
   {
     version: "1.1.0",
     date: "12/11/2024",
     features: {
-      added: ["Notification icon on the main page"],
+      added: ["Notification icon on the main page."],
       fixed: [
-        "Dark/light mode compatibility across all pages",
-        "User session handling during login",
+        "Ensured dark/light mode compatibility across all pages.",
+        "Improved user session handling during login."
       ],
       improvements: [
-        "Redesigned user interface",
-        "General bug fixes and performance enhancements",
-      ],
-    },
+        "Redesigned user interface.",
+        "General bug fixes and performance enhancements."
+      ]
+    }
   },
   {
     version: "1.0.0",
     date: "11/11/2024",
     features: {
-      added: ["Password field toggle feature"],
+      added: ["Password field toggle feature."],
       improved: [
-        "Toggling functionality",
-        "User interface design",
-        "General bug fixes and performance enhancements",
-      ],
-    },
-  },
+        "Toggling functionality.",
+        "User interface design.",
+        "General bug fixes and performance enhancements."
+      ]
+    }
+  }
 ];

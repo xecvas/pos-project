@@ -1,5 +1,6 @@
 // Import other JavaScript files (using ES6 modules or other methods)
 import { utils } from "./utils.js";
+import { initCalculator, createCalculator } from "./utils.js";
 import { initModals } from "./modal-handler.js"; // Modal-related logic
 import { initDeleteModals } from "./modal-handler.js"; // Modal-related logic
 import { initDataTable } from "./datatable-init.js"; // DataTable initialization
@@ -16,6 +17,8 @@ $(document).ready(function () {
 
   // Initialize Utilities
   utils();
+  createCalculator();
+  initCalculator();
 
   // Initialize modals
   initModals();

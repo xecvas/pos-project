@@ -65,7 +65,7 @@ form {
 }
 
 .btn {
-    color: var(--text-other);
+    color: var(--text-primary);
     background-color: var(--button-bg);
 }
 
