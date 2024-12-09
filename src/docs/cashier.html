@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to My Xecvas POS.">
+    <meta name="keywords" content="POS">
+    <meta name="author" content="Xecvas">
+
+    <!-- Page Title -->
+    <title>POS Project - Dashboard</title>
+    <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon">
+
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='tables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='sidebar.css') }}">
+
+    <!-- JS Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
+    <script type="module" src="{{ url_for('js', filename='main.js') }}"></script>
+</head>
+
+<body>
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="navbar-left">
+                <!-- Sidebar Toggle Button -->
+                <button id="burger-btn" class="burger-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Brand Logo and Version -->
+                <a class="navbar-brand icon-text" href="{{ url_for('index') }}">
+                    <img id="brand-logo" src="{{ url_for('images', filename='light-banner-page.png') }}" class="icon"
+                        alt="Web Icon" style="width: 100px;">
+                    <span class="project-version"></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <!-- User Account Dropdown -->
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ session['user_email'] if session.get('user_email') else 'Account' }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Change Password</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Notifications Icon -->
+                <div class="notification">
+                    <div id="dynamicModalContainer"></div>
+                    <i class="fas fa-bell fa-lg" data-toggle="modal" data-target="#releaseModal"></i>
+                    <span class="dot"></span>
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <div>
+                    <input type="checkbox" class="checkbox" id="checkbox">
+                    <label for="checkbox" class="checkbox-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="ball"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Section -->
+    <div id="sidebar" class="sidebar collapsed">
+        <ul class="sidebar-menu">
+            <li>
+                <a href="{{ url_for('index') }}" title="Dashboard">
+                    <i class="icon fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
+                    <span class="label">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('reports') }}" title="Reports">
+                    <i class="icon fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
+                    <span class="label">Reports</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('list_menu') }}" title="Menu">
+                    <i class="icon fas fa-utensils"></i> <!-- Ikon untuk Menu -->
+                    <span class="label">Menu</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('customers') }}" title="customers">
+                    <i class="icon fas fa-users"></i> <!-- Ikon untuk Menu -->
+                    <span class="label">Customers</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('release_note') }}" title="Release Notes">
+                    <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
+                    <span class="label">Release Notes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('settings') }}" title="Settings">
+                    <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
+                    <span class="label">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-content">
+        test
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="text-center">
+        <p>
+            <img src="{{ url_for('icons', filename='page-icon.ico') }}" width="25" height="25" alt="POS Project">
+            &copy; 2024 POS Project. All rights reserved.
+        </p>
+    </footer>
+</body>
+
+<!-- Modal for Cashier Information -->
+<div class="modal fade" id="cashierModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cashierModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cashierModalLabel">Cashier Information</h5>
+        </div>
+        <div class="modal-body">
+          <form id="cashierForm">
+            <!-- Cashier Photo -->
+            <div class="mb-3 text-center">
+              <!-- <img id="cashierPhoto" src="/static/images/default-avatar.png" alt="Cashier Photo" class="rounded-circle" style="width: 100px; height: 100px;"> -->
+            </div>
+  
+            <!-- Outlet Selection -->
+            <div class="mb-3">
+              <label for="outlet" class="form-label">Select Outlet</label>
+              <select class="form-select" id="outlet" name="outlet" required>
+                <option value="" selected disabled>Select an outlet</option>
+                <option value="Outlet A">Outlet A</option>
+                <option value="Outlet B">Outlet B</option>
+                <option value="Outlet C">Outlet C</option>
+              </select>
+            </div>
+  
+            <!-- Cashier Name -->
+            <div class="mb-3">
+              <label for="cashierName" class="form-label">Select Cashier</label>
+              <select class="form-select" id="cashierName" name="cashierName" required>
+                <option value="" selected disabled>Select a cashier</option>
+                <option value="Cashier 1">Cashier 1</option>
+                <option value="Cashier 2">Cashier 2</option>
+                <option value="Cashier 3">Cashier 3</option>
+              </select>
+            </div>
+  
+            <!-- Opening Cash -->
+            <div class="mb-3">
+              <label for="openingCash" class="form-label">Opening Cash Amount</label>
+              <input type="number" class="form-control" id="openingCash" name="openingCash" placeholder="Enter opening cash amount" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="submitCashierForm">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</html>

@@ -1,15 +1,19 @@
-// Import other JavaScript files (using ES6 modules or other methods)
+// Import other JavaScript files (using ES6 modules)
 import { utils } from "./utils.js";
 import { initCalculator, createCalculator } from "./utils.js";
-import { initModals } from "./modal-handler.js"; // Modal-related logic
-import { initDeleteModals } from "./modal-handler.js"; // Modal-related logic
-import { initDataTable } from "./datatable-init.js"; // DataTable initialization
-import { setupDarkMode } from "./dark-mode.js"; // Dark mode handling
-import { addGlobalEventListeners } from "./event-handlers.js"; // Event listeners
+import { initializeImagePreview } from "./utils.js";
 import {
+  initModals,
+  initDeleteModals,
   renderReleaseNotesAccordion,
   renderLoginPageAccordion,
-} from "./modal-handler.js"; //Modal Handler
+} from "./modal-handler.js";
+import { initDataTable } from "./datatable-init.js";
+import { setupDarkMode } from "./dark-mode.js";
+import {
+  addGlobalEventListeners,
+  setupCashierModal,
+} from "./event-handlers.js";
 
 // Entry point
 $(document).ready(function () {
@@ -18,13 +22,12 @@ $(document).ready(function () {
   // Initialize Utilities
   utils();
   createCalculator();
-  if (window.location.pathname.includes('list-menu.html')) {
-    initCalculator();
-}
+  initCalculator();
 
   // Initialize modals
   initModals();
   initDeleteModals();
+  initializeImagePreview();
 
   // Initialize DataTable
   initDataTable();
@@ -34,6 +37,9 @@ $(document).ready(function () {
 
   // Add global event listeners
   addGlobalEventListeners();
+
+  // Initialize modal for cashier
+  setupCashierModal();
 
   // Render release notes and login page accordions
   renderReleaseNotesAccordion();

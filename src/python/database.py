@@ -1,6 +1,6 @@
 from sqlalchemy import BigInteger, create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker as SQLAlchemySession
 from datetime import datetime
 
 # Database URL
@@ -9,7 +9,6 @@ DATABASE_URL = "postgresql+psycopg://postgres:mashiro@localhost/mydatabase"
 # Create SQLAlchemy engine and base class
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
-
 
 # Define menu model
 class menu(Base):
@@ -21,6 +20,9 @@ class menu(Base):
     sub_kategori = Column(String, nullable=False)
     harga = Column(Integer, nullable=False)
     status = Column(String, nullable=False)
+    deskripsi = Column(String, nullable=True)
+    tags = Column(String, nullable=True)
+    menu_images = Column(String, nullable=True)
 
     def to_dict(self):
         return {
@@ -31,8 +33,10 @@ class menu(Base):
             "sub_kategori": self.sub_kategori,
             "harga": self.harga,
             "status": self.status,
+            "deskripsi": self.deskripsi,
+            "tags": self.tags,
+            "menu_images": self.menu_images,
         }
-
 
 # Define customer model
 class customer(Base):
@@ -97,9 +101,16 @@ class customer(Base):
             "royalty_point": self.royalty_point,
         }
 
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
+    role = Column(String, nullable=False)  # "admin" atau "cashier"
 
 # Create tables
 Base.metadata.create_all(bind=engine)
 
 # Session factory
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = SQLAlchemySession(autocommit=False, autoflush=False, bind=engine)
+

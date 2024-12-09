@@ -244,6 +244,13 @@ export function initDeleteModals() {
       $("#sub_kategori").val(data.sub_kategori);
       $("#harga").val(data.harga);
       $("#status").val(data.status);
+      $("#deskripsi").val(data.deskripsi);
+      $("#tags").val(data.tags);
+      if (data.menu_images) {
+        $("#menu_images").attr("src", data.menu_images).show();
+      } else {
+        $("#menu_images").hide();
+      }
 
       if (mode === "view") {
         const statusValue = data.status === "aktif" ? "Aktif" : "Tidak Aktif";
@@ -256,16 +263,16 @@ export function initDeleteModals() {
         disableFormInputs("#MenuModalsForm");
       } else {
         $("#status").replaceWith(`
-          <select class="form-select" id="status" name="status" required>
-              <option disabled>Pilih Status</option>
-              <option value="Aktif" ${
-                data.status === "Aktif" ? "selected" : ""
-              }>Aktif</option>
-              <option value="Tidak Aktif" ${
-                data.status === "Tidak Aktif" ? "selected" : ""
-              }>Tidak Aktif</option>
-          </select> 
-      `);
+      <select class="form-select" id="status" name="status" required>
+          <option disabled>Pilih Status</option>
+          <option value="Aktif" ${
+            data.status === "Aktif" ? "selected" : ""
+          }>Aktif</option>
+          <option value="Tidak Aktif" ${
+            data.status === "Tidak Aktif" ? "selected" : ""
+          }>Tidak Aktif</option>
+      </select> 
+    `);
         $("#calc-toggle").show();
         $("#harga").removeClass("rounded-end");
         $("#MenuModalsLabel").html('<i class="fa fa-edit"></i> Edit Menu');

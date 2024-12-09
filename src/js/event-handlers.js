@@ -68,3 +68,38 @@ export function addGlobalEventListeners() {
     }
   }
   
+  export function setupCashierModal() {
+    // Pastikan modal hanya dijalankan di cashier.html
+    if (!window.location.pathname.includes("cashier")) {
+      return;
+    }
+  
+    const modalElement = document.getElementById("cashierModal");
+    if (!modalElement) {
+      console.error("Modal element not found!");
+      return;
+    }
+  
+    const cashierModal = new bootstrap.Modal(modalElement, {
+      backdrop: "static",
+      keyboard: false,
+    });
+  
+    // Show modal on page load
+    cashierModal.show();
+  
+    document.getElementById("submitCashierForm").addEventListener("click", function () {
+      const outlet = document.getElementById("outlet").value;
+      const cashierName = document.getElementById("cashierName").value;
+      const openingCash = document.getElementById("openingCash").value;
+  
+      if (!outlet || !cashierName || !openingCash) {
+        alert("Please fill in all fields!");
+        return;
+      }
+  
+      console.log("Form Submitted:", { outlet, cashierName, openingCash });
+      cashierModal.hide();
+    });
+  }
+  

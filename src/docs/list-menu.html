@@ -298,14 +298,13 @@
 
                         <!-- Gambar Menu dan Deskripsi -->
                         <div class="row gx-2 mb-3">
-                            <div class="col-md-3"> <!-- Ubah dari col-md-6 menjadi col-md-4 -->
+                            <div class="col-md-3">
                                 <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
-                                <div class="d-flex justify-content-center align-items-center border rounded"
-                                    style="width: 175px; height: 157px;">
-                                    <img id="preview_gambar" src="#" alt="Preview Gambar"
-                                        style="max-height: 100%; max-width: 100%; display: none;">
+                                <div class="d-flex justify-content-center align-items-center border rounded" style="width: 175px; height: 157px;" onclick="document.getElementById('fileInput').click();">
+                                    <img id="menu_images" src="#" alt="Preview Gambar" style="width: 100%; height: 100%; object-fit: cover; display: none;">
                                 </div>
-                            </div>
+                                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                            </div>                            
                             <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
                                 <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
                                 <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6"

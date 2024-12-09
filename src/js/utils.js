@@ -72,6 +72,9 @@ export function createCalculator() {
 }
 
 export function initCalculator() {
+  if (!window.location.pathname.includes("list-menu")) {
+    return;
+  }
   // Tampilkan/hide popup kalkulator
   document
     .getElementById("calc-toggle")
@@ -149,4 +152,34 @@ export function initCalculator() {
       }
     }
   });
+}
+
+export function initializeImagePreview() {
+  if (!window.location.pathname.includes("list-menu")) {
+    return;
+  }
+  // Ambil elemen file input dan tambahkan event listener
+  const fileInput = document.getElementById('fileInput');
+  fileInput.addEventListener('change', previewImage);
+}
+
+function previewImage(event) {
+  // Periksa apakah file input valid
+  if (!event.target || !event.target.files) {
+      console.error("Event or file input not properly defined.");
+      return;
+  }
+
+  const file = event.target.files[0]; // Ambil file pertama dari input
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+      const img = document.getElementById('menu_images');
+      img.src = e.target.result;
+      img.style.display = 'block'; // Tampilkan gambar setelah dimuat
+  };
+
+  if (file) {
+      reader.readAsDataURL(file); // Membaca file sebagai URL
+  }
 }

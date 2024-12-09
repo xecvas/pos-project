@@ -84,14 +84,14 @@
                 {% endif %}
                 {% endwith %}
 
-                <form class="login-form" action="/login" method="post">
+                <form class="login-form" action="/login" method="POST">
                     <div class="mb-3">
-                        <input type="email" class="form-control" id="login_email" name="login_email"
+                        <input type="email" class="form-control" id="login_email" name="email"
                             placeholder="Enter your email" required>
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <input type="password" class="form-control" id="login_password" name="login_password"
+                            <input type="password" class="form-control" id="login_password" name="password"
                                 placeholder="Enter your password" required>
                             <span class="input-group-text" id="togglePassword">
                                 <i class="fas fa-eye" id="eyeIcon"></i>

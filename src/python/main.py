@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from functools import wraps
+from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
 import os
 from io import BytesIO
 
@@ -20,10 +22,11 @@ from sqlalchemy import String, cast
 from sqlalchemy.sql import func
 from sqlalchemy.orm import sessionmaker
 from database import (
+    User,
     menu,
     customer,
     SessionLocal,
-)  # Assuming these modules are properly structured
+)
 
 # Define directories for templates and static files
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +40,9 @@ STATIC_DIRS = {
 
 # Initialize Flask app
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
+UPLOAD_FOLDER = './static/images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.urandom(24)  # Secure random secret key
 app.permanent_session_lifetime = timedelta(days=7)
 
@@ -46,6 +52,7 @@ app.permanent_session_lifetime = timedelta(days=7)
 @app.route("/js/<path:filename>", endpoint="js")
 @app.route("/icons/<path:filename>", endpoint="icons")
 @app.route("/images/<path:filename>", endpoint="images")
+
 def serve_static(filename):
     """Serve static files such as CSS, JS, icons, and images."""
     directory = STATIC_DIRS[
@@ -54,6 +61,9 @@ def serve_static(filename):
     return send_from_directory(directory, filename)
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def get_session():
     """Provide a new session and ensure closure."""
     session = SessionLocal()
@@ -61,7 +71,6 @@ def get_session():
         yield session
     finally:
         session.close()
-
 
 # Login-required decorator
 def login_required(f):
@@ -75,6 +84,21 @@ def login_required(f):
 
     return decorated_function
 
+def admin_required(func):
+    def wrapper(*args, **kwargs):
+        if session.get('user_role') != 'admin':
+            return "Access denied", 403
+        return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
+    return wrapper
+
+def cashier_required(func):
+    def wrapper(*args, **kwargs):
+        if session.get('user_role') != 'cashier':
+            return "Access denied", 403
+        return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
+    return wrapper
 
 def export_to_excel(query_result, filename, sheet_name):
     """Export query results to an Excel file."""
@@ -89,7 +113,6 @@ def export_to_excel(query_result, filename, sheet_name):
         download_name=f"{filename}.xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
-
 
 def get_menu_stats():
     session = SessionLocal()
@@ -132,7 +155,6 @@ def get_menu_stats():
     finally:
         session.close()
 
-
 def get_customer_stats():
     session = SessionLocal()
     try:
@@ -172,7 +194,6 @@ def get_customer_stats():
     finally:
         session.close()
 
-
 # Static file routes
 @app.route("/<file_type>/<path:filename>")
 def serve_static(file_type, filename):
@@ -182,74 +203,94 @@ def serve_static(file_type, filename):
         return "File type not supported", 404
     return send_from_directory(directory, filename)
 
-
 # Login route
 @app.route("/", methods=["GET", "POST"])
-@app.route("/login", methods=["GET", "POST"])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    """Handle user login."""
-    if "user_email" in session:
-        return redirect(url_for("index"))
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-    if request.method == "POST":
-        username = request.form.get("login_email")
-        password = request.form.get("login_password")
-        if username == "user@gmail.com" and password == "123":
-            session["user_email"] = username
-            session.permanent = True
-            return redirect(url_for("index"))
-        flash("Invalid credentials. Please try again.")
+        session_sqlalchemy = SessionLocal()
+        try:
+            user = session_sqlalchemy.query(User).filter_by(email=email).first()
 
-    return render_template("login.html")
+            if user and user.password == password:
+                session['user_email'] = user.email
+                session['user_role'] = user.role
+
+                if user.role == 'admin':
+                    return redirect(url_for('index'))
+                elif user.role == 'cashier':
+                    return redirect(url_for('cashier'))
+            else:
+                return "Invalid credentials", 401
+        except Exception as e:
+            return f"An error occurred: {e}", 500
+        finally:
+            session_sqlalchemy.close()
+    else:
+        return render_template('login.html')  # Tampilkan halaman login
 
 
 @app.route("/index")
-@login_required
+@admin_required
 def index():
     """Display the dashboard."""
     return render_template("index.html", **get_menu_stats(), **get_customer_stats())
 
-
 # Logout route
-@app.route("/logout")
+@app.route('/logout')
 def logout():
-    session.pop("user_email", None)
-    return redirect(url_for("login"))
-
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route("/reports")
-@login_required
+@admin_required
 def reports():
     return render_template("reports.html")
 
-
 @app.route("/list-menu")
-@login_required
+@admin_required
 def list_menu():
     return render_template("list-menu.html")
 
-
 @app.route("/customers")
-@login_required
+@admin_required
 def customers():
     return render_template("customers.html")
 
-
 @app.route("/release-note")
-@login_required
+@admin_required
 def release_note():
     return render_template("release-note.html")
 
-
 @app.route("/settings")
-@login_required
+@admin_required
 def settings():
     return render_template("settings.html")
-
 
 @app.route("/tester")
 def tester():
     return render_template("tester.html")
+
+@app.route('/cashier')
+@cashier_required
+def cashier():
+    return render_template('cashier.html')
+
+@app.route('/cashier/setup', methods=['POST'])
+def cashier_setup():
+    outlet = request.json.get('outlet')
+    cashier_name = request.json.get('cashierName')
+    opening_cash = request.json.get('openingCash')
+
+    if not all([outlet, cashier_name, opening_cash]):
+        return jsonify({"error": "All fields are required"}), 400
+
+    # Simpan atau proses data
+    print("Cashier Setup Data:", outlet, cashier_name, opening_cash)
+    return jsonify({"message": "Cashier setup completed successfully"}), 200
 
 
 # Get data from the database with pagination
@@ -471,20 +512,31 @@ def export_customers():
 
 @app.route("/add_menu", methods=["POST"])
 def add_menu():
-    """Add a new menu item to the database."""
-    # Extract form data
     nama_menu = request.form.get("nama_menu")
     kode = request.form.get("kode")
     kategori = request.form.get("kategori")
     sub_kategori = request.form.get("sub_kategori")
     harga = request.form.get("harga", type=int)
     status = request.form.get("status")
+    deskripsi = request.form.get("deskripsi")
+    tags = request.form.get("tags")
+    menu_images = request.files.get("menu_images")
 
-    # Validate form data
+    # Validasi field wajib
     if not all([nama_menu, kode, kategori, sub_kategori, harga, status]):
-        return "All fields are required", 400
+        return jsonify({"error": "All fields except image are required"}), 400
 
-    # Create a new menu record
+    # Tangani file gambar jika diunggah
+    file_path = None
+    if menu_images and menu_images.filename:  # Pastikan ada file yang diunggah
+        if allowed_file(menu_images.filename):
+            filename = secure_filename(menu_images.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            menu_images.save(file_path)
+        else:
+            return jsonify({"error": "Invalid file format"}), 400
+
+    # Tambahkan ke database
     new_menu = menu(
         nama_menu=nama_menu,
         kode=kode,
@@ -492,27 +544,28 @@ def add_menu():
         sub_kategori=sub_kategori,
         harga=harga,
         status=status,
+        deskripsi=deskripsi,
+        tags=tags,
+        menu_images=file_path,  # Tetap None jika tidak ada file
     )
 
     session = SessionLocal()
     try:
         session.add(new_menu)
         session.commit()
-        return redirect(url_for("list_menu"))  # Adjust to your template route
+        return jsonify({"message": "Menu added successfully"}), 200
     except Exception as e:
         session.rollback()
-        return f"An error occurred: {e}", 500
+        return jsonify({"error": str(e)}), 500
     finally:
         session.close()
 
-
 @app.route("/add_customer", methods=["POST"])
 def add_customer():
-    """Add a new customer to the database."""
     session = SessionLocal()
     try:
         # Ambil data dari form
-        name = request.form.get("name")
+        name = request.form.get("nama_customers")
         dob = request.form.get("dob")
         if dob:
             try:
@@ -526,19 +579,19 @@ def add_customer():
         address = request.form.get("address")
         city = request.form.get("city")
         country = request.form.get("country")
-        royalty_point = request.form.get("royalty_point", type=int)
+        royalty_point = request.form.get("loyalty_points", type=int) or 0  # Default ke 0 jika kosong
 
-        # Validasi
+        # Validasi field wajib
         if not all([name, email, phone]):
             return jsonify({"error": "Name, email, and phone are required"}), 400
 
+        # Validasi email dan phone unik
         if session.query(customer).filter_by(email=email).first():
-            return jsonify({"error": "Email already exists"}), 400
-
+            return jsonify({"error": f"Email '{email}' already exists"}), 400
         if session.query(customer).filter_by(phone=phone).first():
-            return jsonify({"error": "Phone number already exists"}), 400
+            return jsonify({"error": f"Phone number '{phone}' already exists"}), 400
 
-        # Tambahkan ke database
+        # Tambahkan customer ke database
         new_customer = customer(
             name=name,
             birthday=dob,
@@ -550,12 +603,16 @@ def add_customer():
             country=country,
             royalty_point=royalty_point,
         )
+        # Otomatis set membership berdasarkan royalty_point
+        new_customer.set_roles_type()
+
         session.add(new_customer)
         session.commit()
 
         return jsonify({"message": "Customer added successfully"}), 200
     except Exception as e:
         session.rollback()
+        print("Error:", str(e))  # Log error untuk debugging
         return jsonify({"error": f"Failed to add customer: {str(e)}"}), 500
     finally:
         session.close()
@@ -656,7 +713,6 @@ def update_customer(id):
 
 @app.route('/get_menu/<int:id>', methods=['GET'])
 def get_menu(id):
-    """Retrieve menu data by ID."""
     session = SessionLocal()
     try:
         menu_item = session.query(menu).get(id)
@@ -669,20 +725,43 @@ def get_menu(id):
 
 @app.route('/update_menu/<int:id>', methods=['POST'])
 def update_menu(id):
-    """Update menu data by ID."""
     session = SessionLocal()
     try:
+        # Ambil menu dari database
         menu_item = session.query(menu).get(id)
         if not menu_item:
             return jsonify({"error": "Menu not found"}), 404
 
+        # Update data dari form
         menu_item.nama_menu = request.form.get('nama_menu')
         menu_item.kode = request.form.get('kode')
         menu_item.kategori = request.form.get('kategori')
         menu_item.sub_kategori = request.form.get('sub_kategori')
         menu_item.harga = request.form.get('harga', type=int)
         menu_item.status = request.form.get('status')
+        menu_item.deskripsi = request.form.get('deskripsi')  # Tambahkan ini
+        menu_item.tags = request.form.get('tags')  # Tambahkan ini
 
+        # Tangani file gambar baru jika diunggah
+        menu_images = request.files.get("menu_images")
+        if menu_images and menu_images.filename:  # Pastikan file ada
+            if allowed_file(menu_images.filename):  # Validasi format file
+                # Hapus gambar lama jika ada
+                if menu_item.menu_images:
+                    try:
+                        os.remove(menu_item.menu_images)
+                    except OSError:
+                        pass  # Abaikan jika file tidak ditemukan
+
+                # Simpan gambar baru
+                filename = secure_filename(menu_images.filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                menu_images.save(file_path)
+                menu_item.menu_images = file_path
+            else:
+                return jsonify({"error": "Invalid file format"}), 400
+
+        # Simpan perubahan ke database
         session.commit()
         return jsonify({"message": "Menu updated successfully"}), 200
     except Exception as e:

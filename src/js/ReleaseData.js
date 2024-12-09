@@ -1,5 +1,24 @@
 const ReleaseData = [
   {
+    version: "2.4.0",
+    date: "09/12/2024",
+    features: {
+      added: [
+        "Implemented separate login systems for Admin and Cashier roles.",
+        "Restricted Cashier access to pages requiring Admin privileges.",
+        "Login credentials are now securely stored in the database."
+      ],
+      fixed: [
+        "Resolved issues with the login page functionality.",
+        "Fixed JavaScript errors on specific pages, ensuring smoother user interaction.",
+        "Addressed and optimized various JavaScript functions to improve page performance."
+      ],
+      improvements: [
+        "General bug fixes and performance enhancements."
+      ]
+    }
+  },
+  {
     version: "2.3.0",
     date: "08/12/2024",
     features: {
