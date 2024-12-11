@@ -72,15 +72,13 @@ export function createCalculator() {
 }
 
 export function initCalculator() {
-  if (!window.location.pathname.includes("list-menu")) {
-    return;
-  }
-  // Tampilkan/hide popup kalkulator
-  document
-    .getElementById("calc-toggle")
-    .addEventListener("click", function (event) {
+
+  // Ensure the element exists before adding the event listener
+  const calcToggle = document.getElementById("calc-toggle");
+  if (calcToggle) {
+    // Tampilkan/hide popup kalkulator
+    calcToggle.addEventListener("click", function (event) {
       const calcPopup = document.getElementById("shared-calculator");
-      const calcToggle = event.target.closest("#calc-toggle"); // Cari elemen ikon kalkulator
 
       if (calcPopup.style.display === "none" || !calcPopup.style.display) {
         // Hitung posisi elemen kalkulator
@@ -99,6 +97,7 @@ export function initCalculator() {
           currentValue;
       }
     });
+  }
 
   // Kalkulator Functions
   let currentValue = "0";
@@ -127,7 +126,18 @@ export function initCalculator() {
       currentValue = "Error";
     }
     document.getElementById("calculator-display").textContent = currentValue;
-    document.getElementById("harga").value = currentValue; // Update form harga
+    
+    // Check if the element exists before setting its value
+    const hargaInput = document.getElementById("harga");
+    if (hargaInput) {
+      hargaInput.value = currentValue;
+    }
+
+    const openingCashInput = document.getElementById("openingCash");
+    if (openingCashInput) {
+      openingCashInput.value = currentValue;
+    }
+
     document.getElementById("shared-calculator").style.display = "none"; // Hide calculator after calculation
   }
 
@@ -159,27 +169,27 @@ export function initializeImagePreview() {
     return;
   }
   // Ambil elemen file input dan tambahkan event listener
-  const fileInput = document.getElementById('fileInput');
-  fileInput.addEventListener('change', previewImage);
+  const fileInput = document.getElementById("fileInput");
+  fileInput.addEventListener("change", previewImage);
 }
 
 function previewImage(event) {
   // Periksa apakah file input valid
   if (!event.target || !event.target.files) {
-      console.error("Event or file input not properly defined.");
-      return;
+    console.error("Event or file input not properly defined.");
+    return;
   }
 
   const file = event.target.files[0]; // Ambil file pertama dari input
   const reader = new FileReader();
 
-  reader.onload = function(e) {
-      const img = document.getElementById('menu_images');
-      img.src = e.target.result;
-      img.style.display = 'block'; // Tampilkan gambar setelah dimuat
+  reader.onload = function (e) {
+    const img = document.getElementById("menu_images");
+    img.src = e.target.result;
+    img.style.display = "block"; // Tampilkan gambar setelah dimuat
   };
 
   if (file) {
-      reader.readAsDataURL(file); // Membaca file sebagai URL
+    reader.readAsDataURL(file); // Membaca file sebagai URL
   }
 }

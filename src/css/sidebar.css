@@ -24,6 +24,7 @@
     overflow-x: hidden;
     transition: width 0.3s ease;
     z-index: 100;
+    padding: 5px;
     background-color: var(--sidebar-bg);
 }
 
@@ -62,7 +63,7 @@
     align-items: center;
     white-space: nowrap;
     transition: padding 0.3s, margin-right 0.3s;
-    margin-left: 15px;
+    margin-left: 10px;
     justify-content: flex-start;
 }
 

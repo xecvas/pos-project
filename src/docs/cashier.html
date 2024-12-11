@@ -8,6 +8,8 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
+    <meta name="user-role" content="{{ user_role }}">
+    <meta name="setup-completed" content="{{ setup_completed|tojson }}">
 
     <!-- Page Title -->
     <title>POS Project - Dashboard</title>
@@ -87,27 +89,10 @@
     <div id="sidebar" class="sidebar collapsed">
         <ul class="sidebar-menu">
             <li>
-                <a href="{{ url_for('index') }}" title="Dashboard">
-                    <i class="icon fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('reports') }}" title="Reports">
-                    <i class="icon fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Reports</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('list_menu') }}" title="Menu">
-                    <i class="icon fas fa-utensils"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Menu</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('customers') }}" title="customers">
-                    <i class="icon fas fa-users"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Customers</span>
+                <a href="{{ url_for('cashier') }}" title="Cashier">
+                    <i class="icon fas fa-cash-register"></i>
+                    <!-- Ikon untuk Dashboard -->
+                    <span class="label">Cashier</span>
                 </a>
             </li>
             <li>
@@ -127,6 +112,8 @@
 
     <!-- Main Content Section -->
     <div class="main-content">
+        <h3>Live View</h3>
+        <h4 class="current-time">time here</h4>
         test
     </div>
 
@@ -140,53 +127,61 @@
 </body>
 
 <!-- Modal for Cashier Information -->
-<div class="modal fade" id="cashierModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cashierModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cashierModalLabel">Cashier Information</h5>
+<div class="modal fade" id="cashierModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="cashierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cashierModalLabel">Cashier Information</h5>
+            </div>
+            <div class="modal-body">
+                <form id="cashierForm">
+                    <!-- Cashier Photo -->
+                    <div class="mb-3 text-center">
+                        <!-- <img id="cashierPhoto" src="/static/images/default-avatar.png" alt="Cashier Photo" class="rounded-circle" style="width: 100px; height: 100px;"> -->
+                    </div>
+
+                    <!-- Outlet Selection -->
+                    <div class="mb-3">
+                        <label for="outlet" class="form-label">Select Outlet</label>
+                        <select class="form-select" id="outlet" name="outlet" required>
+                            <option value="" selected disabled>Select an outlet</option>
+                            <option value="Outlet A">Outlet A</option>
+                            <option value="Outlet B">Outlet B</option>
+                            <option value="Outlet C">Outlet C</option>
+                        </select>
+                    </div>
+
+                    <!-- Cashier Name -->
+                    <div class="mb-3">
+                        <label for="cashierName" class="form-label">Select Cashier</label>
+                        <select class="form-select" id="cashierName" name="cashierName" required>
+                            <option value="" selected disabled>Select a cashier</option>
+                            <option value="Cashier 1">Cashier 1</option>
+                            <option value="Cashier 2">Cashier 2</option>
+                            <option value="Cashier 3">Cashier 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Opening Cash -->
+                    <div class="mb-3">
+                        <label for="openingCash" class="form-label">Opening Cash Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rp</span>
+                            <input type="number" class="form-control" id="openingCash" name="openingCash"
+                                placeholder="Enter opening cash amount" required>
+                            <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
+                                <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="submitCashierForm">Submit</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <form id="cashierForm">
-            <!-- Cashier Photo -->
-            <div class="mb-3 text-center">
-              <!-- <img id="cashierPhoto" src="/static/images/default-avatar.png" alt="Cashier Photo" class="rounded-circle" style="width: 100px; height: 100px;"> -->
-            </div>
-  
-            <!-- Outlet Selection -->
-            <div class="mb-3">
-              <label for="outlet" class="form-label">Select Outlet</label>
-              <select class="form-select" id="outlet" name="outlet" required>
-                <option value="" selected disabled>Select an outlet</option>
-                <option value="Outlet A">Outlet A</option>
-                <option value="Outlet B">Outlet B</option>
-                <option value="Outlet C">Outlet C</option>
-              </select>
-            </div>
-  
-            <!-- Cashier Name -->
-            <div class="mb-3">
-              <label for="cashierName" class="form-label">Select Cashier</label>
-              <select class="form-select" id="cashierName" name="cashierName" required>
-                <option value="" selected disabled>Select a cashier</option>
-                <option value="Cashier 1">Cashier 1</option>
-                <option value="Cashier 2">Cashier 2</option>
-                <option value="Cashier 3">Cashier 3</option>
-              </select>
-            </div>
-  
-            <!-- Opening Cash -->
-            <div class="mb-3">
-              <label for="openingCash" class="form-label">Opening Cash Amount</label>
-              <input type="number" class="form-control" id="openingCash" name="openingCash" placeholder="Enter opening cash amount" required>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" id="submitCashierForm">Submit</button>
-        </div>
-      </div>
     </div>
-  </div>
-  
+</div>
+
 </html>

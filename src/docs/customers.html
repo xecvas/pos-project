@@ -8,6 +8,7 @@
   <meta name="description" content="Welcome to My Xecvas POS." />
   <meta name="keywords" content="POS" />
   <meta name="author" content="Xecvas" />
+  <meta name="user-role" content="{{ user_role }}">
 
   <!-- Page Title -->
   <title>POS Project - List Customers</title>
@@ -122,6 +123,13 @@
           <i class="icon fas fa-book"></i>
           <!-- Ikon untuk Settings -->
           <span class="label">Release Notes</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('cashier') }}" title="Cashier">
+          <i class="icon fas fa-cash-register"></i>
+          <!-- Ikon untuk Dashboard -->
+          <span class="label">Cashier</span>
         </a>
       </li>
       <li>

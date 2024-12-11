@@ -8,6 +8,7 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
+    <meta name="user-role" content="{{ user_role }}">
 
     <!-- Page Title -->
     <title>POS Project - List Menu</title>
@@ -114,6 +115,13 @@
                 <a href="{{ url_for('release_note') }}" title="Release Notes">
                     <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
                     <span class="label">Release Notes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('cashier') }}" title="Cashier">
+                    <i class="icon fas fa-cash-register"></i>
+                    <!-- Ikon untuk Dashboard -->
+                    <span class="label">Cashier</span>
                 </a>
             </li>
             <li>
@@ -300,11 +308,14 @@
                         <div class="row gx-2 mb-3">
                             <div class="col-md-3">
                                 <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
-                                <div class="d-flex justify-content-center align-items-center border rounded" style="width: 175px; height: 157px;" onclick="document.getElementById('fileInput').click();">
-                                    <img id="menu_images" src="#" alt="Preview Gambar" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                <div class="d-flex justify-content-center align-items-center border rounded"
+                                    style="width: 175px; height: 157px;"
+                                    onclick="document.getElementById('fileInput').click();">
+                                    <img id="menu_images" src="#" alt="Preview Gambar"
+                                        style="width: 100%; height: 100%; object-fit: cover; display: none;">
                                 </div>
                                 <input type="file" id="fileInput" accept="image/*" style="display: none;">
-                            </div>                            
+                            </div>
                             <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
                                 <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
                                 <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6"

@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, create_engine, Column, Integer, String
+from sqlalchemy import BigInteger, DateTime, Float, create_engine, Column, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker as SQLAlchemySession
 from datetime import datetime
@@ -107,6 +107,14 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     role = Column(String, nullable=False)  # "admin" atau "cashier"
+
+class CashierOpening(Base):
+    __tablename__ = "cashier_opening"
+    id = Column(Integer, primary_key=True)
+    cashier_name = Column(String, nullable=False)
+    outlet = Column(String, nullable=False)
+    opening_cash = Column(Float, nullable=False)
+    date = Column(DateTime(timezone=True), default=func.now())
 
 # Create tables
 Base.metadata.create_all(bind=engine)

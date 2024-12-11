@@ -10,14 +10,10 @@ import {
 } from "./modal-handler.js";
 import { initDataTable } from "./datatable-init.js";
 import { setupDarkMode } from "./dark-mode.js";
-import {
-  addGlobalEventListeners,
-  setupCashierModal,
-} from "./event-handlers.js";
+import { addGlobalEventListeners, setupCashierPage } from "./event-handlers.js";
 
 // Entry point
 $(document).ready(function () {
-  console.log("App initialized:", new Date());
 
   // Initialize Utilities
   utils();
@@ -38,9 +34,20 @@ $(document).ready(function () {
   // Add global event listeners
   addGlobalEventListeners();
 
-  // Initialize modal for cashier
-  setupCashierModal();
-
+  // Get user role from a hidden element or template variable
+  const userRole = $("meta[name='user-role']").attr("content") || "undefined";
+  const pageName = window.location.pathname.split("/").pop() || "index";
+  const setupCompleted =
+    $("meta[name='setup-completed']").attr("content") || "undefined";
+  setupCashierPage(userRole, setupCompleted);
+  if (window.location.pathname.includes("login")) {
+    console.log("App initialized:", new Date());
+  } else {
+    console.log("App initialized:", new Date());
+    console.log(`Detected user: ${userRole}, accessing ${pageName} page`);
+  }
+  // Initialize modal for cashier if user role is provided
+  setupCashierPage(userRole, setupCompleted);
   // Render release notes and login page accordions
   renderReleaseNotesAccordion();
   renderLoginPageAccordion();

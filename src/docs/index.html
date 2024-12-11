@@ -8,6 +8,7 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
+    <meta name="user-role" content="{{ user_role }}">
 
     <!-- Page Title -->
     <title>POS Project - Dashboard</title>
@@ -117,6 +118,13 @@
                 </a>
             </li>
             <li>
+                <a href="{{ url_for('cashier') }}" title="Cashier">
+                    <i class="icon fas fa-cash-register"></i>
+                    <!-- Ikon untuk Dashboard -->
+                    <span class="label">Cashier</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ url_for('settings') }}" title="Settings">
                     <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
                     <span class="label">Settings</span>
@@ -138,7 +146,7 @@
                     <a href="{{ url_for('reports') }}"><button class="btn btn-warning text-white">Details</button></a>
                 </div>
             </div>
-            
+
             <div class="card-container">
                 <div class="row g-3">
                     <!-- Net Sales -->

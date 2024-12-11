@@ -1,5 +1,23 @@
 const ReleaseData = [
   {
+    version: "2.5.0",
+    date: "10/12/2024",
+    features: {
+      added: [
+        "Integrated a Cashier section in the sidebar, accessible for admin accounts.",
+        "Implemented a database system to store and manage cashier logs efficiently."
+      ],
+      fixed: [
+        "Resolved issues in JavaScript and Python code, ensuring seamless functionality.",
+        "Optimized multiple JavaScript functions to enhance overall page performance."
+      ],
+      improvements: [
+        "Streamlined console logs for better clarity and reduced clutter.",
+        "Implemented general bug fixes and performance enhancements across the system."
+      ]
+    }    
+  },
+  {
     version: "2.4.0",
     date: "09/12/2024",
     features: {

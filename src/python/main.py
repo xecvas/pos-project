@@ -22,6 +22,7 @@ from sqlalchemy import String, cast
 from sqlalchemy.sql import func
 from sqlalchemy.orm import sessionmaker
 from database import (
+    CashierOpening,
     User,
     menu,
     customer,
@@ -60,9 +61,12 @@ def serve_static(filename):
     ]  # Use the endpoint name to get the correct directory
     return send_from_directory(directory, filename)
 
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.context_processor
+def inject_user_role():
+    return {'user_role': session.get('user_role', None)}
 
 def get_session():
     """Provide a new session and ensure closure."""
@@ -96,6 +100,17 @@ def cashier_required(func):
     def wrapper(*args, **kwargs):
         if session.get('user_role') != 'cashier':
             return "Access denied", 403
+        return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
+    return wrapper
+
+def admin_or_cashier_required(func):
+    def wrapper(*args, **kwargs):
+        user_role = session.get("user_role")
+        if user_role not in ["admin", "cashier"]:
+            print("Invalid role, redirecting to login.")
+            return redirect(url_for("login"))
+        print("User role valid:", user_role)
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
@@ -261,7 +276,7 @@ def customers():
     return render_template("customers.html")
 
 @app.route("/release-note")
-@admin_required
+@admin_or_cashier_required
 def release_note():
     return render_template("release-note.html")
 
@@ -275,23 +290,48 @@ def tester():
     return render_template("tester.html")
 
 @app.route('/cashier')
-@cashier_required
+@admin_or_cashier_required
 def cashier():
-    return render_template('cashier.html')
+    user_role = session.get("user_role")  # Ambil role pengguna
+    setup_completed = session.get("setup_completed", False)
+    outlet = session.get("outlet", "Unknown Outlet")
+    cashier_name = session.get("cashier_name", "Unknown Cashier")
+    print("Rendering cashier page with:", {"user_role": user_role, "setup_completed": setup_completed})
+    return render_template('cashier.html', user_role=user_role, setup_completed=setup_completed, outlet=outlet, cashier_name=cashier_name)
 
 @app.route('/cashier/setup', methods=['POST'])
 def cashier_setup():
-    outlet = request.json.get('outlet')
-    cashier_name = request.json.get('cashierName')
-    opening_cash = request.json.get('openingCash')
+    data = request.json
+    outlet = data.get("outlet")
+    cashier_name = data.get("cashierName")
+    opening_cash = data.get("openingCash")
 
+    # Validasi data
     if not all([outlet, cashier_name, opening_cash]):
         return jsonify({"error": "All fields are required"}), 400
 
-    # Simpan atau proses data
-    print("Cashier Setup Data:", outlet, cashier_name, opening_cash)
-    return jsonify({"message": "Cashier setup completed successfully"}), 200
+    # Simpan outlet dan nama kasir di sesi
+    session["outlet"] = outlet
+    session["cashier_name"] = cashier_name
+    session["setup_completed"] = True  # Tambahkan flag setup selesai
 
+    # Simpan modal awal di database
+    session_db = SessionLocal()
+    try:
+        new_entry = CashierOpening(
+            cashier_name=cashier_name,
+            outlet=outlet,
+            opening_cash=opening_cash,
+            date=datetime.utcnow(),
+        )
+        session_db.add(new_entry)
+        session_db.commit()
+        return jsonify({"message": "Cashier setup completed successfully"}), 200
+    except Exception as e:
+        session_db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session_db.close()
 
 # Get data from the database with pagination
 @app.route("/menu", methods=["GET"])
