@@ -90,55 +90,14 @@
   <!-- Sidebar Section -->
   <div id="sidebar" class="sidebar collapsed">
     <ul class="sidebar-menu">
+      {% for item in g.sidebar_items %}
       <li>
-        <a href="{{ url_for('index') }}" title="Dashboard">
-          <i class="icon fas fa-chart-line"></i>
-          <!-- Ikon untuk Dashboard -->
-          <span class="label">Dashboard</span>
+        <a href="{{ item.url }}" title="{{ item.title }}">
+          <i class="icon {{ item.icon }}"></i>
+          <span class="label">{{ item.title }}</span>
         </a>
       </li>
-      <li>
-        <a href="{{ url_for('reports') }}" title="Reports">
-          <i class="icon fas fa-chart-bar"></i>
-          <!-- Ikon untuk Dashboard -->
-          <span class="label">Reports</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('list_menu') }}" title="Menu">
-          <i class="icon fas fa-utensils"></i>
-          <!-- Ikon untuk Menu -->
-          <span class="label">Menu</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('customers') }}" title="customers">
-          <i class="icon fas fa-users"></i>
-          <!-- Ikon untuk Menu -->
-          <span class="label">Customers</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('release_note') }}" title="Release Notes">
-          <i class="icon fas fa-book"></i>
-          <!-- Ikon untuk Settings -->
-          <span class="label">Release Notes</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('cashier') }}" title="Cashier">
-          <i class="icon fas fa-cash-register"></i>
-          <!-- Ikon untuk Dashboard -->
-          <span class="label">Cashier</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('settings') }}" title="Settings">
-          <i class="icon fas fa-cog"></i>
-          <!-- Ikon untuk Settings -->
-          <span class="label">Settings</span>
-        </a>
-      </li>
+      {% endfor %}
     </ul>
   </div>
 
@@ -151,7 +110,7 @@
     </button>
 
     <button class="btn btn-primary text-white" id="add-customers" data-bs-toggle="modal"
-    data-bs-target="#CustomersModals">
+      data-bs-target="#CustomersModals">
       <i class="fa fa-plus"></i> Add Customers
     </button>
 
@@ -206,7 +165,8 @@
     </footer>
 
     <!-- Customers Modal Form -->
-    <div class="modal fade" id="CustomersModals" data-bs-backdrop="static" tabindex="-1" aria-labelledby="CustomersModals" aria-hidden="true">
+    <div class="modal fade" id="CustomersModals" data-bs-backdrop="static" tabindex="-1"
+      aria-labelledby="CustomersModals" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-body">
@@ -225,7 +185,8 @@
               <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="dob" class="form-label fw-semibold">Date of Birth</label>
-                  <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" required>
+                  <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY"
+                    pattern="\d{2}-\d{2}-\d{4}" required>
                 </div>
                 <div class="col-md-4">
                   <label for="age" class="form-label fw-semibold">Age</label>
@@ -250,8 +211,8 @@
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label fw-semibold">Phone Number</label>
-                  <input type="tel" class="form-control" id="phone" name="phone"
-                    placeholder="Enter Phone Number" required>
+                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number"
+                    required>
                 </div>
               </div>
 

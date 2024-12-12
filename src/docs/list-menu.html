@@ -87,49 +87,14 @@
     <!-- Sidebar Section -->
     <div id="sidebar" class="sidebar collapsed">
         <ul class="sidebar-menu">
+            {% for item in g.sidebar_items %}
             <li>
-                <a href="{{ url_for('index') }}" title="Dashboard">
-                    <i class="icon fas fa-chart-line"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Dashboard</span>
+                <a href="{{ item.url }}" title="{{ item.title }}">
+                    <i class="icon {{ item.icon }}"></i>
+                    <span class="label">{{ item.title }}</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ url_for('reports') }}" title="Reports">
-                    <i class="icon fas fa-chart-bar"></i> <!-- Ikon untuk Dashboard -->
-                    <span class="label">Reports</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('list_menu') }}" title="Menu">
-                    <i class="icon fas fa-utensils"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Menu</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('customers') }}" title="customers">
-                    <i class="icon fas fa-users"></i> <!-- Ikon untuk Menu -->
-                    <span class="label">Customers</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('release_note') }}" title="Release Notes">
-                    <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Release Notes</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('cashier') }}" title="Cashier">
-                    <i class="icon fas fa-cash-register"></i>
-                    <!-- Ikon untuk Dashboard -->
-                    <span class="label">Cashier</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('settings') }}" title="Settings">
-                    <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Settings</span>
-                </a>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 
@@ -311,10 +276,11 @@
                                 <div class="d-flex justify-content-center align-items-center border rounded"
                                     style="width: 175px; height: 157px;"
                                     onclick="document.getElementById('fileInput').click();">
-                                    <img id="menu_images" src="#" alt="Preview Gambar"
+                                    <img id="menu_images" name="menu_images" src="#" alt="Preview Gambar"
                                         style="width: 100%; height: 100%; object-fit: cover; display: none;">
                                 </div>
-                                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                                <input type="file" id="fileInput" name="menu_images" accept="image/*"
+                                    style="display: none;">
                             </div>
                             <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
                                 <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>

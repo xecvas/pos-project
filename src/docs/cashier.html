@@ -12,7 +12,7 @@
     <meta name="setup-completed" content="{{ setup_completed|tojson }}">
 
     <!-- Page Title -->
-    <title>POS Project - Dashboard</title>
+    <title>POS Project - Cashier</title>
     <link rel="icon" href="{{ url_for('icons', filename='page-icon.ico') }}" type="image/x-icon">
 
     <!-- CSS Dependencies -->
@@ -88,25 +88,14 @@
     <!-- Sidebar Section -->
     <div id="sidebar" class="sidebar collapsed">
         <ul class="sidebar-menu">
+            {% for item in g.sidebar_items %}
             <li>
-                <a href="{{ url_for('cashier') }}" title="Cashier">
-                    <i class="icon fas fa-cash-register"></i>
-                    <!-- Ikon untuk Dashboard -->
-                    <span class="label">Cashier</span>
+                <a href="{{ item.url }}" title="{{ item.title }}">
+                    <i class="icon {{ item.icon }}"></i>
+                    <span class="label">{{ item.title }}</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ url_for('release_note') }}" title="Release Notes">
-                    <i class="icon fas fa-book"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Release Notes</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('settings') }}" title="Settings">
-                    <i class="icon fas fa-cog"></i> <!-- Ikon untuk Settings -->
-                    <span class="label">Settings</span>
-                </a>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 
@@ -132,7 +121,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cashierModalLabel">Cashier Information</h5>
+                <h5 class="modal-title" id="cashierModalLabel"><i class="fas fa-user"></i> Cashier Information</h5>
             </div>
             <div class="modal-body">
                 <form id="cashierForm">
