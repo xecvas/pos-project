@@ -17,6 +17,7 @@ from flask import (
     url_for,
     send_file,
     send_from_directory,
+    g
 )
 from sqlalchemy import String, cast
 from sqlalchemy.sql import func
@@ -41,7 +42,7 @@ STATIC_DIRS = {
 
 # Initialize Flask app
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
-UPLOAD_FOLDER = './static/images'
+UPLOAD_FOLDER = "../assets/images"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.urandom(24)  # Secure random secret key
@@ -75,6 +76,10 @@ def get_session():
         yield session
     finally:
         session.close()
+
+@app.before_request
+def before_request():
+    set_sidebar()
 
 # Login-required decorator
 def login_required(f):
@@ -114,6 +119,29 @@ def admin_or_cashier_required(func):
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
+
+def set_sidebar():
+    # Ambil role dari session
+    role = session.get('user_role')
+
+    # Definisikan elemen sidebar untuk admin dan cashier
+    admin_sidebar = [
+        {'title': 'Dashboard', 'icon': 'fas fa-chart-line', 'url': url_for('index')},
+        {'title': 'Reports', 'icon': 'fas fa-chart-bar', 'url': url_for('reports')},
+        {'title': 'Menu', 'icon': 'fas fa-utensils', 'url': url_for('list_menu')},
+        {'title': 'Customers', 'icon': 'fas fa-users', 'url': url_for('customers')},
+        {'title': 'Release Notes', 'icon': 'fas fa-book', 'url': url_for('release_note')},
+        {'title': 'Cashier', 'icon': 'fas fa-cash-register', 'url': url_for('cashier')},
+        {'title': 'Settings', 'icon': 'fas fa-cog', 'url': url_for('settings')},
+    ]
+    cashier_sidebar = [
+        {'title': 'Cashier', 'icon': 'fas fa-cash-register', 'url': url_for('cashier')},
+        {'title': 'Reports', 'icon': 'fas fa-chart-bar', 'url': url_for('reports')},
+        {'title': 'Settings', 'icon': 'fas fa-cog', 'url': url_for('settings')},
+    ]
+
+    # Tentukan sidebar berdasarkan role
+    g.sidebar_items = admin_sidebar if role == 'admin' else cashier_sidebar
 
 def export_to_excel(query_result, filename, sheet_name):
     """Export query results to an Excel file."""
@@ -231,6 +259,7 @@ def login():
             user = session_sqlalchemy.query(User).filter_by(email=email).first()
 
             if user and user.password == password:
+                session.clear()
                 session['user_email'] = user.email
                 session['user_role'] = user.role
 
@@ -239,14 +268,16 @@ def login():
                 elif user.role == 'cashier':
                     return redirect(url_for('cashier'))
             else:
-                return "Invalid credentials", 401
+                # Jika user tidak ditemukan atau password salah
+                flash("Invalid email or password. Please try again.")
+                return redirect(url_for('login'))  # Redirect ke halaman login lagi
+
         except Exception as e:
             return f"An error occurred: {e}", 500
         finally:
             session_sqlalchemy.close()
     else:
         return render_template('login.html')  # Tampilkan halaman login
-
 
 @app.route("/index")
 @admin_required
@@ -297,6 +328,8 @@ def cashier():
     outlet = session.get("outlet", "Unknown Outlet")
     cashier_name = session.get("cashier_name", "Unknown Cashier")
     print("Rendering cashier page with:", {"user_role": user_role, "setup_completed": setup_completed})
+    # Definisikan elemen sidebar
+    
     return render_template('cashier.html', user_role=user_role, setup_completed=setup_completed, outlet=outlet, cashier_name=cashier_name)
 
 @app.route('/cashier/setup', methods=['POST'])
