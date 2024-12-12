@@ -1,4 +1,4 @@
-// Create modal HTML
+// Modal HTML generator
 function createModalHTML(id, title, bodyContent, footerContent) {
   return `
     <div class="modal fade" id="${id}" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
@@ -16,8 +16,22 @@ function createModalHTML(id, title, bodyContent, footerContent) {
   `;
 }
 
-// Initialize modals
-export function initModals() {
+// Generate features HTML for accordions
+function generateFeaturesHTML(features) {
+  return Object.entries(features)
+    .map(
+      ([category, items]) =>
+        `<strong>${
+          category.charAt(0).toUpperCase() + category.slice(1)
+        }:</strong>
+         <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
+    )
+    .join("");
+}
+
+// Initialize modals functionality
+export function initReleaseModals() {
+  // Generate modal HTML structure
   const modalHTML = createModalHTML(
     "releaseModal",
     "Latest Release",
@@ -25,8 +39,10 @@ export function initModals() {
     `<a href="/release-note" id="seeAllReleases" class="btn btn-link" style="text-decoration: none;"><b>See All Releases</b></a>`
   );
 
+  // Inject modal HTML into the container
   $("#dynamicModalContainer").html(modalHTML);
 
+  // Handle notification click to display the latest release details
   $(".notification").on("click", () => {
     const latestRelease = ReleaseData?.[0];
     if (latestRelease) {
@@ -41,6 +57,7 @@ export function initModals() {
     }
   });
 
+  // Close modal when clicking outside of it
   $(document).on("click", (event) => {
     const modalDialog = $("#releaseModal .modal-dialog");
     if (
@@ -54,20 +71,34 @@ export function initModals() {
   });
 }
 
-// Generate features HTML
-function generateFeaturesHTML(features) {
-  return Object.entries(features)
-    .map(
-      ([category, items]) =>
-        `<strong>${
-          category.charAt(0).toUpperCase() + category.slice(1)
-        }:</strong>
-         <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`
-    )
-    .join("");
+// Initialize Forgot Password Modal
+export function initForgotPasswordModal() {
+  // Get the forgot password modal element
+  const forgotPasswordModalElement = document.getElementById(
+    "forgotPasswordModal"
+  );
+
+  // Add event listener for form submission
+  if (forgotPasswordModalElement) {
+    forgotPasswordModalElement.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Hide the forgot password modal
+      const forgotPasswordModalInstance = bootstrap.Modal.getInstance(
+        forgotPasswordModalElement
+      );
+      forgotPasswordModalInstance.hide();
+
+      // Show the check email modal
+      const checkEmailModal = new bootstrap.Modal(
+        document.getElementById("checkEmailModal")
+      );
+      checkEmailModal.show();
+    });
+  }
 }
 
-// Render login page accordion with the latest release
+// Render login page accordion
 export function renderLoginPageAccordion() {
   const latestRelease = ReleaseData?.[0];
   if (latestRelease) {
@@ -91,7 +122,7 @@ export function renderLoginPageAccordion() {
   }
 }
 
-// Render all release notes in an accordion
+// Render release notes accordion
 export function renderReleaseNotesAccordion() {
   const releaseNotesAccordion = $("#accordion-release-notes");
   releaseNotesAccordion.empty();
@@ -126,32 +157,10 @@ export function renderReleaseNotesAccordion() {
     const latestVersion = ReleaseData[0].version;
     projectTitle.textContent = `v${latestVersion}`;
   }
-
-  initForgotPasswordModal();
 }
 
-// Initialize Forgot Password Modal
-function initForgotPasswordModal() {
-  const forgotPasswordModalElement = document.getElementById(
-    "forgotPasswordModal"
-  );
-  if (forgotPasswordModalElement) {
-    forgotPasswordModalElement.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const forgotPasswordModalInstance = bootstrap.Modal.getInstance(
-        forgotPasswordModalElement
-      );
-      forgotPasswordModalInstance.hide();
-      const checkEmailModal = new bootstrap.Modal(
-        document.getElementById("checkEmailModal")
-      );
-      checkEmailModal.show();
-    });
-  }
-}
-
-// Initialize delete modals
-export function initDeleteModals() {
+// Initialize delete button
+export function initDeleteButton() {
   const modalHTML = createModalHTML(
     "datatable-delete-modal",
     "<i class='fa fa-warning'></i> Delete Data",
@@ -215,6 +224,38 @@ export function initDeleteModals() {
   $("#success-delete-modal").on("click", function () {
     $("#success-delete-modal").modal("hide");
   });
+}
+
+export function initEditAddButtons() {
+  const successModalHTML = `
+    <div class="modal fade" id="success-modal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <p class="fs-4">Menu Successful</p>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const errorModalHTML = `
+    <div class="modal fade" id="error-modal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h5>Error</h5>
+            <p id="error-message"></p>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  $("body").append(successModalHTML + errorModalHTML);
+  
   function resetForm(type) {
     const formId = type === "menu" ? "#MenuModalsForm" : "#CustomersModalsForm";
     $(formId)[0].reset();
@@ -244,13 +285,6 @@ export function initDeleteModals() {
       $("#sub_kategori").val(data.sub_kategori);
       $("#harga").val(data.harga);
       $("#status").val(data.status);
-      $("#deskripsi").val(data.deskripsi);
-      $("#tags").val(data.tags);
-      if (data.menu_images) {
-        $("#menu_images").attr("src", data.menu_images).show();
-      } else {
-        $("#menu_images").hide();
-      }
 
       if (mode === "view") {
         const statusValue = data.status === "aktif" ? "Aktif" : "Tidak Aktif";
@@ -263,16 +297,16 @@ export function initDeleteModals() {
         disableFormInputs("#MenuModalsForm");
       } else {
         $("#status").replaceWith(`
-      <select class="form-select" id="status" name="status" required>
-          <option disabled>Pilih Status</option>
-          <option value="Aktif" ${
-            data.status === "Aktif" ? "selected" : ""
-          }>Aktif</option>
-          <option value="Tidak Aktif" ${
-            data.status === "Tidak Aktif" ? "selected" : ""
-          }>Tidak Aktif</option>
-      </select> 
-    `);
+          <select class="form-select" id="status" name="status" required>
+              <option disabled>Pilih Status</option>
+              <option value="Aktif" ${
+                data.status === "Aktif" ? "selected" : ""
+              }>Aktif</option>
+              <option value="Tidak Aktif" ${
+                data.status === "Tidak Aktif" ? "selected" : ""
+              }>Tidak Aktif</option>
+          </select> 
+      `);
         $("#calc-toggle").show();
         $("#harga").removeClass("rounded-end");
         $("#MenuModalsLabel").html('<i class="fa fa-edit"></i> Edit Menu');
@@ -339,38 +373,59 @@ export function initDeleteModals() {
       .attr("disabled", true);
   }
 
-  function handleFormSubmit(event, type) {
+  function handleFormSubmit(event, type, operation) {
     event.preventDefault();
     const idField = type === "menu" ? "#menu_id" : "#customer_id";
     const formId = type === "menu" ? "#MenuModalsForm" : "#CustomersModalsForm";
     const id = $(idField).val();
     const url = id ? `/update_${type}/${id}` : `/add_${type}`;
-
+  
     $.ajax({
       url: url,
       method: "POST",
       data: $(formId).serialize(),
       success: function (response) {
-        alert(response.message);
-        $(`${type === "menu" ? "#MenuModals" : "#CustomersModals"}`).modal(
-          "hide"
-        );
-        location.reload();
+        // Tentukan pesan berdasarkan operasi (add atau edit)
+        let successMessage = "";
+        if (operation === "add") {
+          successMessage = `${type.charAt(0).toUpperCase() + type.slice(1)} added successfully`;
+        } else if (operation === "edit") {
+          successMessage = `${type.charAt(0).toUpperCase() + type.slice(1)} edited successfully`;
+        }
+  
+        // Set pesan ke dalam modal success
+        $("#success-modal .modal-body p").text(successMessage);
+  
+        // Menampilkan modal success
+        $("#success-modal").modal("show");
+  
+        // Menutup modal form setelah berhasil
+        $(`${type === "menu" ? "#MenuModals" : "#CustomersModals"}`).modal("hide");
       },
       error: function (xhr) {
+        // Menampilkan modal error dengan pesan
         const errorMessage =
-          xhr.responseJSON.error || "An unknown error occurred.";
+          xhr.responseJSON && xhr.responseJSON.error
+            ? xhr.responseJSON.error
+            : "An unknown error occurred.";
         showErrorModal(errorMessage);
       },
     });
   }
-
+  
+  // Menambahkan event listener untuk modal success
+  $("#success-modal").on("hide.bs.modal", function () {
+    // Reload halaman setelah modal sukses ditutup
+    location.reload();
+  });
+  
+  
   function showErrorModal(message) {
-    $("#errorMessage").text(message);
-    $("#errorModal").modal("show");
-  }
+    $("#error-message").text(message); // Set isi modal error
+    $("#error-modal").modal("show");   // Tampilkan modal error
+  }  
 
-  $(document).on("click", ".view-menu-btn, .view-btn", function () {
+  $(document).on("click", ".view-menu-btn, .view-customers-btn", function () {
     const id = $(this).data("id");
     const type = $(this).hasClass("view-menu-btn") ? "menu" : "customer";
     resetForm(type);
@@ -389,7 +444,7 @@ export function initDeleteModals() {
     });
   });
 
-  $(document).on("click", ".edit-menu-btn, .edit-btn", function () {
+  $(document).on("click", ".edit-menu-btn, .edit-customers-btn", function () {
     const id = $(this).data("id");
     const type = $(this).hasClass("edit-menu-btn") ? "menu" : "customer";
     resetForm(type);
@@ -398,9 +453,11 @@ export function initDeleteModals() {
       method: "GET",
       success: function (data) {
         populateForm(data, type, "edit");
-        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal(
-          "show"
-        );
+        $(`#${type === "menu" ? "MenuModals" : "CustomersModals"}`).modal("show");
+        // Pastikan saat submit, parameter operation = "edit"
+        $(`#${type === "menu" ? "MenuModalsForm" : "CustomersModalsForm"}`).on("submit", function (event) {
+          handleFormSubmit(event, type, "edit");  // operasi "edit"
+        });
       },
       error: function (xhr) {
         alert(`Error: ${xhr.responseJSON.error}`);
@@ -416,6 +473,6 @@ export function initDeleteModals() {
 
   $("#MenuModalsForm, #CustomersModalsForm").on("submit", function (event) {
     const type = $(this).attr("id") === "MenuModalsForm" ? "menu" : "customer";
-    handleFormSubmit(event, type);
+    handleFormSubmit(event, type, "add");  // operasi "add"
   });
 }
