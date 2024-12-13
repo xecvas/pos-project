@@ -81,6 +81,10 @@ def get_session():
 def before_request():
     set_sidebar()
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('not-found.html')
+
 # Login-required decorator
 def login_required(f):
     """Ensure user is logged in before accessing a route."""
@@ -96,7 +100,7 @@ def login_required(f):
 def admin_required(func):
     def wrapper(*args, **kwargs):
         if session.get('user_role') != 'admin':
-            return "Access denied", 403
+            return render_template("not-found.html")
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
@@ -104,7 +108,7 @@ def admin_required(func):
 def cashier_required(func):
     def wrapper(*args, **kwargs):
         if session.get('user_role') != 'cashier':
-            return "Access denied", 403
+            return render_template("not-found.html")
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
@@ -247,9 +251,18 @@ def serve_static(file_type, filename):
     return send_from_directory(directory, filename)
 
 # Login route
-@app.route("/", methods=["GET", "POST"])
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Jika pengguna sudah login, alihkan ke halaman sesuai peran
+    if "user_email" in session:
+        user_role = session.get('user_role')
+        if user_role == 'admin':
+            return redirect(url_for('index'))
+        elif user_role == 'cashier':
+            return redirect(url_for('cashier'))
+    
+    # Jika metode POST, proses login
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -259,7 +272,6 @@ def login():
             user = session_sqlalchemy.query(User).filter_by(email=email).first()
 
             if user and user.password == password:
-                session.clear()
                 session['user_email'] = user.email
                 session['user_role'] = user.role
 
@@ -276,8 +288,9 @@ def login():
             return f"An error occurred: {e}", 500
         finally:
             session_sqlalchemy.close()
-    else:
-        return render_template('login.html')  # Tampilkan halaman login
+    
+    # Jika metode GET, tampilkan halaman login
+    return render_template('login.html')
 
 @app.route("/index")
 @admin_required
