@@ -1,22 +1,30 @@
-// Update Time and Date Continuously
 export function DateTime() {
-function updateTime() {
-  const now = new Date();
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const dayName = days[now.getDay()];
-  const formattedTime = `${dayName}, ${String(now.getDate()).padStart(2, "0")}-${String(
-    now.getMonth() + 1
-  ).padStart(2, "0")}-${now.getFullYear()}, ${String(now.getHours() % 12 || 12).padStart(
-    2,
-    "0"
-  )}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(
-    2,
-    "0"
-  )} ${now.getHours() >= 12 ? "PM" : "AM"}`;
-  document.querySelectorAll(".current-time").forEach((el) => (el.textContent = formattedTime));
-}
-updateTime();
-setInterval(updateTime, 1000);
+  function updateTime() {
+      const now = new Date();
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayName = days[now.getDay()];
+
+      // Format for current-time (with day name and AM/PM)
+      const formattedTime = `${dayName}, ${String(now.getDate()).padStart(2, "0")}-${String(
+          now.getMonth() + 1
+      ).padStart(2, "0")}-${now.getFullYear()}, ${String(now.getHours() % 12 || 12).padStart(
+          2,
+          "0"
+      )}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(
+          2,
+          "0"
+      )} ${now.getHours() >= 12 ? "PM" : "AM"}`;
+
+      // Format for current-date (with 24-hour format time)
+      const formattedDate = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+      // Update current-time and current-date if elements exist
+      document.querySelectorAll(".current-time").forEach((el) => (el.textContent = formattedTime));
+      document.querySelectorAll(".current-date").forEach((el) => (el.textContent = formattedDate));
+  }
+
+  // Panggil updateTime setiap detik
+  setInterval(updateTime, 1000);
 }
 
 //Image Preview
@@ -162,4 +170,26 @@ window.addEventListener("click", function (event) {
     calcPopup.style.display = "none"; // Close calculator
   }
 });
+}
+
+export function adjustPriceMargin(orderContentSelector = ".order-content", itemSpanSelector = ".item span") {
+  const orderContent = document.querySelector(orderContentSelector);
+  if (!orderContent) {
+      return;
+  }
+
+  const priceSpans = orderContent.querySelectorAll(itemSpanSelector);
+
+  function updateMargin() {
+      const hasScrollbar = orderContent.scrollHeight > orderContent.clientHeight;
+      priceSpans.forEach((span) => {
+          span.style.marginRight = hasScrollbar ? "10px" : "0px";
+      });
+  }
+
+  // Jalankan saat halaman dimuat
+  updateMargin();
+
+  // Jalankan saat ukuran halaman berubah (resize)
+  window.addEventListener("resize", updateMargin);
 }

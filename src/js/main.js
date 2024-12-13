@@ -3,6 +3,7 @@ import {
   initCalculator,
   createCalculator,
   initializeImagePreview,
+  adjustPriceMargin
 } from "./utils.js";
 import {
   initReleaseModals,
@@ -23,6 +24,7 @@ $(document).ready(function () {
   initializeImagePreview();
   createCalculator();
   initCalculator();
+  adjustPriceMargin();
 
   // modal-handler.js
   initReleaseModals();
@@ -47,11 +49,12 @@ $(document).ready(function () {
   const setupCompleted =
     $("meta[name='setup-completed']").attr("content") || "undefined";
   setupCashierPage(userRole, setupCompleted);
-  if (window.location.pathname.includes("login")) {
+  if (window.location.pathname === "/" || window.location.pathname.includes("login")) {
     console.log(new Date());
   } else {
     console.log(new Date());
     console.log(`Detected user: ${userRole}, accessing ${pageName} page`);
   }
+  
   setupCashierPage(userRole, setupCompleted);
 });
