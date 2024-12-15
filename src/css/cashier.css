@@ -1,4 +1,82 @@
-/* Main Content Layout */
+#order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+}
+
+.card-header {
+    margin-left: 10px;
+    margin-top: 25px;
+}
+
+.cashier-container {
+    display: flex;
+    overflow: hidden;
+    color: var(--text-primary);
+    border-radius: 12px;
+}
+
+.checkout-btn {
+    width: 360px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+.info-item {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item span {
+    flex-shrink: 0;
+}
+
+.item span:nth-child(1) {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.item span:nth-child(2) {
+    width: 50px;
+    text-align: center;
+}
+
+.item span:nth-child(3) {
+    text-align: left;
+    min-width: 100px;
+}
+
+.label {
+    width: 100px;
+    text-align: left;
+}
+
+.left-side {
+    flex: 1;
+    margin-right: 30px;
+    height: calc(100vh - 150px);
+    background-color: var(--table-container);
+    border-radius: 12px;
+}
+
 .main-content {
     background-color: var(--body-bg);
     color: var(--text-primary);
@@ -11,50 +89,36 @@
     margin-right: 20px;
     margin-bottom: 45px;
     transition: margin-left 0.3s ease;
-
 }
 
-/* Center Content in Card Container */
-.card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
+.menu-body {
+    margin-top: 20px;
+    height: calc(85vh - 125px);
+    overflow-y: auto;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-.cashier-container {
-    display: flex;
-    overflow: hidden;
-    color: var(--text-primary);
-    border-radius: 12px;
+.menu-container {
+    margin: 15px;
 }
 
-.left-side {
-    flex: 1;
-    margin-right: 30px;
-    min-height: calc(100vh - 150px);
-    background-color: var(--table-container);
-    border-radius: 12px;
+.order-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: calc(100% - 100px);
 }
 
-.right-side {
-    width: 400px;
-    border-radius: 12px;
-    background-color: var(--table-container);
-    position: relative;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column; /* Untuk menjaga tata letak vertikal */
-    height: calc(100vh - 150px); /* Tetapkan tinggi tetap */
+.order-content::-webkit-scrollbar {
+    width: 0px;
 }
 
-.order-summary {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    font-weight: bold;
-    text-align: center;
+.order-content::-webkit-scrollbar-thumb {
+    background: transparent;
 }
 
 .order-info {
@@ -64,45 +128,14 @@
     border-bottom: 2px solid var(--text-primary);
     display: flex;
     flex-direction: column;
-    /* Jarak antar item */
 }
 
-.info-item {
-    margin-top: 5px;
+.order-summary {
     display: flex;
-    align-items: center;
-    /* Agar teks sejajar secara vertikal */
-}
-
-.label {
-    width: 100px;
-    text-align: left;
-}
-
-.separator {
-    margin: 0 5px;
-}
-
-.value {
-    flex: 1;
-    text-align: left;
-}
-
-
-
-.order-content {
-    flex-grow: 1; /* Isi ruang yang tersisa */
-    overflow-y: auto; /* Scroll hanya dalam elemen ini */
-    margin-top: 10px;
-    margin-bottom: 10px;
-    max-height: calc(100% - 100px); /* Sesuaikan jika ada konten di atas/bawahnya */
-}
-
-.item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 14px;
+    flex-direction: column;
+    height: 100%;
+    font-weight: bold;
+    text-align: center;
 }
 
 .order-total {
@@ -120,23 +153,38 @@
     margin-bottom: 8px;
 }
 
-.checkout-btn {
-    width: 360px;
-    height: 50px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.right-side {
+    width: 400px;
+    border-radius: 12px;
+    background-color: var(--table-container);
     position: relative;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 150px);
 }
 
-.order-content::-webkit-scrollbar {
-    width: 8px; /* Ketebalan scrollbar */
+.separator {
+    margin: 0 5px;
 }
 
-.order-content::-webkit-scrollbar-thumb {
-    background: var(--text-primary); /* Warna scrollbar */
-    border-radius: 4px; /* Membulatkan scrollbar */
+.value {
+    flex: 1;
+    text-align: left;
 }
 
-
-
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+    transition: margin 0.2s ease;
+  }
+  
+  .delete-icon:hover {
+    color: darkred;
+    transform: scale(1.2);
+    transition: all 0.2s ease;
+  }
+  

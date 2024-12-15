@@ -33,12 +33,36 @@
     <script src="{{ url_for('js', filename='ReleaseData.js') }}"></script>
     <script type="module" src="{{ url_for('js', filename='main.js') }}"></script>
     <script type="module" src="{{ url_for('js', filename='cashier.js') }}"></script>
-    
-    <script>
-    </script>
 
+    <style>
+        .menu-card {
+            width: 171px;
+            margin: 10px;
+            display: inline-block;
+            border: 2px solid var(--text-primary);
+            border-radius: 12px;
+            text-align: center;
+        }
 
+        .menu-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
 
+        .menu-card .card-body {
+            padding: 10px;
+            border-top: 2px solid var(--text-primary);
+        }
+
+        .menu-card .card-title {
+            font-weight: bold;
+        }
+
+        .menu-card .card-text {
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -109,7 +133,37 @@
     <!-- Main Content Section -->
     <div class="main-content">
         <div class="cashier-container spacer">
-            <div class="left-side"></div>
+            <div class="left-side">
+                <div class="menu-container">
+                    <div class="card-header d-flex justify-content-between align-items-center gap-2">
+                        <!-- Buttons for Categories -->
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary active" id="all-btn">All</button>
+                            <button class="btn btn-outline-primary" id="food-btn">Makanan</button>
+                            <button class="btn btn-outline-primary" id="drink-btn">Minuman</button>
+                            <button class="btn btn-outline-primary" id="snack-btn">Snack</button>
+                        </div>
+                        <!-- Search Form -->
+                        <form role="search" class="d-flex">
+                            <input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search Menu" aria-label="Search" id="menu-search">
+                        </form>
+                    </div>
+                    <div class="menu-body">
+                        <!-- Content for Categories -->
+                        <div class="content" id="makanan">
+                            <!-- Konten untuk kategori "Makanan" akan dimuat di sini -->
+                        </div>
+                        <div class="content d-none" id="minuman">
+                            <!-- Konten untuk kategori "Minuman" akan dimuat di sini -->
+                        </div>
+                        <div class="content d-none" id="snack">
+                            <!-- Konten untuk kategori "Snack" akan dimuat di sini -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
             <div class="right-side">
                 <div class="order-summary">
                     <h2>Order Summary</h2>
@@ -132,27 +186,22 @@
                         </div>
                     </div>
                     <div class="order-content">
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
-                        <div class="item">tikus <span>IDR 1,235,000</span></div>
-                        <div class="item">ayam <span>IDR 1,235,000</span></div>
+                        <ul id="order-list">
+                            {% for item in selected_items %}
+                            <div class="item">
+                                {{ item.nama_menu }}
+                                <span>{{ item.jumlah }}</span>
+                                <span>Rp {{ item.harga_total }}</span>
+                            </div>
+
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="order-total">
-                        <div class="total">Subtotal <span>Subtotal disini</span></div>
-                        <div class="total">Discount <span>discount disini</span></div>
-                        <button class="btn btn-warning text-white checkout-btn">total : total_bayar</button>
+                        <div class="total" id="Subtotal">Subtotal <span>0</span></div>
+                        <div class="total" id="discount">Discount <span>0</span></div>
+                        <button class="btn btn-warning text-white checkout-btn">Checkout</button>
                     </div>
-
                 </div>
             </div>
         </div>

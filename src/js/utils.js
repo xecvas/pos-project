@@ -171,25 +171,3 @@ window.addEventListener("click", function (event) {
   }
 });
 }
-
-export function adjustPriceMargin(orderContentSelector = ".order-content", itemSpanSelector = ".item span") {
-  const orderContent = document.querySelector(orderContentSelector);
-  if (!orderContent) {
-      return;
-  }
-
-  const priceSpans = orderContent.querySelectorAll(itemSpanSelector);
-
-  function updateMargin() {
-      const hasScrollbar = orderContent.scrollHeight > orderContent.clientHeight;
-      priceSpans.forEach((span) => {
-          span.style.marginRight = hasScrollbar ? "10px" : "0px";
-      });
-  }
-
-  // Jalankan saat halaman dimuat
-  updateMargin();
-
-  // Jalankan saat ukuran halaman berubah (resize)
-  window.addEventListener("resize", updateMargin);
-}
