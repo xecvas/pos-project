@@ -1,5 +1,25 @@
 const ReleaseData = [
   {
+    version: "2.7.0",
+    date: "17/12/2024",
+    features: {
+      added: [
+        "A button to select members according to the database records.",
+        "Users can choose a discount method using the available discount buttons.",
+        "Users can select the service type and the number of pax using the dine-in button.",
+        "The option to display the menu in either grid or list view.",
+        "A delete button to remove selected menu items.",
+      ],
+      fixed: [
+        "Subtotal, discount, and total calculations function properly.",
+        "Ensure the interface remains consistent under specific conditions.",
+      ],
+      improvements: [
+        "Optimized multiple JavaScript functions to enhance overall page performance."
+      ],
+    },
+  },
+  {
     version: "2.6.0",
     date: "15/12/2024",
     features: {

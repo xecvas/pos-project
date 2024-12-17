@@ -520,6 +520,15 @@ def get_customer_data():
     finally:
         session.close()
 
+@app.route('/roles-types', methods=['GET'])
+def get_roles_types():
+    session = SessionLocal()
+    try:
+        roles = session.query(customer.roles_type).distinct().all()
+        roles_list = [role[0] for role in roles if role[0]]  # Hanya ambil nilai unik dan tidak None
+        return jsonify(roles_list)
+    finally:
+        session.close()
 
 # route to delete menu
 @app.route("/delete_menu/<int:id>", methods=["POST"])
