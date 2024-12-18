@@ -70,7 +70,7 @@
             <!-- Right Section with Login Form -->
             <div class="right-section">
                 <div class="logo-container text-center mb-4">
-                    <img src="{{ url_for('images', filename='dark-banner-page.png') }}" class="icon" alt="Web Icon" 
+                    <img src="{{ url_for('images', filename='dark-banner-page.png') }}" class="icon" alt="Web Icon"
                         style="width: 300px;">
                 </div>
 
@@ -119,16 +119,11 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-body">
                     <h5 class="modal-title" id="forgotPasswordModalLabel"><i class="fas fa-question-circle"></i>
                         Forgot Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-muted text-center">Enter your email address and we'll send you a link to reset your
-                        password.</p>
                     <form id="forgotPasswordForm">
-                        <div class="mb-3">
+                        <div class="mb-3 spacer">
                             <input type="email" class="form-control" id="resetEmail" placeholder="Enter email" required>
                         </div>
                         <div class="d-grid">
@@ -145,19 +140,16 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="border-bottom: none;">
+                <div class="modal-body">
                     <h5 class="modal-title" id="checkEmailModalLabel"><i class="fas fa-envelope"></i>
                         Check Your Email</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center">
+                    <p class="text-center spacer">
                         We've sent a password reset link to your email. Please check your inbox (and spam folder) to
                         proceed.
                     </p>
-                </div>
-                <div class="modal-footer" style="border-top: none;">
-                    <button type="button" class="btn" data-bs-dismiss="modal">Okay</button>
+                    <div class="text-center">
+                        <button type="button" class="btn" data-bs-dismiss="modal" style="width: 150px;">Okay</button>
+                    </div>
                 </div>
             </div>
         </div>
