@@ -1,5 +1,26 @@
 const ReleaseData = [
   {
+    version: "2.8.0",
+    date: "17/12/2024",
+    features: {
+      added: [
+        "Added a modal to edit menu quantities in the order list.",
+        "Users can now choose a discount method using the available discount buttons.",
+        "Users can search for members using the new member button.",
+        "The 'pax' field is now hidden when the service type is not dine-in.",
+        "Icons have been added for each button and modal on the cashier page.",
+      ],
+      fixed: [
+        "The button for 'all categories' now functions properly.",
+        "The total price calculation is correct, even when the quantity is updated.",
+        "The menu search functionality now works regardless of the category.",
+      ],
+      improvements: [
+        "Optimized multiple JavaScript functions to enhance overall page performance.",
+      ],
+    },
+  },
+  {
     version: "2.7.0",
     date: "17/12/2024",
     features: {
@@ -15,7 +36,7 @@ const ReleaseData = [
         "Ensure the interface remains consistent under specific conditions.",
       ],
       improvements: [
-        "Optimized multiple JavaScript functions to enhance overall page performance."
+        "Optimized multiple JavaScript functions to enhance overall page performance.",
       ],
     },
   },
