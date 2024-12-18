@@ -73,3 +73,7 @@ form {
     color: var(--text-other);
     background-color: var(--button-hover-bg);
 }
+
+.spacer {
+    margin-top: 20px;
+}
