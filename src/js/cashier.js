@@ -1,29 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
   updateCheckoutButton();
+  fetchMenuData("");
 });
 
 // Initialize
 localStorage.removeItem("selectedItems");
 let selectedItems = JSON.parse(localStorage.getItem("selectedItems")) || [];
-let currentCategory = "makanan";
+let currentCategory = "All"; // Default ke "All" untuk menampilkan semua menu
 let currentPage = 1;
+let menuDataCache = [];
 
 // Fetch menu data
-function fetchMenuData(category, page) {
-  const pageSize = 200;
-  const offset = (page - 1) * pageSize;
-  fetch(`/menu?category=${category}&start=${offset}&length=${pageSize}&draw=1`)
-    .then((response) => response.json())
-    .then((data) => renderMenu(data.data, category));
+function fetchMenuData(category = "") {
+  const categoryParam = category === "All" ? "" : category;
+  fetch(`/menu?category=${encodeURIComponent(categoryParam)}&start=0&length=500&draw=1`)
+      .then((response) => response.json())
+      .then((data) => {
+          menuDataCache = data.data;
+          renderMenu(menuDataCache);
+      })
+      .catch((error) => console.error("Error fetching menu data:", error));
 }
 
 // Render menu items
-function renderMenu(menuData, category) {
-  const menuContainer = document.querySelector(`#${category}`);
-  if (!menuContainer) return;
+function renderMenu(menuData) {
+  const menuContainer = currentCategory === "All"
+    ? document.querySelector("#makanan") // Pilih salah satu kategori default
+    : document.querySelector(`#${currentCategory.toLowerCase()}`);
 
-  menuContainer.innerHTML = "";
+  if (!menuContainer) {
+    console.error("Error: Invalid category container.");
+    return;
+  }
 
+  menuContainer.innerHTML = ""; // Kosongkan kontainer sebelum render
   menuData.forEach((item) => {
     const card = document.createElement("div");
     card.classList.add("menu-card");
@@ -86,6 +96,101 @@ function addItemToOrder(menuItem) {
   localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
   updateOrderList();
 }
+
+// Fungsi untuk mengatur tombol aktif
+function setActiveButton(activeButtonId) {
+  document.querySelectorAll(".btn-menu").forEach((button) => {
+    button.classList.remove("active");
+  });
+  document.getElementById(activeButtonId).classList.add("active");
+}
+
+function setActiveCategory(category) {
+  // Reset kolom pencarian
+  document.getElementById("menu-search").value = "";
+
+  // Sembunyikan semua kategori
+  document.querySelectorAll(".content").forEach((content) => {
+    content.classList.add("d-none");
+  });
+
+  // Tampilkan kategori yang dipilih
+  const activeCategory = document.getElementById(category.toLowerCase());
+  if (activeCategory) activeCategory.classList.remove("d-none");
+}
+
+document.getElementById("food-btn").addEventListener("click", () => {
+  setActiveButton("food-btn");
+  setActiveCategory("makanan");
+  currentCategory = "Makanan";
+  fetchMenuData("Makanan");
+});
+
+document.getElementById("drink-btn").addEventListener("click", () => {
+  setActiveButton("drink-btn");
+  setActiveCategory("minuman");
+  currentCategory = "Minuman";
+  fetchMenuData("Minuman");
+});
+
+document.getElementById("snack-btn").addEventListener("click", () => {
+  setActiveButton("snack-btn");
+  setActiveCategory("snack");
+  currentCategory = "Snack";
+  fetchMenuData("Snack");
+});
+
+document.getElementById("all-btn").addEventListener("click", () => {
+  setActiveButton("all-btn");
+  currentCategory = "All";
+  fetchMenuData(""); // Ambil semua data
+  document.querySelectorAll(".content").forEach((content) => {
+    content.classList.remove("d-none"); // Tampilkan semua kategori
+  });
+  // Reset kolom pencarian
+  document.getElementById("menu-search").value = "";
+});
+
+// Search menu
+function searchMenu(keyword) {
+  const menuItems = document.querySelectorAll(".menu-card"); // Ambil semua menu
+  menuItems.forEach((menuItem) => {
+    const menuTitle = menuItem.querySelector(".card-title").textContent.toLowerCase();
+    const match = menuTitle.includes(keyword.toLowerCase());
+    menuItem.style.display = match ? "" : "none"; // Tampilkan/hilangkan menu berdasarkan pencarian
+  });
+}
+
+document.getElementById("menu-search").addEventListener("input", function () {
+  const keyword = this.value.trim();
+  
+  if (keyword === "") {
+    // Jika input kosong, reset ke kategori aktif
+    document.querySelectorAll(".menu-card").forEach((menuItem) => {
+      menuItem.style.display = ""; // Tampilkan semua menu
+    });
+  } else {
+    // Pastikan semua kategori terlihat untuk pencarian lintas kategori
+    document.querySelectorAll(".content").forEach((content) => {
+      content.classList.remove("d-none");
+    });
+    searchMenu(keyword); // Lakukan pencarian
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function calculateSubtotal() {
   return selectedItems.reduce((total, item) => total + item.totalPrice, 0);
@@ -171,7 +276,7 @@ function updateCheckoutButton() {
   } else {
     // Jika ada item, hitung total dengan diskon
     const total = calculateDiscountedTotal(discountType, discountValue);
-    checkoutButton.textContent = `Checkout - Rp ${total.toLocaleString("id-ID")}`;
+    checkoutButton.textContent = `Rp ${total.toLocaleString("id-ID")}`;
   }
 }
 
@@ -182,34 +287,25 @@ function removeItemFromOrder(menuId) {
   updateOrderList();
 }
 
-// Search menu
-function searchMenu(keyword) {
-  const menuItems = document.querySelectorAll(`#${currentCategory} .menu-card`);
-  menuItems.forEach((menuItem) => {
-    const menuTitle = menuItem
-      .querySelector(".card-title")
-      .textContent.toLowerCase();
-    menuItem.style.display = menuTitle.includes(keyword.toLowerCase())
-      ? ""
-      : "none";
-  });
-}
-
-document.getElementById("menu-search").addEventListener("input", function () {
-  searchMenu(this.value.trim());
-});
 
 fetchMenuData(currentCategory, currentPage);
-
 // Fungsi untuk membuka modal dengan konten dinamis
-function openModal(title, bodyContent) {
-  document.getElementById("modal-title").innerText = title;
-  document.getElementById("modal-body").innerHTML = bodyContent;
-  const modal = new bootstrap.Modal(
-    document.getElementById("ButtonGrouplModal")
-  );
-  modal.show();
-  window.currentModal = modal; // Simpan modal untuk bisa ditutup nanti
+function openModal(title, bodyContent, iconClass = null) {
+  const modal = document.getElementById("ButtonGrouplModal");
+  const modalTitle = modal.querySelector("#modal-title");
+  const modalBody = modal.querySelector("#modal-body");
+
+  // Set judul dengan atau tanpa ikon
+  modalTitle.innerHTML = iconClass
+      ? `<i class="${iconClass} me-2"></i>${title}`
+      : title;
+
+  // Set konten tubuh modal
+  modalBody.innerHTML = bodyContent;
+
+  const bootstrapModal = new bootstrap.Modal(modal);
+  bootstrapModal.show();
+  window.currentModal = bootstrapModal; // Simpan modal untuk referensi
 }
 
 // Fungsi untuk mengganti teks tombol
@@ -217,47 +313,66 @@ function updateButtonText(buttonId, newText) {
   document.getElementById(buttonId).innerText = newText;
 }
 
-// Fungsi khusus untuk tombol Member
+// Fungsi untuk menampilkan modal pencarian member
 window.openMemberModal = async function () {
-  try {
-    const response = await fetch("/roles-types");
-    const roles = await response.json();
-    const rolesButtons = roles
-      .map(
-        (role) =>
-          `<button class="btn btn-outline-primary m-1" onclick="selectMember('${role}')">${role}</button>`
-      )
-      .join("");
-    openModal("Pilih Member", `<div class="text-center">${rolesButtons}</div>`);
-  } catch (error) {
-    console.error("Error fetching roles types:", error);
-    openModal("Error", "<p class='text-danger'>Gagal memuat data member.</p>");
-  }
+  const bodyContent = `
+      <input type="text" id="search-input" class="form-control" placeholder="Cari nama, telepon, atau email...">
+      <div id="dropdown-results" class="list-group mt-2"></div>
+  `;
+  openModal("Pencarian Customer", bodyContent, "fas fa-user");
+
+  const searchInput = document.getElementById("search-input");
+  const dropdown = document.getElementById("dropdown-results");
+
+  // Event listener untuk pencarian real-time
+  searchInput.addEventListener("input", async function () {
+    const query = searchInput.value.trim();
+    if (query.length < 2) {
+        dropdown.innerHTML = ''; // Kosongkan jika input terlalu pendek
+        return;
+    }
+
+    try {
+        const response = await fetch(`/search_customers?query=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const results = await response.json();
+        dropdown.innerHTML = results.map(customer => `
+            <button type="button" class="list-group-item list-group-item-action" onclick="selectMember('${customer.name}')">
+                <strong>${customer.name}</strong> - ${customer.email} (${customer.phone})
+            </button>
+        `).join('');
+    } catch (error) {
+        console.error("Error fetching customers:", error);
+        dropdown.innerHTML = `<div class="text-danger">Terjadi kesalahan. Coba lagi.</div>`;
+    }
+});
 };
 
-window.selectMember = function (role) {
+// Fungsi untuk memilih customer dari hasil pencarian
+window.selectMember = function (name) {
   const button = document.getElementById("member-btn");
-  button.innerHTML = `<strong>Member:</strong> ${role}`; // Buat "Member:" tebal
+  button.innerHTML = `<strong>Member:</strong> ${name}`; // Perbarui teks tombol
   window.currentModal.hide(); // Tutup modal
 };
 
 // Fungsi khusus untuk tombol Discount dengan Toggle
 window.openDiscountModal = function () {
   const discountForm = `
-    <div>
-      <label class="form-label">Pilih Jenis Diskon</label>
-      <div class="btn-group w-100 mb-3" role="group" aria-label="Toggle Discount Type">
-        <button type="button" class="btn btn-outline-primary active" id="percent-btn" onclick="toggleDiscountInput('percent')">%</button>
-        <button type="button" class="btn btn-outline-primary" id="rp-btn" onclick="toggleDiscountInput('rp')">RP</button>
-        <button type="button" class="btn btn-outline-primary" id="code-btn" onclick="toggleDiscountInput('code')">Code</button>
+      <div>
+          <label class="form-label">Pilih Jenis Diskon</label>
+          <div class="btn-group w-100 mb-3" role="group" aria-label="Toggle Discount Type">
+              <button type="button" class="btn btn-outline-primary active" id="percent-btn" onclick="toggleDiscountInput('percent')">%</button>
+              <button type="button" class="btn btn-outline-primary" id="rp-btn" onclick="toggleDiscountInput('rp')">RP</button>
+              <button type="button" class="btn btn-outline-primary" id="code-btn" onclick="toggleDiscountInput('code')">Code</button>
+          </div>
+          <div id="discount-input-container">
+              <input type="number" id="discount-input" class="form-control mb-2" placeholder="Masukkan Diskon (%)" min="0">
+          </div>
+          <button type="button" class="btn btn-success" onclick="applyDiscount()">Terapkan</button>
       </div>
-      <div id="discount-input-container">
-        <input type="number" id="discount-input" class="form-control mb-2" placeholder="Masukkan Diskon (%)" min="0">
-      </div>
-      <button type="button" class="btn btn-success" onclick="applyDiscount()">Terapkan</button>
-    </div>
   `;
-  openModal("Masukkan Diskon", discountForm);
+  openModal("Masukkan Diskon", discountForm, "fas fa-tag");
 };
 
 // Fungsi Toggle Input Diskon
@@ -331,30 +446,69 @@ window.applyDiscount = function () {
 // Fungsi khusus untuk tombol Dine-in dengan Jenis Layanan
 window.openDineInModal = function () {
   const dineInForm = `
-    <form>
-      <label class="form-label">Pilih Jenis Layanan</label>
-      <select id="dinein-type" class="form-select mb-3">
-        <option value="Dine-in">Dine-in</option>
-        <option value="Takeaway">Takeaway</option>
-        <option value="Delivery">Delivery</option>
-      </select>
-      <label for="pax-input" class="form-label">Jumlah Pax (Orang)</label>
-      <input type="number" id="pax-input" class="form-control mb-2" placeholder="Jumlah Pax" min="1">
-      <button type="button" class="btn btn-success" onclick="applyDineIn()">Konfirmasi</button>
-    </form>
+      <form id="dinein-form">
+          <label class="form-label">Pilih Jenis Layanan</label>
+          <select id="dinein-type" class="form-select mb-3" onchange="togglePaxInput()" required>
+              <option value="Dine-in">Dine-in</option>
+              <option value="Takeaway">Takeaway</option>
+              <option value="Delivery">Delivery</option>
+          </select>
+          <div id="pax-container">
+              <label for="pax-input" class="form-label">Jumlah Pax (Orang)</label>
+              <input type="number" id="pax-input" class="form-control mb-2" placeholder="Jumlah Pax" min="1" required>
+          </div>
+          <button type="submit" class="btn btn-success">Konfirmasi</button>
+      </form>
   `;
-  openModal("Pilih Layanan dan Jumlah Pax", dineInForm);
+  openModal("Pilih Layanan", dineInForm, "fa fa-glass-cheers");
+
+  // Tambahkan event listener untuk validasi dan pengiriman form
+  const form = document.getElementById("dinein-form");
+  form.addEventListener("submit", function (event) {
+      event.preventDefault(); // Cegah pengiriman form default
+
+      // Panggil fungsi applyDineIn hanya jika form valid
+      if (form.checkValidity()) {
+          applyDineIn();
+      } else {
+          form.reportValidity(); // Tampilkan validasi bawaan browser
+      }
+  });
+};
+
+window.togglePaxInput = function () {
+  const dineInType = document.getElementById("dinein-type").value;
+  const paxContainer = document.getElementById("pax-container");
+  const paxInput = document.getElementById("pax-input");
+
+  if (dineInType === "Dine-in") {
+      paxContainer.style.display = "block"; // Tampilkan input pax
+      paxInput.required = true; // Jadikan input required
+  } else {
+      paxContainer.style.display = "none"; // Sembunyikan input pax
+      paxInput.required = false; // Hilangkan required
+      paxInput.value = ""; // Kosongkan nilai input
+  }
 };
 
 // Fungsi untuk memilih dine-in dan pax
 window.applyDineIn = function () {
   const dineInType = document.getElementById("dinein-type").value;
-  const pax = document.getElementById("pax-input").value;
-  if (pax > 0) {
-    const button = document.getElementById("dinein-btn");
-    button.innerHTML = `<strong>Dine-in</strong><br><strong>Pax:</strong>${pax}`; // Menggunakan innerHTML agar <br> berfungsi
-    window.currentModal.hide(); // Tutup modal
+  const paxInput = document.getElementById("pax-input");
+  const pax = paxInput ? paxInput.value : null;
+
+  let outputText;
+
+  if (dineInType === "Dine-in") {
+      outputText = `<strong>${dineInType}</strong><br><strong>Pax:</strong> ${pax}`;
+  } else {
+      outputText = `<strong>${dineInType}</strong>`;
   }
+
+  const button = document.getElementById("dinein-btn");
+  button.innerHTML = outputText; // Perbarui teks tombol
+
+  window.currentModal.hide(); // Tutup modal
 };
 
 // Event Listener untuk tombol di button group

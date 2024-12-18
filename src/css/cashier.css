@@ -19,6 +19,7 @@
     text-align: center; /* Rata tengah teks */
     color: var(--text-primary);
     font-size: 15px;
+    height: 55px;
 }
 
 
@@ -123,7 +124,7 @@
     overflow-x: hidden;
     margin-top: 10px;
     margin-bottom: 10px;
-    max-height: calc(65vh - 165px);
+    max-height: calc(65vh - 160px);
     border-top: 2px solid var(--text-primary);
 }
 
@@ -212,6 +213,7 @@
     text-align: center;
     overflow: hidden;
     margin: 0 10px 10px 10px;
+    cursor: pointer;
 }
 
 .menu-card img {
@@ -264,4 +266,36 @@
 
 .menu-card .list-details.d-none {
     display: none; /* Sembunyikan saat grid view */
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1.25rem; /* Ukuran font standar Bootstrap */
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left; /* Pastikan judul sejajar ke kiri */
+    margin-left: 17px;
+    margin-top: 10px;
+}
+
+/* Gaya tombol dengan warna seperti btn-warning */
+.btn-group .btn {
+    border: 1px solid #d39e00; /* Outline btn-warning */
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover efek */
+.btn-group .btn:hover {
+    border-color: #d39e00; /* Border hover */
+    color: var(--text-primary); /* Warna teks hover */
+}
+
+/* Gaya tombol aktif */
+.btn-group .btn.active {
+    background-color: #e0a800; /* Warna aktif */
+    color: #fff; /* Teks aktif */
+    border-color: #d39e00; /* Outline aktif */
 }

@@ -384,14 +384,15 @@ def cashier_setup():
 def get_data():
     session = SessionLocal()
     try:
-        draw = int(request.args.get("draw", 1))  # Draw counter for synchronization
+        draw = int(request.args.get("draw", 1))  # Draw counter untuk DataTables
         start = int(request.args.get("start", 0))  # Offset
         length = int(request.args.get("length", 10))  # Limit
-        search_value = request.args.get("search[value]", "")  # Search input
-        order_column = request.args.get("order[0][column]", "0")  # Default to 'ID'
+        search_value = request.args.get("search[value]", "")  # Input pencarian
+        category = request.args.get("category", "").strip()  # Tambahkan kategori
+        order_column = request.args.get("order[0][column]", "0")  # Kolom default adalah 'id'
         order_dir = request.args.get("order[0][dir]", "asc")  # Sorting direction
 
-        # Map DataTables column index to database fields
+        # Map DataTables column index ke field database
         column_map = {
             "0": "id",
             "1": "nama_menu",
@@ -401,15 +402,18 @@ def get_data():
             "5": "harga",
             "6": "status",
         }
-
-        # Get the column name for sorting
-        order_column = request.args.get("order[0][column]", "0")
         order_column_name = column_map.get(order_column, "id")
 
-        # Build the base query
+        # Query dasar
         query = session.query(menu)
 
-        # Apply search filter if a search value is provided
+        # Filter kategori jika diberikan
+        if not category:
+            query = session.query(menu)  # Ambil semua data
+        else:
+            query = query.filter(menu.kategori.ilike(f"%{category}%"))
+
+        # Filter pencarian jika diberikan
         if search_value:
             search_value = f"%{search_value}%"
             query = query.filter(
@@ -418,13 +422,13 @@ def get_data():
                 | menu.kategori.ilike(search_value)
             )
 
-        # Apply sorting
+        # Sorting
         if order_dir == "asc":
             query = query.order_by(getattr(menu, order_column_name).asc())
         else:
             query = query.order_by(getattr(menu, order_column_name).desc())
 
-        # Total records before filtering
+        # Total records sebelum filtering
         total_records = session.query(menu).count()
 
         # Filtered records count
@@ -433,10 +437,10 @@ def get_data():
         # Apply pagination
         data_query = query.offset(start).limit(length).all()
 
-        # Convert data to dictionary format
+        # Convert data ke dictionary
         data = [menu.to_dict() for menu in data_query]
 
-        # Construct the response
+        # Response
         response = {
             "draw": draw,
             "recordsTotal": total_records,
@@ -446,7 +450,6 @@ def get_data():
         return jsonify(response)
     finally:
         session.close()
-
 
 @app.route("/data-customers", methods=["GET"])
 def get_customer_data():
@@ -519,6 +522,34 @@ def get_customer_data():
         return jsonify(response)
     finally:
         session.close()
+
+@app.route('/search_customers', methods=['GET'])
+def search_customers():
+    try:
+        search_query = request.args.get('query', '').strip()
+        if not search_query:
+            return jsonify([])  # Kembalikan array kosong jika query kosong
+
+        session = SessionLocal()
+        search_pattern = f"%{search_query}%"
+
+        # Filter berdasarkan nama, email, atau telepon
+        results = session.query(customer).filter(
+            customer.name.ilike(search_pattern) |
+            cast(customer.phone, String).ilike(search_pattern) |
+            customer.email.ilike(search_pattern)
+        ).limit(10).all()
+
+        # Konversi hasil ke dictionary
+        return jsonify([cust.to_dict() for cust in results])
+
+    except Exception as e:
+        print(f"Error in /search_customers: {str(e)}")  # Log error ke console
+        return jsonify({"error": str(e)}), 500  # Kembalikan error dengan format JSON
+
+    finally:
+        session.close()
+
 
 @app.route('/roles-types', methods=['GET'])
 def get_roles_types():

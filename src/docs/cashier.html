@@ -108,12 +108,12 @@
                     <div class="card-header d-flex justify-content-between align-items-center gap-5">
                         <!-- Buttons for Categories -->
                         <div class="d-flex gap-2">
-                            <button class="btn btn-outline-primary active" id="all-btn">All</button>
-                            <button class="btn btn-outline-primary" id="food-btn">Makanan</button>
-                            <button class="btn btn-outline-primary" id="drink-btn">Minuman</button>
-                            <button class="btn btn-outline-primary" id="snack-btn">Snack</button>
+                            <button class="btn btn-warning btn-menu active" id="all-btn">All</button>
+                            <button class="btn btn-warning btn-menu" id="food-btn">Makanan</button>
+                            <button class="btn btn-warning btn-menu" id="drink-btn">Minuman</button>
+                            <button class="btn btn-warning btn-menu" id="snack-btn">Snack</button>
                         </div>
-                    
+
                         <!-- Wrapper for Search Form and Toggle View -->
                         <div class="d-flex align-items-center gap-3">
                             <!-- Search Form -->
@@ -121,19 +121,21 @@
                                 <input class="form-control me-2" style="width: 300px;" type="search"
                                     placeholder="Search Menu" aria-label="Search" id="menu-search">
                             </form>
-                    
+
                             <!-- Toggle View -->
                             <div class="btn-group" role="group" aria-label="Toggle View">
-                                <button type="button" class="btn btn-outline-primary active" id="grid-view-btn" onclick="toggleViewMode('grid')">
+                                <button type="button" class="btn active" id="grid-view-btn"
+                                    onclick="toggleViewMode('grid')">
                                     <i class="fas fa-th"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-primary" id="list-view-btn" onclick="toggleViewMode('list')">
+                                <button type="button" class="btn" id="list-view-btn"
+                                    onclick="toggleViewMode('list')">
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="menu-body">
                         <!-- Content for Categories -->
                         <div class="content" id="makanan">
@@ -151,9 +153,9 @@
 
             <div class="right-side">
                 <div class="button-group">
-                    <button id="member-btn" class="btn btn-warning">Member</button>
-                    <button id="discount-btn" class="btn btn-warning">Discount</button>
-                    <button id="dinein-btn" class="btn btn-warning">Dine-in</button>
+                    <button id="member-btn" class="btn btn-warning"><i class="fa fa-user"></i> Member</button>
+                    <button id="discount-btn" class="btn btn-warning"><i class="fa fa-tags"></i> Discount</button>
+                    <button id="dinein-btn" class="btn btn-warning"><i class="fa fa-glass-cheers"></i> Dine-in</button>
                 </div>
                 <div class="order-summary">
                     <h2>Order Summary</h2>
@@ -251,10 +253,7 @@
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-title">Modal Title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+            <h3 class="modal-title" id="modal-title">Modal Title</h3>
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
