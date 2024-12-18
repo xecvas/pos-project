@@ -46,6 +46,7 @@
     --project-version: #172e6a;
     --notification-bell: #000000;
     --dropdown-bg: #f0edf6;
+    user-select: none;
 }
 
 :root[data-theme="light"] #brand-logo {
@@ -71,6 +72,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
+}
+
+input, textarea, select, button, form {
+    user-select: text;
 }
 
 body {
