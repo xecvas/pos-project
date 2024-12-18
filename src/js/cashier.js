@@ -13,20 +13,25 @@ let menuDataCache = [];
 // Fetch menu data
 function fetchMenuData(category = "") {
   const categoryParam = category === "All" ? "" : category;
-  fetch(`/menu?category=${encodeURIComponent(categoryParam)}&start=0&length=500&draw=1`)
-      .then((response) => response.json())
-      .then((data) => {
-          menuDataCache = data.data;
-          renderMenu(menuDataCache);
-      })
-      .catch((error) => console.error("Error fetching menu data:", error));
+  fetch(
+    `/menu?category=${encodeURIComponent(
+      categoryParam
+    )}&start=0&length=500&draw=1`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      menuDataCache = data.data;
+      renderMenu(menuDataCache);
+    })
+    .catch((error) => console.error("Error fetching menu data:", error));
 }
 
 // Render menu items
 function renderMenu(menuData) {
-  const menuContainer = currentCategory === "All"
-    ? document.querySelector("#makanan") // Pilih salah satu kategori default
-    : document.querySelector(`#${currentCategory.toLowerCase()}`);
+  const menuContainer =
+    currentCategory === "All"
+      ? document.querySelector("#makanan") // Pilih salah satu kategori default
+      : document.querySelector(`#${currentCategory.toLowerCase()}`);
 
   if (!menuContainer) {
     console.error("Error: Invalid category container.");
@@ -84,13 +89,13 @@ function addItemToOrder(menuItem) {
   let existingItem = selectedItems.find((item) => item.menuId === menuItem.id);
   if (existingItem) {
     existingItem.quantity++;
-    existingItem.totalPrice = existingItem.quantity * menuItem.harga;
+    existingItem.totalPrice = existingItem.quantity * menuItem.harga; // Hitung ulang total harga
   } else {
     selectedItems.push({
       menuId: menuItem.id,
       menuName: menuItem.nama_menu,
       quantity: 1,
-      totalPrice: menuItem.harga,
+      totalPrice: menuItem.harga, // Set harga awal berdasarkan harga satuan
     });
   }
   localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
@@ -155,7 +160,9 @@ document.getElementById("all-btn").addEventListener("click", () => {
 function searchMenu(keyword) {
   const menuItems = document.querySelectorAll(".menu-card"); // Ambil semua menu
   menuItems.forEach((menuItem) => {
-    const menuTitle = menuItem.querySelector(".card-title").textContent.toLowerCase();
+    const menuTitle = menuItem
+      .querySelector(".card-title")
+      .textContent.toLowerCase();
     const match = menuTitle.includes(keyword.toLowerCase());
     menuItem.style.display = match ? "" : "none"; // Tampilkan/hilangkan menu berdasarkan pencarian
   });
@@ -163,7 +170,7 @@ function searchMenu(keyword) {
 
 document.getElementById("menu-search").addEventListener("input", function () {
   const keyword = this.value.trim();
-  
+
   if (keyword === "") {
     // Jika input kosong, reset ke kategori aktif
     document.querySelectorAll(".menu-card").forEach((menuItem) => {
@@ -178,19 +185,7 @@ document.getElementById("menu-search").addEventListener("input", function () {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+fetchMenuData(currentCategory, currentPage);
 
 function calculateSubtotal() {
   return selectedItems.reduce((total, item) => total + item.totalPrice, 0);
@@ -226,35 +221,93 @@ function updateOrderList() {
   const orderList = document.getElementById("order-list");
   if (!orderList) return;
 
-  orderList.innerHTML = "";
+  orderList.innerHTML = ""; // Kosongkan daftar sebelum render ulang
   let totalAmount = 0;
 
   selectedItems.forEach((item, index) => {
-    totalAmount += item.totalPrice;
+    totalAmount += item.totalPrice; // Tambahkan ke total subtotal
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
       <span>${(index + 1).toString().padStart(2, "0")}. ${item.menuName}</span>
       <span>${item.quantity}</span>
-      <span>Rp ${item.totalPrice.toLocaleString("id-ID")}</span>`;
+      <span>Rp ${item.totalPrice.toLocaleString("id-ID")}</span>
+      <i class="fas fa-trash delete-icon"></i>
+    `;
 
-    const deleteIcon = document.createElement("i");
-    deleteIcon.className = "fas fa-trash delete-icon";
-    deleteIcon.addEventListener("click", () => removeItemFromOrder(item.menuId));
-    div.appendChild(deleteIcon);
+    // Tambahkan event listener untuk klik item
+    div.addEventListener("click", () => openQuantityModal(item));
+
+    // Tambahkan tombol hapus
+    const deleteIcon = div.querySelector(".delete-icon");
+    deleteIcon.addEventListener("click", (e) => {
+      e.stopPropagation(); // Jangan buka modal saat tombol delete diklik
+      removeItemFromOrder(item.menuId);
+    });
+
     orderList.appendChild(div);
   });
 
   // Update Subtotal
-  document.querySelector("#Subtotal span").textContent = totalAmount.toLocaleString("id-ID");
+  document.querySelector("#Subtotal span").textContent =
+    totalAmount.toLocaleString("id-ID");
+  updateCheckoutButton(); // Perbarui tombol checkout
+}
 
-  // Perbarui tombol checkout
-  updateCheckoutButton();
+function openQuantityModal(menuItem) {
+  // Konten dinamis untuk modal
+  const modalBody = `
+    <h5 class="text-center">Update Quantity : ${menuItem.menuName}</h5>
+    <div class="input-group mt-3" style="width: 120px; margin: 0 auto;">
+  <button class="btn" type="button" id="decrease-quantity">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <input type="text" id="quantity-input" class="form-control text-center" 
+         value="${menuItem.quantity}" min="1" style="width: 50px;">
+  <button class="btn" type="button" id="increase-quantity">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-primary" id="ok-button">OK</button>
+    </div>
+  `;
+
+  // Gunakan fungsi `openModal` untuk menampilkan modal
+  openModal("", modalBody);
+
+  // Tambahkan event listener untuk tombol di modal
+  const quantityInput = document.getElementById("quantity-input");
+  document.getElementById("decrease-quantity").addEventListener("click", () => {
+    if (quantityInput.value > 1) quantityInput.value--;
+  });
+  document.getElementById("increase-quantity").addEventListener("click", () => {
+    quantityInput.value++;
+  });
+  document.getElementById("ok-button").addEventListener("click", () => {
+    const newQuantity = parseInt(quantityInput.value, 10);
+    updateOrderQuantity(menuItem.menuId, newQuantity); // Panggil fungsi untuk memperbarui jumlah
+    window.currentModal.hide(); // Tutup modal setelah selesai
+  });
+}
+
+function updateOrderQuantity(menuId, newQuantity) {
+  // Cari item berdasarkan menuId
+  const item = selectedItems.find((item) => item.menuId === menuId);
+  if (item) {
+    const unitPrice = item.totalPrice / item.quantity; // Harga satuan menu
+    item.quantity = newQuantity;
+    item.totalPrice = unitPrice * newQuantity; // Total harga = harga satuan * jumlah baru
+    localStorage.setItem("selectedItems", JSON.stringify(selectedItems)); // Simpan ke localStorage
+    updateOrderList(); // Perbarui tampilan order list
+  }
 }
 
 function updateCheckoutButton() {
   const subtotal = calculateSubtotal();
-  const discountText = document.getElementById("Discount").querySelector("span").textContent;
+  const discountText = document
+    .getElementById("Discount")
+    .querySelector("span").textContent;
 
   let discountType = "code";
   let discountValue = 0;
@@ -287,8 +340,6 @@ function removeItemFromOrder(menuId) {
   updateOrderList();
 }
 
-
-fetchMenuData(currentCategory, currentPage);
 // Fungsi untuk membuka modal dengan konten dinamis
 function openModal(title, bodyContent, iconClass = null) {
   const modal = document.getElementById("ButtonGrouplModal");
@@ -297,8 +348,8 @@ function openModal(title, bodyContent, iconClass = null) {
 
   // Set judul dengan atau tanpa ikon
   modalTitle.innerHTML = iconClass
-      ? `<i class="${iconClass} me-2"></i>${title}`
-      : title;
+    ? `<i class="${iconClass} me-2"></i>${title}`
+    : title;
 
   // Set konten tubuh modal
   modalBody.innerHTML = bodyContent;
@@ -328,25 +379,32 @@ window.openMemberModal = async function () {
   searchInput.addEventListener("input", async function () {
     const query = searchInput.value.trim();
     if (query.length < 2) {
-        dropdown.innerHTML = ''; // Kosongkan jika input terlalu pendek
-        return;
+      dropdown.innerHTML = ""; // Kosongkan jika input terlalu pendek
+      return;
     }
 
     try {
-        const response = await fetch(`/search_customers?query=${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await fetch(
+        `/search_customers?query=${encodeURIComponent(query)}`
+      );
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
-        const results = await response.json();
-        dropdown.innerHTML = results.map(customer => `
+      const results = await response.json();
+      dropdown.innerHTML = results
+        .map(
+          (customer) => `
             <button type="button" class="list-group-item list-group-item-action" onclick="selectMember('${customer.name}')">
                 <strong>${customer.name}</strong> - ${customer.email} (${customer.phone})
             </button>
-        `).join('');
+        `
+        )
+        .join("");
     } catch (error) {
-        console.error("Error fetching customers:", error);
-        dropdown.innerHTML = `<div class="text-danger">Terjadi kesalahan. Coba lagi.</div>`;
+      console.error("Error fetching customers:", error);
+      dropdown.innerHTML = `<div class="text-danger">Terjadi kesalahan. Coba lagi.</div>`;
     }
-});
+  });
 };
 
 // Fungsi untuk memilih customer dari hasil pencarian
@@ -363,7 +421,7 @@ window.openDiscountModal = function () {
           <label class="form-label">Pilih Jenis Diskon</label>
           <div class="btn-group w-100 mb-3" role="group" aria-label="Toggle Discount Type">
               <button type="button" class="btn btn-outline-primary active" id="percent-btn" onclick="toggleDiscountInput('percent')">%</button>
-              <button type="button" class="btn btn-outline-primary" id="rp-btn" onclick="toggleDiscountInput('rp')">RP</button>
+              <button type="button" class="btn btn-outline-primary" id="rp-btn" onclick="toggleDiscountInput('rp')">Rp</button>
               <button type="button" class="btn btn-outline-primary" id="code-btn" onclick="toggleDiscountInput('code')">Code</button>
           </div>
           <div id="discount-input-container">
@@ -414,7 +472,9 @@ window.applyDiscount = function () {
         displayText = `${discountValue}%`;
       } else {
         // Format untuk Rupiah
-        const formattedNumber = Number(discountValue).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        const formattedNumber = Number(discountValue)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         formattedText = `<strong>Discount:</strong><br>Rp ${formattedNumber}`;
         displayText = `Rp ${formattedNumber}`;
       }
@@ -465,14 +525,14 @@ window.openDineInModal = function () {
   // Tambahkan event listener untuk validasi dan pengiriman form
   const form = document.getElementById("dinein-form");
   form.addEventListener("submit", function (event) {
-      event.preventDefault(); // Cegah pengiriman form default
+    event.preventDefault(); // Cegah pengiriman form default
 
-      // Panggil fungsi applyDineIn hanya jika form valid
-      if (form.checkValidity()) {
-          applyDineIn();
-      } else {
-          form.reportValidity(); // Tampilkan validasi bawaan browser
-      }
+    // Panggil fungsi applyDineIn hanya jika form valid
+    if (form.checkValidity()) {
+      applyDineIn();
+    } else {
+      form.reportValidity(); // Tampilkan validasi bawaan browser
+    }
   });
 };
 
@@ -482,12 +542,12 @@ window.togglePaxInput = function () {
   const paxInput = document.getElementById("pax-input");
 
   if (dineInType === "Dine-in") {
-      paxContainer.style.display = "block"; // Tampilkan input pax
-      paxInput.required = true; // Jadikan input required
+    paxContainer.style.display = "block"; // Tampilkan input pax
+    paxInput.required = true; // Jadikan input required
   } else {
-      paxContainer.style.display = "none"; // Sembunyikan input pax
-      paxInput.required = false; // Hilangkan required
-      paxInput.value = ""; // Kosongkan nilai input
+    paxContainer.style.display = "none"; // Sembunyikan input pax
+    paxInput.required = false; // Hilangkan required
+    paxInput.value = ""; // Kosongkan nilai input
   }
 };
 
@@ -500,9 +560,9 @@ window.applyDineIn = function () {
   let outputText;
 
   if (dineInType === "Dine-in") {
-      outputText = `<strong>${dineInType}</strong><br><strong>Pax:</strong> ${pax}`;
+    outputText = `<strong>${dineInType}</strong><br><strong>Pax:</strong> ${pax}`;
   } else {
-      outputText = `<strong>${dineInType}</strong>`;
+    outputText = `<strong>${dineInType}</strong>`;
   }
 
   const button = document.getElementById("dinein-btn");

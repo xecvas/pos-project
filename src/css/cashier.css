@@ -60,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .item span {
@@ -208,7 +209,7 @@
     width: 150px; /* 7 elemen per baris dengan gap */
     height: 220px; /* Tetapkan tinggi tetap */
     display: inline-block;
-    border: 2px solid var(--text-primary);
+    border: 2px solid var(--form-input);
     border-radius: 12px;
     text-align: center;
     overflow: hidden;
@@ -225,7 +226,7 @@
 
 .menu-card .card-body {
     padding: 10px;
-    border-top: 2px solid var(--text-primary);
+    border-top: 2px solid var(--form-input);
     height: 110px; /* Tetapkan tinggi tetap */
 }
 
@@ -280,7 +281,7 @@
 
 /* Gaya tombol dengan warna seperti btn-warning */
 .btn-group .btn {
-    border: 1px solid #d39e00; /* Outline btn-warning */
+    border: 1px solid var(--form-input); /* Outline btn-warning */
     color: var(--text-primary);
     border-radius: 6px;
     cursor: pointer;
@@ -289,13 +290,23 @@
 
 /* Hover efek */
 .btn-group .btn:hover {
-    border-color: #d39e00; /* Border hover */
-    color: var(--text-primary); /* Warna teks hover */
+    border-color: var(--form-input); /* Border hover */
+    background-color: var(--table-container);
+    color: var(--form-input); /* Warna teks hover */
 }
 
 /* Gaya tombol aktif */
 .btn-group .btn.active {
-    background-color: #e0a800; /* Warna aktif */
-    color: #fff; /* Teks aktif */
-    border-color: #d39e00; /* Outline aktif */
+    background-color: var(--form-input); /* Warna aktif */
+    color: #000000; /* Teks aktif */
+    border-color: var(--form-input); /* Outline aktif */
+}
+
+.input-group .btn {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.input-group .form-control:valid {
+    border-color: var(--text-primary);
 }
