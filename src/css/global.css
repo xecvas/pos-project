@@ -19,6 +19,7 @@
     --project-version: #ffffff;
     --notification-bell: #ffffff;
     --dropdown-bg: #1d203a;
+    --form-input: #ffffff;
 }
 
 :root[data-theme="dark"] #brand-logo {
@@ -46,7 +47,7 @@
     --project-version: #172e6a;
     --notification-bell: #000000;
     --dropdown-bg: #f0edf6;
-    user-select: none;
+    --form-input: #ffb347;
 }
 
 :root[data-theme="light"] #brand-logo {
@@ -64,7 +65,8 @@
 }
 
 .bg-purple {
-    background-color: #6f42c1 !important; /* Define the purple color */
+    background-color: #6f42c1 !important;
+    /* Define the purple color */
 }
 
 /* Global Reset and Typography */
@@ -75,7 +77,11 @@
     user-select: none;
 }
 
-input, textarea, select, button, form {
+input,
+textarea,
+select,
+button,
+form {
     user-select: text;
 }
 
@@ -92,7 +98,7 @@ body {
     width: 100%;
     z-index: 1000;
     background-color: var(--navbar-bg) !important;
-    color: var(--text-color) ;
+    color: var(--text-color);
 }
 
 /* Footer Styling */
@@ -114,38 +120,46 @@ footer {
 
 /* Navbar link default and hover state */
 .navbar-nav .nav-item .nav-link {
-    color: var(--text-primary) ; /* Default color white */
-    
+    color: var(--text-primary);
+    /* Default color white */
+
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Hover state for dropdown toggle (A) */
 .navbar-nav .nav-item .nav-link:hover {
-    color: var(--text-primary) ; /* Keep it white on hover */
+    color: var(--text-primary);
+    /* Keep it white on hover */
 }
 
 /* Active state (when menu B and C are shown) */
 .navbar-nav .nav-item.dropdown.show .nav-link {
-    color: var(--text-primary) ; /* Keep A white when B or C is shown */
+    color: var(--text-primary);
+    /* Keep A white when B or C is shown */
 }
 
 .dropdown-menu {
     background-color: var(--sidebar-bg);
 }
+
 /* Hover state on dropdown items (B and C) */
 .dropdown-menu .dropdown-item {
-    color: var(--text-primary) ; /* Default text color white */
+    color: var(--text-primary);
+    /* Default text color white */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-menu .dropdown-item:hover {
-    background-color: transparent ; /* Lighter red on hover */
-    color: var(--text-secondary) ; /* Keep text white on hover */
+    background-color: transparent;
+    /* Lighter red on hover */
+    color: var(--text-secondary);
+    /* Keep text white on hover */
 }
 
 /* Prevent A from becoming black when hovering over B or C */
 .navbar-nav .nav-item.dropdown.show:hover .nav-link {
-    color: var(--text-primary) ; /* Ensure A remains white */
+    color: var(--text-primary);
+    /* Ensure A remains white */
 }
 
 
@@ -309,7 +323,7 @@ h1 {
 }
 
 h2 {
-    font-size: 30px; 
+    font-size: 30px;
     font-weight: 700;
 }
 
@@ -388,16 +402,23 @@ h4 {
     background-color: #ced4da;
 }
 
-.calculator-display{
+.calculator-display {
     background-color: white;
     font-size: 22px;
 }
 
 .calculator-grid .btn-equal {
-    grid-row: span 3; /* Memanjang ke bawah 3 baris */
-    height: auto; /* Sesuaikan tinggi otomatis agar sesuai dengan grid */
+    grid-row: span 3;
+    /* Memanjang ke bawah 3 baris */
+    height: auto;
+    /* Sesuaikan tinggi otomatis agar sesuai dengan grid */
 }
 
 .btn-equal {
     color: black;
+}
+
+/* Jika elemen valid (misalnya data input sesuai format) */
+.form-control:valid {
+    border-color: var(--form-input);
 }
