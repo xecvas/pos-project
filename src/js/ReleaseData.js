@@ -1,5 +1,21 @@
 const ReleaseData = [
   {
+    version: "2.9.0",
+    date: "22/12/2024",
+    features: {
+      added: [
+        "User details are now available on the settings page.",
+        "Introduced a new roles manager that allows access to all admin pages requiring admin rights but restricts data editing.",
+        "Added a refresh button for the menu and customers table that updates table content without reloading the page."
+      ],
+      improvements: [
+        "Redesigned buttons on the settings, customers, and menu pages for a more modern look.",
+        "Console logs now display usernames instead of email addresses for easier log tracking.",
+        "Optimized multiple JavaScript functions to enhance overall page performance."
+      ]
+    },
+  },
+  {
     version: "2.8.0",
     date: "17/12/2024",
     features: {
