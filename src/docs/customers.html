@@ -103,28 +103,31 @@
 
   <!-- Main Content Section -->
   <div class="main-content">
-      <div class="table-container">
-        <div class="d-flex justify-content-between mb-3">
-            <!-- Left Side: Live View and Current Time -->
-            <div>
-                <h3>Live View</h3>
-                <h4 class="current-time">current-time</h4>
-            </div>
-        
-            <!-- Right Side: Buttons Group -->
-            <div class="d-flex align-items-center" style="height: 60px;">
-                <button class="btn btn-success text-white" style="margin-right: 10px;" id="export-customers">
-                    <i class="fa fa-download"></i>
-                </button>
-                <button class="btn btn-primary text-white" style="margin-right: 10px;" id="import-customers">
-                    <i class="fa fa-upload"></i>
-                </button>
-                <button class="btn btn-warning text-white" id="add-menu" data-bs-toggle="modal"
-                    data-bs-target="#CustomersModals">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </div>
+    <div class="table-container">
+      <div class="d-flex justify-content-between mb-3">
+        <!-- Left Side: Live View and Current Time -->
+        <div>
+          <h3>Live View</h3>
+          <h4 class="current-time">current-time</h4>
         </div>
+
+        <!-- Right Side: Buttons Group -->
+        <div class="d-flex align-items-center" style="height: 60px;">
+          <button class="btn btn-info text-white" style="margin-right: 10px;" id="refresh-customers">
+            <i class="fa fa-refresh"></i>
+          </button>
+          <button class="btn btn-success text-white" style="margin-right: 10px;" id="export-customers">
+            <i class="fa fa-download"></i>
+          </button>
+          <button class="btn btn-primary text-white" style="margin-right: 10px;" id="import-customers">
+            <i class="fa fa-upload"></i>
+          </button>
+          <button class="btn btn-warning text-white" id="add-menu" data-bs-toggle="modal"
+            data-bs-target="#CustomersModals">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+      </div>
       <!-- show data from myDatabase -->
       <table id="mycustomer" class="datatables" style="width: 100%">
         <thead>

@@ -203,3 +203,12 @@ export function initDataTable() {
     },
   });
 }
+
+//Refresh table function
+$('#refresh-menu').on('click', function() {
+  window.menuTable.ajax.reload();
+});
+
+$('#refresh-customers').on('click', function() {
+  window.customersTable.ajax.reload();
+});

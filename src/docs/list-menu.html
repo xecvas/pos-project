@@ -99,6 +99,7 @@
     </div>
 
     <div class="main-content">
+        
         <div class="table-container">
             <div class="d-flex justify-content-between mb-3">
                 <!-- Left Side: Live View and Current Time -->
@@ -109,6 +110,9 @@
 
                 <!-- Right Side: Buttons Group -->
                 <div class="d-flex align-items-center" style="height: 60px;">
+                    <button class="btn btn-info text-white" style="margin-right: 10px;" id="refresh-menu">
+                        <i class="fa fa-refresh"></i>
+                    </button>
                     <button class="btn btn-success text-white" style="margin-right: 10px;" id="export-menu">
                         <i class="fa fa-download"></i>
                     </button>
@@ -123,6 +127,9 @@
             </div>
 
             <!-- show data from myDatabase -->
+            <div id="loadingIndicator" class="text-center" style="display: none;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 30px;"></i> Loading...
+              </div>
             <table id="mymenu" class="datatables" style="width:100%">
                 <thead>
                     <tr>

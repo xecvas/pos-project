@@ -422,7 +422,3 @@ h4 {
 .form-control:valid {
     border-color: var(--form-input);
 }
-
-.setting-card-header {
-    display: inline-block;
-}
