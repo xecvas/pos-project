@@ -111,6 +111,19 @@ class User(Base):
     outlet = Column(String, nullable=False)
     role = Column(String, nullable=False)
     user_images = Column(String, nullable=True)
+    
+    # Tambahkan metode to_dict() untuk mengonversi objek User ke dictionary
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "password": self.password,
+            "name": self.name,
+            "outlet": self.outlet,
+            "role": self.role,
+            "user_images": self.user_images,  # Jika diperlukan
+        }
 
 class CashierOpening(Base):
     __tablename__ = "cashier_opening"

@@ -280,7 +280,9 @@ def login():
             return redirect(url_for('index'))  # Sesuaikan halaman untuk manager
 
     if request.method == 'POST':
-        login_identifier = request.form.get('login_identifier')  # Username atau email
+        login_identifier = request.form.get('login_identifier')
+        print(f"Login identifier received: {login_identifier}")  # Debugging line
+
         password = request.form.get('password')
 
         session_sqlalchemy = SessionLocal()
@@ -302,9 +304,11 @@ def login():
                     elif user.role == 'manager':
                         return redirect(url_for('index'))
                 else:
-                    print("Password mismatch.")
                     flash("Invalid username/email or password. Please try again.")
                     return redirect(url_for('login'))
+            else:
+                flash("User not found.")
+                return redirect(url_for('login'))
         except Exception as e:
             print(f"Error during login: {e}")
             return f"An error occurred: {e}", 500
@@ -442,8 +446,84 @@ def cashier_setup():
 #         session.close()
 
 # Get data from the database with pagination
+@app.route("/user", methods=["GET"])
+def get_user_data():
+    session = SessionLocal()
+    try:
+        draw = int(request.args.get("draw", 1))  # Draw counter untuk DataTables
+        start = int(request.args.get("start", 0))  # Offset
+        length = int(request.args.get("length", 10))  # Limit
+        search_value = request.args.get("search[value]", "")  # Input pencarian
+        name = request.args.get("name", "").strip()  # Tambahkan kategori
+        order_column = request.args.get("order[0][column]", "0")  # Kolom default adalah 'id'
+        order_dir = request.args.get("order[0][dir]", "asc")  # Sorting direction
+
+        # Map DataTables column index ke field database
+        column_map = {
+            "0": "id",
+            "1": "username",
+            "2": "email",
+            "3": "password",
+            "4": "name",
+            "5": "outlet",
+            "6": "role",
+        }
+        order_column_name = column_map.get(order_column, "id")
+
+        # Query dasar
+        query = session.query(User)
+
+        # Filter kategori jika diberikan
+        if not name:
+            query = session.query(User)  # Ambil semua data
+        else:
+            query = query.filter(User.kategori.ilike(f"%{name}%"))
+
+        # Filter pencarian jika diberikan
+        if search_value:
+            search_value = f"%{search_value}%"
+            query = query.filter(
+                User.username.ilike(search_value)
+                | User.email.ilike(search_value)
+                | User.name.ilike(search_value)
+            )
+
+        # Sorting
+        if order_dir == "asc":
+            query = query.order_by(getattr(User, order_column_name).asc())
+        else:
+            query = query.order_by(getattr(User, order_column_name).desc())
+
+        # Total records sebelum filtering
+        total_records = session.query(User).count()
+
+        # Filtered records count
+        filtered_records = query.count()
+
+        # Jika pagination diaktifkan
+        if length > 0:
+            data_query = query.offset(start).limit(length).all()
+        else:
+            # Jika pagination dinonaktifkan, ambil semua data
+            data_query = query.all()
+
+        # Convert data ke dictionary
+        data = [user.to_dict() for user in data_query]
+
+        # Response
+        response = {
+            "draw": draw,
+            "recordsTotal": total_records,
+            "recordsFiltered": filtered_records,
+            "data": data,
+        }
+        return jsonify(response)
+    finally:
+        session.close()
+
+        
 @app.route("/menu", methods=["GET"])
-def get_data():
+def get_menu_data():
     session = SessionLocal()
     try:
         draw = int(request.args.get("draw", 1))  # Draw counter untuk DataTables
