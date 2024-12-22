@@ -99,72 +99,29 @@
     </div>
 
     <div class="main-content">
-        <h3>Live View</h3>
-        <h4 class="current-time">current-time</h4>
-        <div class="d-flex justify-content-start mb-3 spacer">
-            <div class="d-flex align-items-center mb-3">
-                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
-                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        All
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
-                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center mb-3">
-                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
-                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        All
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
-                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center mb-3">
-                <span class="me-2">Show by Kategori:</span> <!-- Mengurangi margin kanan -->
-                <div class="dropdown" style="margin-right: 30px;"> <!-- Menambah margin kiri -->
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownKategori"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        All
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownKategori">
-                        <li><a class="dropdown-item" href="#" data-filter="">All</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="makanan">Makanan</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="minuman">Minuman</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="snack">Snack</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center mb-3">
-                <button class="btn btn-success text-white" style="margin-right: 30px;" id="export-menu">
-                    <i class="fa fa-download me-2"></i>Export ke Excel
-                </button>
-                <button class="btn btn-success text-white" style="margin-right: 30px;" id="import-excel">
-                    <i class="fa fa-upload me-2"></i>Import dari Excel
-                </button>
-                <button class="btn btn-primary text-white" id="add-menu" data-bs-toggle="modal"
-                    data-bs-target="#MenuModals">
-                    <i class="fa fa-plus me-2"></i>Add Menu
-                </button>
-            </div>
-        </div>
-
         <div class="table-container">
+            <div class="d-flex justify-content-between mb-3">
+                <!-- Left Side: Live View and Current Time -->
+                <div>
+                    <h3>Live View</h3>
+                    <h4 class="current-time">current-time</h4>
+                </div>
+
+                <!-- Right Side: Buttons Group -->
+                <div class="d-flex align-items-center" style="height: 60px;">
+                    <button class="btn btn-success text-white" style="margin-right: 10px;" id="export-menu">
+                        <i class="fa fa-download"></i>
+                    </button>
+                    <button class="btn btn-primary text-white" style="margin-right: 10px;" id="import-menu">
+                        <i class="fa fa-upload"></i>
+                    </button>
+                    <button class="btn btn-warning text-white" id="add-menu" data-bs-toggle="modal"
+                        data-bs-target="#MenuModals">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
             <!-- show data from myDatabase -->
             <table id="mymenu" class="datatables" style="width:100%">
                 <thead>

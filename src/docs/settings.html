@@ -101,8 +101,39 @@
     <div class="main-content">
         <h2 class="text-center">POS Restaurant Settings</h2>
         <form action="#" method="post">
+            <div class="table-container spacer">
+                <div class="card-body">
+                    <table id="myuser" class="datatables" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Outlet</th>
+                                <th>Roles</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.outlet }}</td>
+                                <td>{{ user.role }}</td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- General Settings -->
-            <div class="card mb-4">
+            <div class="table-container spacer">
                 <div class="card-header">
                     <h5>General Settings</h5>
                 </div>
@@ -134,7 +165,7 @@
             </div>
 
             <!-- Menu Settings -->
-            <div class="card mb-4">
+            <div class="table-container spacer">
                 <div class="card-header">
                     <h5>Other Settings</h5>
                 </div>
@@ -158,7 +189,7 @@
             </div>
 
             <!-- Payment Settings -->
-            <div class="card mb-4">
+            <div class="table-container spacer">
                 <div class="card-header">
                     <h5>Payment Settings</h5>
                 </div>
@@ -191,7 +222,7 @@
             </div>
 
             <!-- Tax Settings -->
-            <div class="card mb-4">
+            <div class="table-container spacer">
                 <div class="card-header">
                     <h5>Tax Settings</h5>
                 </div>
@@ -205,7 +236,7 @@
             </div>
 
             <!-- Additional Settings -->
-            <div class="card mb-4">
+            <div class="table-container spacer">
                 <div class="card-header">
                     <h5>Additional Settings</h5>
                 </div>

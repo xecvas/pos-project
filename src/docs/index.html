@@ -53,7 +53,8 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <!-- User Account Dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             {{ session['username'] if session.get('username') else 'Account' }}
                         </a>
                         <ul class="dropdown-menu">
@@ -98,370 +99,377 @@
     </div>
 
     <div class="main-content">
-        <h3>Live View</h3>
+        <div class="index table-container">
+            <h3>Live View</h3>
         <h4 class="current-time">current-time</h4>
-        <div class="table-container spacer">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <!-- Section Menu -->
-                <div>
-                    <h3><i class="fas fa-chart-bar me-2"></i>Sales Information</h3>
-                </div>
-                <div>
-                    <a href="{{ url_for('reports') }}"><button class="btn btn-warning text-white">Details</button></a>
-                </div>
-            </div>
-
-            <div class="card-container">
-                <div class="row g-3">
-                    <!-- Net Sales -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-success text-white"><i class="fa fa-dollar-sign"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Net Sales</div>
-                                <div class="fs-4 fw-bold">{{ total_menu }}</div>
-                            </div>
-                        </div>
+            <div class="table-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- Section Menu -->
+                    <div>
+                        <h3><i class="fas fa-chart-bar me-2"></i>Sales Information</h3>
                     </div>
-
-                    <!-- Cancelled Or Void Sales -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-danger text-white"><i class="fa fa-times-circle"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Cancelled Or Void Sales</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Number of Bill -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-primary text-white"><i class="fa fa-receipt"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Number of Bill</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pax Total -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-info text-white"><i class="fa fa-users"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Pax Total</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gross Sales -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-warning text-white"><i class="fa fa-chart-line"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Gross Sales</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Discount Total -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-dark text-white"><i class="fa fa-exchange-alt"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Discount</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Average Net Sales per Bill -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-purple text-white"><i class="fa fa-file-invoice-dollar"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Average Net Sales per Bill</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Average Net Sales per Pax -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-secondary text-white"><i class="fa fa-divide"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Average Net Sales per Pax</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
-                            </div>
-                        </div>
+                    <div>
+                        <a href="{{ url_for('reports') }}"><button
+                                class="btn btn-warning text-white">Details</button></a>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Section Menu -->
-        <div class="table-container mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <!-- Section Menu -->
-                <div>
-                    <h3><i class="fas fa-utensils me-2"></i>Menu Information</h3>
-                </div>
-                <div>
-                    <a href="{{ url_for('list_menu') }}"><button class="btn btn-warning text-white">Details</button></a>
-                </div>
-            </div>
-
-            <div class="card-container">
-                <div class="row g-3">
-                    <!-- Total Menu -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-primary text-white"><i class="fa fa-utensils"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu</div>
-                                <div class="fs-4 fw-bold">{{ total_menu }}</div>
+                <div class="card-container">
+                    <div class="row g-3">
+                        <!-- Net Sales -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-success text-white"><i class="fa fa-dollar-sign"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Net Sales</div>
+                                    <div class="fs-4 fw-bold">{{ total_menu }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-
-                    <!-- Total Makanan -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-danger text-white"><i class="fa fa-hamburger"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Makanan</div>
-                                <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                        <!-- Cancelled Or Void Sales -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-danger text-white"><i class="fa fa-times-circle"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Cancelled Or Void Sales</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Minuman -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-warning text-white"><i class="fa fa-coffee"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Minuman</div>
-                                <div class="fs-4 fw-bold">{{ total_minuman }}</div>
+                        <!-- Number of Bill -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-primary text-white"><i class="fa fa-receipt"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Number of Bill</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Snack -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-warning text-white"><i class="fa fa-cookie"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Snack</div>
-                                <div class="fs-4 fw-bold">{{ total_snack }}</div>
+                        <!-- Pax Total -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-info text-white"><i class="fa fa-users"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Pax Total</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Menu Nasi -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-success text-white"><i class="fa fa-bowl-rice"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Nasi</div>
-                                <div class="fs-4 fw-bold">{{ total_nasi }}</div>
+                        <!-- Gross Sales -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-warning text-white"><i class="fa fa-chart-line"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Gross Sales</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Menu Mie -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-primary text-white"><i class="fa fa-bowl-food"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Mie</div>
-                                <div class="fs-4 fw-bold">{{ total_mie }}</div>
+                        <!-- Discount Total -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-dark text-white"><i class="fa fa-exchange-alt"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Discount</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Menu Lainnya -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-purple text-white"><i class="fa fa-list-alt"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Lainnya</div>
-                                <div class="fs-4 fw-bold">{{ total_lainnya }}</div>
+                        <!-- Average Net Sales per Bill -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-purple text-white"><i class="fa fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Average Net Sales per Bill</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Menu Goreng -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-danger text-white"><i class="fa fa-fish"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Goreng</div>
-                                <div class="fs-4 fw-bold">{{ total_goreng }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Menu Rebus -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-purple text-white"><i class="fa fa-water"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Rebus</div>
-                                <div class="fs-4 fw-bold">{{ total_rebus }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Menu Kukus -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-info text-white"><i class="fa fa-steam"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Kukus</div>
-                                <div class="fs-4 fw-bold">{{ total_kukus }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Minuman Panas -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-danger text-white"><i class="fa fa-mug-hot"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Minuman Panas</div>
-                                <div class="fs-4 fw-bold">{{ total_panas }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Minuman Dingin -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-primary text-white"><i class="fa fa-glass-martini-alt"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Minuman Dingin</div>
-                                <div class="fs-4 fw-bold">{{ total_dingin }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Menu Aktif -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-success text-white"><i class="fa fa-check-circle"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Aktif</div>
-                                <div class="fs-4 fw-bold">{{ total_aktif }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Menu Tidak Aktif -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-secondary text-white"><i class="fa fa-times-circle"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Menu Tidak Aktif</div>
-                                <div class="fs-4 fw-bold">{{ total_nonaktif }}</div>
+                        <!-- Average Net Sales per Pax -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-secondary text-white"><i class="fa fa-divide"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Average Net Sales per Pax</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Section Customer -->
-        <div class="table-container mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h3><i class="fas fa-users me-2"></i>Member Information</h3>
+            <!-- Section Menu -->
+            <div class="table-container mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- Section Menu -->
+                    <div>
+                        <h3><i class="fas fa-utensils me-2"></i>Menu Information</h3>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('list_menu') }}"><button
+                                class="btn btn-warning text-white">Details</button></a>
+                    </div>
                 </div>
-                <div>
-                    <a href="{{ url_for('customers') }}"><button class="btn btn-warning text-white">Details</button></a>
+
+                <div class="card-container">
+                    <div class="row g-3">
+                        <!-- Total Menu -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-primary text-white"><i class="fa fa-utensils"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu</div>
+                                    <div class="fs-4 fw-bold">{{ total_menu }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Total Makanan -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-danger text-white"><i class="fa fa-hamburger"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Makanan</div>
+                                    <div class="fs-4 fw-bold">{{ total_makanan }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Minuman -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-warning text-white"><i class="fa fa-coffee"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Minuman</div>
+                                    <div class="fs-4 fw-bold">{{ total_minuman }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Snack -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-warning text-white"><i class="fa fa-cookie"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Snack</div>
+                                    <div class="fs-4 fw-bold">{{ total_snack }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Nasi -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-success text-white"><i class="fa fa-bowl-rice"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Nasi</div>
+                                    <div class="fs-4 fw-bold">{{ total_nasi }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Mie -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-primary text-white"><i class="fa fa-bowl-food"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Mie</div>
+                                    <div class="fs-4 fw-bold">{{ total_mie }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Lainnya -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-purple text-white"><i class="fa fa-list-alt"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Lainnya</div>
+                                    <div class="fs-4 fw-bold">{{ total_lainnya }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Goreng -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-danger text-white"><i class="fa fa-fish"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Goreng</div>
+                                    <div class="fs-4 fw-bold">{{ total_goreng }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Rebus -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-purple text-white"><i class="fa fa-water"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Rebus</div>
+                                    <div class="fs-4 fw-bold">{{ total_rebus }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Kukus -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-info text-white"><i class="fa fa-steam"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Kukus</div>
+                                    <div class="fs-4 fw-bold">{{ total_kukus }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Minuman Panas -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-danger text-white"><i class="fa fa-mug-hot"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Minuman Panas</div>
+                                    <div class="fs-4 fw-bold">{{ total_panas }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Minuman Dingin -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-primary text-white"><i class="fa fa-glass-martini-alt"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Minuman Dingin</div>
+                                    <div class="fs-4 fw-bold">{{ total_dingin }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Aktif -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-success text-white"><i class="fa fa-check-circle"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Aktif</div>
+                                    <div class="fs-4 fw-bold">{{ total_aktif }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Menu Tidak Aktif -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-secondary text-white"><i class="fa fa-times-circle"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Menu Tidak Aktif</div>
+                                    <div class="fs-4 fw-bold">{{ total_nonaktif }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-container">
-                <div class="row g-3">
-                    <!-- Total Member -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-primary text-white"><i class="fa fa-users"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member</div>
-                                <div class="fs-4 fw-bold">{{ total_customer }}</div>
+            <!-- Section Customer -->
+            <div class="table-container mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h3><i class="fas fa-users me-2"></i>Member Information</h3>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('customers') }}"><button
+                                class="btn btn-warning text-white">Details</button></a>
+                    </div>
+                </div>
+
+                <div class="card-container">
+                    <div class="row g-3">
+                        <!-- Total Member -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-primary text-white"><i class="fa fa-users"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member</div>
+                                    <div class="fs-4 fw-bold">{{ total_customer }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Non Member -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-danger text-dark"><i class="fa fa-user-slash"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Non Member</div>
-                                <div class="fs-4 fw-bold">{{ total_basic }}</div>
+                        <!-- Total Non Member -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-danger text-dark"><i class="fa fa-user-slash"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Non Member</div>
+                                    <div class="fs-4 fw-bold">{{ total_basic }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Member Basic -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-success text-white"><i class="fa fa-user"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member Basic</div>
-                                <div class="fs-4 fw-bold">{{ total_basic }}</div>
+                        <!-- Total Member Basic -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-success text-white"><i class="fa fa-user"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member Basic</div>
+                                    <div class="fs-4 fw-bold">{{ total_basic }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Member Silver -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-secondary text-white"><i class="fa fa-user-circle"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member Silver</div>
-                                <div class="fs-4 fw-bold">{{ total_silver }}</div>
+                        <!-- Total Member Silver -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-secondary text-white"><i class="fa fa-user-circle"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member Silver</div>
+                                    <div class="fs-4 fw-bold">{{ total_silver }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Member Gold -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-warning text-white"><i class="fa fa-crown"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member Gold</div>
-                                <div class="fs-4 fw-bold">{{ total_gold }}</div>
+                        <!-- Total Member Gold -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-warning text-white"><i class="fa fa-crown"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member Gold</div>
+                                    <div class="fs-4 fw-bold">{{ total_gold }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Member Platinum -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-dark text-white"><i class="fa fa-gem"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member Platinum</div>
-                                <div class="fs-4 fw-bold">{{ total_platinum }}</div>
+                        <!-- Total Member Platinum -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-dark text-white"><i class="fa fa-gem"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member Platinum</div>
+                                    <div class="fs-4 fw-bold">{{ total_platinum }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Total Member Corporate -->
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card p-3 d-flex align-items-center flex-row">
-                            <div class="icon-card bg-purple text-white"><i class="fa fa-building"></i></div>
-                            <div class="ms-3">
-                                <div class="fw-bold text-uppercase">Total Member Corporate</div>
-                                <div class="fs-4 fw-bold">{{ total_corporate }}</div>
+                        <!-- Total Member Corporate -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card p-3 d-flex align-items-center flex-row">
+                                <div class="icon-card bg-purple text-white"><i class="fa fa-building"></i></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold text-uppercase">Total Member Corporate</div>
+                                    <div class="fs-4 fw-bold">{{ total_corporate }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
