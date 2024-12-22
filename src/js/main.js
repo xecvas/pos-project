@@ -42,7 +42,7 @@ $(document).ready(function () {
   addGlobalEventListeners();
 
   // Get user role from a hidden element or template variable
-  const userRole = $("meta[name='user-role']").attr("content") || "undefined";
+  const userRole = $("meta[name='username']").attr("content") || "undefined";
   const pageName = window.location.pathname.split("/").pop() || "index";
   const setupCompleted =
     $("meta[name='setup-completed']").attr("content") || "undefined";

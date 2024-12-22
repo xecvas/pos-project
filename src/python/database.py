@@ -104,9 +104,13 @@ class customer(Base):
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(String, nullable=False)  # "admin" atau "cashier"
+    name = Column(String, nullable=False)
+    outlet = Column(String, nullable=False)
+    role = Column(String, nullable=False)
+    user_images = Column(String, nullable=True)
 
 class CashierOpening(Base):
     __tablename__ = "cashier_opening"

@@ -8,7 +8,7 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
-    <meta name="user-role" content="{{ user_role }}">
+    <meta name="username" content="{{ username }}">
 
     <!-- Page Title -->
     <title>POS Project - List Menu</title>
@@ -55,7 +55,7 @@
                         <!-- User Account Dropdown -->
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{ session['user_email'] if session.get('user_email') else 'Account' }}
+                            {{ session['username'] if session.get('username') else 'Account' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Change Password</a></li>
@@ -203,105 +203,106 @@
             &copy;
             2024 POS Project. All rights reserved.</p>
     </footer>
-</body>
 
-<!-- Add Menu Form -->
-<div class="modal fade" id="MenuModals" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form id="MenuModalsForm">
-                    <input type="hidden" id="menu_id" name="menu_id">
-                    <h3 class="modal-title" id="MenuModalsLabel"></h3>
+    <!-- Add Menu Form -->
+    <div class="modal fade" id="MenuModals" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="MenuModalsForm">
+                        <input type="hidden" id="menu_id" name="menu_id">
+                        <h3 class="modal-title" id="MenuModalsLabel"></h3>
 
-                    <!-- Nama Menu -->
-                    <div class="mb-3 spacer">
-                        <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
-                        <input type="text" class="form-control" id="nama_menu" name="nama_menu"
-                            placeholder="Masukkan Nama Menu" required>
-                    </div>
+                        <!-- Nama Menu -->
+                        <div class="mb-3 spacer">
+                            <label for="nama_menu" class="form-label fw-semibold">Nama Menu</label>
+                            <input type="text" class="form-control" id="nama_menu" name="nama_menu"
+                                placeholder="Masukkan Nama Menu" required>
+                        </div>
 
-                    <!-- Kode, Kategori, Sub Kategori -->
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                            <label for="kode" class="form-label fw-semibold">Kode</label>
-                            <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan Kode"
-                                required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="kategori" class="form-label fw-semibold">Kategori</label>
-                            <input type="text" class="form-control" id="kategori" name="kategori"
-                                placeholder="Masukkan Kategori">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
-                            <input type="text" class="form-control" id="sub_kategori" name="sub_kategori"
-                                placeholder="Masukkan Sub Kategori">
-                        </div>
-                    </div>
-
-                    <!-- Status dan Harga -->
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label for="status" class="form-label fw-semibold">Status</label>
-                            <select class="form-select" id="status" name="status" required>
-                                <option disabled selected>Pilih Status</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Tidak Aktif">Tidak Aktif</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="harga" class="form-label fw-semibold">Harga</label>
-                            <div class="input-group">
-                                <span class="input-group-text">Rp</span>
-                                <input type="number" class="form-control" id="harga" name="harga"
-                                    placeholder="Masukkan Harga" required>
-                                <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
-                                    <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
-                                </span>
+                        <!-- Kode, Kategori, Sub Kategori -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label for="kode" class="form-label fw-semibold">Kode</label>
+                                <input type="text" class="form-control" id="kode" name="kode"
+                                    placeholder="Masukkan Kode" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="kategori" class="form-label fw-semibold">Kategori</label>
+                                <input type="text" class="form-control" id="kategori" name="kategori"
+                                    placeholder="Masukkan Kategori">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="sub_kategori" class="form-label fw-semibold">Sub Kategori</label>
+                                <input type="text" class="form-control" id="sub_kategori" name="sub_kategori"
+                                    placeholder="Masukkan Sub Kategori">
                             </div>
                         </div>
 
-                        <!-- Tags -->
-                        <div class="mb-3">
-                            <label for="tags" class="form-label fw-semibold">Tags</label>
-                            <input type="text" class="form-control" id="tags" name="tags"
-                                placeholder="Contoh: spicy, vegan, bestseller">
-                        </div>
-
-                        <!-- Gambar Menu dan Deskripsi -->
-                        <div class="row gx-2 mb-3">
-                            <div class="col-md-3">
-                                <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
-                                <div class="d-flex justify-content-center align-items-center border rounded"
-                                    style="width: 175px; height: 157px;"
-                                    onclick="document.getElementById('fileInput').click();">
-                                    <img id="menu_images" name="menu_images" src="#" alt="Preview Gambar"
-                                        style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                        <!-- Status dan Harga -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="status" class="form-label fw-semibold">Status</label>
+                                <select class="form-select" id="status" name="status" required>
+                                    <option disabled selected>Pilih Status</option>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Tidak Aktif">Tidak Aktif</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="harga" class="form-label fw-semibold">Harga</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" class="form-control" id="harga" name="harga"
+                                        placeholder="Masukkan Harga" required>
+                                    <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
+                                        <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
+                                    </span>
                                 </div>
-                                <input type="file" id="fileInput" name="menu_images" accept="image/*"
-                                    style="display: none;">
                             </div>
-                            <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
-                                <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6"
-                                    placeholder="Masukkan Deskripsi"></textarea>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                <label for="tags" class="form-label fw-semibold">Tags</label>
+                                <input type="text" class="form-control" id="tags" name="tags"
+                                    placeholder="Contoh: spicy, vegan, bestseller">
                             </div>
-                        </div>
+
+                            <!-- Gambar Menu dan Deskripsi -->
+                            <div class="row gx-2 mb-3">
+                                <div class="col-md-3">
+                                    <label for="gambar" class="form-label fw-semibold">Gambar Menu</label>
+                                    <div class="d-flex justify-content-center align-items-center border rounded"
+                                        style="width: 175px; height: 157px;"
+                                        onclick="document.getElementById('fileInput').click();">
+                                        <img id="menu_images" name="menu_images" src="#" alt="Preview Gambar"
+                                            style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                    </div>
+                                    <input type="file" id="fileInput" name="menu_images" accept="image/*"
+                                        style="display: none;">
+                                </div>
+                                <div class="col-md-9"> <!-- Ubah dari col-md-6 menjadi col-md-8 -->
+                                    <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6"
+                                        placeholder="Masukkan Deskripsi"></textarea>
+                                </div>
+                            </div>
 
 
-                        <div class="modal-footer" style="border-top: none;">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fa fa-times me-2"></i>Cancel
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-save me-2"></i>Submit
-                            </button>
-                        </div>
-                </form>
+                            <div class="modal-footer" style="border-top: none;">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fa fa-times me-2"></i>Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save me-2"></i>Submit
+                                </button>
+                            </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+</body>
 
 </html>

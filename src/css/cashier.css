@@ -39,6 +39,7 @@
     overflow: hidden;
     color: var(--text-primary);
     border-radius: 12px;
+    margin-top: 20px;
 }
 
 .checkout-btn {
@@ -89,7 +90,6 @@
 
 .left-side {
     flex: 1;
-    margin-right: 30px;
     height: calc(100vh - 150px);
     background-color: var(--table-container);
     border-radius: 12px;
@@ -307,6 +307,35 @@
     border-color: var(--text-primary);
 }
 
-.input-group .form-control:valid {
-    border-color: var(--text-primary);
+.btn-payment {
+    height: 60px;
+    font-weight: bold;
+    color: var(--text-primary);
+    border: none;
+    margin-bottom: 25px;
 }
+
+.payment-display {
+    padding: 20px;
+}
+
+.search-input {
+    position: relative;
+    display: inline-block;
+  }
+
+  .search-input input {
+    padding-left: 30px; /* Beri ruang untuk ikon */
+  }
+
+  .search-input::before {
+    content: "\f002"; /* Kode Unicode untuk ikon Font Awesome (fa-search) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900; /* Untuk menggunakan ikon solid */
+    position: absolute;
+    left: 10px; /* Posisi ikon */
+    top: 45%;
+    transform: translateY(-50%);
+    color: #aaa; /* Warna ikon */
+    pointer-events: none; /* Agar ikon tidak mengganggu interaksi dengan input */
+  }

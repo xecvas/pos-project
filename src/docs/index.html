@@ -8,7 +8,7 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
-    <meta name="user-role" content="{{ user_role }}">
+    <meta name="username" content="{{ username }}">
 
     <!-- Page Title -->
     <title>POS Project - Dashboard</title>
@@ -53,9 +53,8 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <!-- User Account Dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            {{ session['user_email'] if session.get('user_email') else 'Account' }}
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ session['username'] if session.get('username') else 'Account' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Change Password</a></li>

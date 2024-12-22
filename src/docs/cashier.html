@@ -8,7 +8,7 @@
     <meta name="description" content="Welcome to My Xecvas POS.">
     <meta name="keywords" content="POS">
     <meta name="author" content="Xecvas">
-    <meta name="user-role" content="{{ user_role }}">
+    <meta name="username" content="{{ username }}">
     <meta name="setup-completed" content="{{ setup_completed|tojson }}">
 
     <!-- Page Title -->
@@ -20,9 +20,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ url_for('css', filename='global.css') }}">
-    <link rel="stylesheet" href="{{ url_for('css', filename='cashier.css') }}">
     <link rel="stylesheet" href="{{ url_for('css', filename='tables.css') }}">
     <link rel="stylesheet" href="{{ url_for('css', filename='sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('css', filename='cashier.css') }}">
 
     <!-- JS Dependencies -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -57,7 +57,7 @@
                         <!-- User Account Dropdown -->
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{ session['user_email'] if session.get('user_email') else 'Account' }}
+                            {{ session['username'] if session.get('username') else 'Account' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Change Password</a></li>
@@ -102,8 +102,8 @@
 
     <!-- Main Content Section -->
     <div class="main-content">
-        <div class="cashier-container spacer">
-            <div class="left-side">
+        <div class="cashier-container">
+            <div class="left-side"  style="margin-right: 30px;">
                 <div class="menu-container">
                     <div class="card-header d-flex justify-content-between align-items-center gap-5">
                         <!-- Buttons for Categories -->
@@ -118,18 +118,17 @@
                         <div class="d-flex align-items-center gap-3">
                             <!-- Search Form -->
                             <form role="search" class="d-flex">
-                                <input class="form-control me-2" style="width: 250px;" type="search"
-                                    placeholder="Search Menu" aria-label="Search" id="menu-search">
-                            </form>
-
+                                <div class="search-input" style="width: 250px;">
+                                  <input class="form-control" type="search" placeholder="Search Menu" aria-label="Search" id="menu-search">
+                                </div>
+                              </form>
                             <!-- Toggle View -->
                             <div class="btn-group" role="group" aria-label="Toggle View">
                                 <button type="button" class="btn active" id="grid-view-btn"
                                     onclick="toggleViewMode('grid')">
                                     <i class="fas fa-th"></i>
                                 </button>
-                                <button type="button" class="btn" id="list-view-btn"
-                                    onclick="toggleViewMode('list')">
+                                <button type="button" class="btn" id="list-view-btn" onclick="toggleViewMode('list')">
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
@@ -188,75 +187,197 @@
             &copy; 2024 POS Project. All rights reserved.
         </p>
     </footer>
-</body>
 
-<!-- Modal for Cashier Information -->
-<div class="modal fade" id="cashierModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="cashierModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cashierModalLabel"><i class="fas fa-user"></i> Cashier Information</h5>
-            </div>
-            <div class="modal-body">
-                <form id="cashierForm">
-                    <!-- Cashier Photo -->
-                    <div class="mb-3 text-center">
-                        <!-- <img id="cashierPhoto" src="/static/images/default-avatar.png" alt="Cashier Photo" class="rounded-circle" style="width: 100px; height: 100px;"> -->
-                    </div>
-
-                    <!-- Outlet Selection -->
-                    <div class="mb-3">
-                        <label for="outlet" class="form-label">Select Outlet</label>
-                        <select class="form-select" id="outlet" name="outlet" required>
-                            <option value="" selected disabled>Select an outlet</option>
-                            <option value="Outlet A">Outlet A</option>
-                            <option value="Outlet B">Outlet B</option>
-                            <option value="Outlet C">Outlet C</option>
-                        </select>
-                    </div>
-
-                    <!-- Cashier Name -->
-                    <div class="mb-3">
-                        <label for="cashierName" class="form-label">Select Cashier</label>
-                        <select class="form-select" id="cashierName" name="cashierName" required>
-                            <option value="" selected disabled>Select a cashier</option>
-                            <option value="Cashier 1">Cashier 1</option>
-                            <option value="Cashier 2">Cashier 2</option>
-                            <option value="Cashier 3">Cashier 3</option>
-                        </select>
-                    </div>
-
-                    <!-- Opening Cash -->
-                    <div class="mb-3">
-                        <label for="openingCash" class="form-label">Opening Cash Amount</label>
-                        <div class="input-group">
-                            <span class="input-group-text">Rp</span>
-                            <input type="number" class="form-control" id="openingCash" name="openingCash"
-                                placeholder="Enter opening cash amount" required>
-                            <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
-                                <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
-                            </span>
+    <!-- Modal for Cashier Information -->
+    <div class="modal fade" id="cashierModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="cashierModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cashierModalLabel"><i class="fas fa-user"></i> Cashier Information</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="cashierForm">
+                        <!-- Cashier Photo -->
+                        <div class="mb-3 text-center">
+                            <!-- <img id="cashierPhoto" src="/static/images/default-avatar.png" alt="Cashier Photo" class="rounded-circle" style="width: 100px; height: 100px;"> -->
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="submitCashierForm">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal Template -->
-<div class="modal fade" id="ButtonGrouplModal" tabindex="-1" aria-labelledby="ButtonGrouplModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <h3 class="modal-title" id="modal-title">Modal Title</h3>
-            <div class="modal-body" id="modal-body"></div>
+                        <!-- Outlet Selection -->
+                        <div class="mb-3">
+                            <label for="outlet" class="form-label">Select Outlet</label>
+                            <select class="form-select" id="outlet" name="outlet" required>
+                                <option value="" selected disabled>Select an outlet</option>
+                                <option value="Outlet A">Outlet A</option>
+                                <option value="Outlet B">Outlet B</option>
+                                <option value="Outlet C">Outlet C</option>
+                            </select>
+                        </div>
+
+                        <!-- Cashier Name -->
+                        <div class="mb-3">
+                            <label for="cashierName" class="form-label">Select Cashier</label>
+                            <select class="form-select" id="cashierName" name="cashierName" required>
+                                <option value="" selected disabled>Select a cashier</option>
+                                <option value="Cashier 1">Cashier 1</option>
+                                <option value="Cashier 2">Cashier 2</option>
+                                <option value="Cashier 3">Cashier 3</option>
+                            </select>
+                        </div>
+
+                        <!-- Opening Cash -->
+                        <div class="mb-3">
+                            <label for="openingCash" class="form-label">Opening Cash Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" id="openingCash" name="openingCash"
+                                    placeholder="Enter opening cash amount" required>
+                                <span class="input-group-text" style="cursor: pointer;" id="calc-toggle">
+                                    <i class="fa fa-calculator fa-lg" alt="Calculator Icon"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="submitCashierForm">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal Template -->
+    <div class="modal fade" id="ButtonGrouplModal" tabindex="-1" aria-labelledby="ButtonGrouplModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h3 class="modal-title" id="modal-title">Modal Title</h3>
+                <div class="modal-body" id="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customers Modal Form -->
+    <div class="modal fade" id="CustomersModals" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="CustomersModals" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="CustomersModalsForm">
+                        <input type="hidden" id="customer_id" name="customer_id">
+                        <h3 class="modal-title" id="CustomersModalsLabel"></h3>
+
+                        <!-- Customers Name -->
+                        <div class="mb-3 spacer">
+                            <label for="nama_customers" class="form-label fw-semibold">Customers Name</label>
+                            <input type="text" class="form-control" id="nama_customers" name="nama_customers"
+                                placeholder="Enter Customer's Name" required>
+                        </div>
+
+                        <!-- Date of Birth, Age, and Gender (side by side) -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="dob" class="form-label fw-semibold">Date of Birth</label>
+                                <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY"
+                                    pattern="\d{2}-\d{2}-\d{4}" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="age" class="form-label fw-semibold">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" placeholder="Age"
+                                    readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="gender" class="form-label fw-semibold">Gender</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="" selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Email and Phone Number (side by side) -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-semibold">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter Email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label fw-semibold">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone"
+                                    placeholder="Enter Phone Number" required>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+                            <label for="address" class="form-label fw-semibold">Address</label>
+                            <textarea class="form-control" id="address" name="address" placeholder="Enter Address"
+                                rows="3" required></textarea>
+                        </div>
+
+                        <!-- City and Country (side by side) -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="city" class="form-label fw-semibold">City</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="Enter City"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="country" class="form-label fw-semibold">Country</label>
+                                <input type="text" class="form-control" id="country" name="country"
+                                    placeholder="Enter Country" required>
+                            </div>
+                        </div>
+
+                        <!-- Membership and Loyalty Points (side by side) -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="membership" class="form-label fw-semibold">Membership</label>
+                                <input type="text" class="form-control" id="membership" name="membership"
+                                    placeholder="Membership" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="loyalty_points" class="form-label fw-semibold">Loyalty Points</label>
+                                <input type="number" class="form-control" id="loyalty_points" name="loyalty_points"
+                                    placeholder="Loyalty Points" readonly>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer" style="border-top: none;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fa fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save me-2"></i>Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- error modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage">An error occurred. Please try again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
 
 </html>

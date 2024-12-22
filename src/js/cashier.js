@@ -367,6 +367,9 @@ function updateButtonText(buttonId, newText) {
 // Fungsi untuk menampilkan modal pencarian member
 window.openMemberModal = async function () {
   const bodyContent = `
+      <button class="btn btn-warning text-white w-100 mb-2" id="add-customers" data-bs-toggle="modal" data-bs-target="#CustomersModals">
+          <i class="fa fa-plus me-2"></i>Add Customers
+      </button>
       <input type="text" id="search-input" class="form-control" placeholder="Cari nama, telepon, atau email...">
       <div id="dropdown-results" class="list-group mt-2"></div>
   `;
@@ -410,7 +413,7 @@ window.openMemberModal = async function () {
 // Fungsi untuk memilih customer dari hasil pencarian
 window.selectMember = function (name) {
   const button = document.getElementById("member-btn");
-  button.innerHTML = `<strong>Member:</strong> ${name}`; // Perbarui teks tombol
+  button.innerHTML = `<strong>${name}</strong> `; // Perbarui teks tombol
   window.currentModal.hide(); // Tutup modal
 };
 

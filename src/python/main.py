@@ -48,7 +48,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.urandom(24)  # Secure random secret key
 app.permanent_session_lifetime = timedelta(days=7)
 
-
 # Static file routes
 @app.route("/css/<path:filename>", endpoint="css")
 @app.route("/js/<path:filename>", endpoint="js")
@@ -66,8 +65,8 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.context_processor
-def inject_user_role():
-    return {'user_role': session.get('user_role', None)}
+def inject_username():
+    return {'username': session.get('username', None)}
 
 def get_session():
     """Provide a new session and ensure closure."""
@@ -99,7 +98,8 @@ def login_required(f):
 
 def admin_required(func):
     def wrapper(*args, **kwargs):
-        if session.get('user_role') != 'admin':
+        user_role = session.get('user_role')
+        if user_role not in ['admin', 'manager']:  # Tambahkan manager
             return render_template("not-found.html")
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
@@ -113,22 +113,28 @@ def cashier_required(func):
     wrapper.__name__ = func.__name__
     return wrapper
 
+def edit_permission_required(func):
+    def wrapper(*args, **kwargs):
+        user_role = session.get('user_role')
+        if user_role != 'admin':
+            flash("You do not have permission to edit data.")
+            return redirect(url_for('index'))
+        return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
+    return wrapper
+
 def admin_or_cashier_required(func):
     def wrapper(*args, **kwargs):
         user_role = session.get("user_role")
-        if user_role not in ["admin", "cashier"]:
-            print("Invalid role, redirecting to login.")
+        if user_role not in ["admin", "cashier", "manager"]:  # Tambahkan manager
             return redirect(url_for("login"))
-        print("User role valid:", user_role)
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
 
 def set_sidebar():
-    # Ambil role dari session
     role = session.get('user_role')
 
-    # Definisikan elemen sidebar untuk admin dan cashier
     admin_sidebar = [
         {'title': 'Dashboard', 'icon': 'fas fa-chart-line', 'url': url_for('index')},
         {'title': 'Reports', 'icon': 'fas fa-chart-bar', 'url': url_for('reports')},
@@ -138,14 +144,23 @@ def set_sidebar():
         {'title': 'Cashier', 'icon': 'fas fa-cash-register', 'url': url_for('cashier')},
         {'title': 'Settings', 'icon': 'fas fa-cog', 'url': url_for('settings')},
     ]
+
+    manager_sidebar = [
+        item for item in admin_sidebar if item['title'] not in ['Settings', 'Customers']
+    ]
+
     cashier_sidebar = [
         {'title': 'Cashier', 'icon': 'fas fa-cash-register', 'url': url_for('cashier')},
         {'title': 'Reports', 'icon': 'fas fa-chart-bar', 'url': url_for('reports')},
         {'title': 'Settings', 'icon': 'fas fa-cog', 'url': url_for('settings')},
     ]
 
-    # Tentukan sidebar berdasarkan role
-    g.sidebar_items = admin_sidebar if role == 'admin' else cashier_sidebar
+    if role == 'admin':
+        g.sidebar_items = admin_sidebar
+    elif role == 'manager':
+        g.sidebar_items = manager_sidebar
+    else:
+        g.sidebar_items = cashier_sidebar
 
 def export_to_excel(query_result, filename, sheet_name):
     """Export query results to an Excel file."""
@@ -261,34 +276,40 @@ def login():
             return redirect(url_for('index'))
         elif user_role == 'cashier':
             return redirect(url_for('cashier'))
-    
-    # Jika metode POST, proses login
+        elif user_role == 'manager':
+            return redirect(url_for('index'))  # Sesuaikan halaman untuk manager
+
     if request.method == 'POST':
-        email = request.form.get('email')
+        login_identifier = request.form.get('login_identifier')  # Username atau email
         password = request.form.get('password')
 
         session_sqlalchemy = SessionLocal()
         try:
-            user = session_sqlalchemy.query(User).filter_by(email=email).first()
+            # Cari user berdasarkan email atau username
+            user = session_sqlalchemy.query(User).filter(
+                (User.email == login_identifier) | (User.username == login_identifier)
+            ).first()
 
-            if user and user.password == password:
-                session['user_email'] = user.email
-                session['user_role'] = user.role
-
-                if user.role == 'admin':
-                    return redirect(url_for('index'))
-                elif user.role == 'cashier':
-                    return redirect(url_for('cashier'))
-            else:
-                # Jika user tidak ditemukan atau password salah
-                flash("Invalid email or password. Please try again.")
-                return redirect(url_for('login'))  # Redirect ke halaman login lagi
-
+            if user:
+                if check_password_hash(user.password, password):
+                    session['user_email'] = user.email
+                    session['username'] = user.username
+                    session['user_role'] = user.role
+                    if user.role == 'admin':
+                        return redirect(url_for('index'))
+                    elif user.role == 'cashier':
+                        return redirect(url_for('cashier'))
+                    elif user.role == 'manager':
+                        return redirect(url_for('index'))
+                else:
+                    print("Password mismatch.")
+                    flash("Invalid username/email or password. Please try again.")
+                    return redirect(url_for('login'))
         except Exception as e:
+            print(f"Error during login: {e}")
             return f"An error occurred: {e}", 500
         finally:
             session_sqlalchemy.close()
-    
     # Jika metode GET, tampilkan halaman login
     return render_template('login.html')
 
@@ -332,6 +353,10 @@ def settings():
 @app.route("/tester")
 def tester():
     return render_template("tester.html")
+
+@app.route("/payment")
+def payment():
+    return render_template("payment.html")
 
 @app.route('/cashier')
 @admin_or_cashier_required
@@ -378,6 +403,43 @@ def cashier_setup():
         return jsonify({"error": str(e)}), 500
     finally:
         session_db.close()
+
+
+# @app.route('/add_user', methods=['POST'])
+# def add_user():
+#     username = request.form.get('username')
+#     email = request.form.get('email')
+#     password = request.form.get('password')
+#     outlet = request.form.get('outlet', 'default_outlet')
+#     role = request.form.get('role', 'user')
+
+#     # Validasi input
+#     if not all([username, email, password]):
+#         return jsonify({"error": "All fields are required"}), 400
+
+#     # Hash password
+#     hashed_password = generate_password_hash(password)
+
+#     # Buat user baru
+#     new_user = User(
+#         username=username,
+#         email=email,
+#         password=hashed_password,
+#         outlet=outlet,
+#         role=role,
+#     )
+
+#     # Simpan ke database
+#     session = SessionLocal()
+#     try:
+#         session.add(new_user)
+#         session.commit()
+#         return jsonify({"message": "User added successfully"}), 200
+#     except Exception as e:
+#         session.rollback()
+#         return jsonify({"error": str(e)}), 500
+#     finally:
+#         session.close()
 
 # Get data from the database with pagination
 @app.route("/menu", methods=["GET"])
@@ -637,6 +699,7 @@ def export_customers():
 
 
 @app.route("/add_menu", methods=["POST"])
+@edit_permission_required
 def add_menu():
     nama_menu = request.form.get("nama_menu")
     kode = request.form.get("kode")
@@ -850,6 +913,7 @@ def get_menu(id):
         session.close()
 
 @app.route('/update_menu/<int:id>', methods=['POST'])
+@edit_permission_required
 def update_menu(id):
     session = SessionLocal()
     try:
